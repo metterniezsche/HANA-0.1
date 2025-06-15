@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miembros de la IDCCE por momento</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tabs button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #aaa;
+      background: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .tabs button.active {
+      background: #333;
+      color: white;
+    }
+    .content {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    ul {
+      columns: 3;
+      -webkit-columns: 3;
+      -moz-columns: 3;
+      margin-top: 1rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Distribución de países según momento de incorporación a la IDCCE</h1>
+  <div class="tabs">
+    <button onclick="showTab(0)" class="active">M1 (2017)</button>
+    <button onclick="showTab(1)">M2 (2019)</button>
+    <button onclick="showTab(2)">M3 (~2022)</button>
+    <button onclick="showTab(3)">No miembros</button>
+  </div>
+
+  <div class="content" id="tab-content"></div>
+
+  <script>
+    const data = [
+      {
+        title: "Momento M1 – 2017",
+        list: ["Estados Unidos", "Japón", "Canadá", "Australia", "Corea del Sur", "Brasil", "Chile", "Colombia", "México", "Perú", "Costa Rica", "Ucrania", "Noruega", "Nueva Zelanda", "Singapur", "Hong Kong", "Israel", "Paraguay", "Turquía"]
+      },
+      {
+        title: "Momento M2 – 2019",
+        list: ["China", "Indonesia", "Panamá", "Laos", "Qatar", "Taiwán", "Uruguay", "Tailandia", "Filipinas", "Arabia Saudita"]
+      },
+      {
+        title: "Momento M3 – ~2022",
+        list: ["Gambia", "Jamaica", "Togo", "Seychelles", "Emiratos Árabes Unidos", "Uzbekistán", "República Dominicana", "Maldivas", "Georgia"]
+      },
+      {
+        title: "Países que nunca se sumaron (hasta 2024)",
+        list: [
+          "India", "Sudáfrica", "Nigeria", "Pakistán", "Egipto", "Irán", "Venezuela", "Bolivia", "Cuba", "Argelia",
+          "Bangladesh", "Etiopía", "Mozambique", "Tanzania", "Zimbabue"
+        ]
+      }
+    ];
+
+    const tabContent = document.getElementById("tab-content");
+    const buttons = document.querySelectorAll(".tabs button");
+
+    function showTab(index) {
+      buttons.forEach((btn, i) => btn.classList.toggle("active", i === index));
+      const tab = data[index];
+      tabContent.innerHTML = `<h2>${tab.title}</h2><ul>${tab.list.map(p => `<li>${p}</li>`).join('')}</ul>`;
+    }
+
+    // Load first tab
+    showTab(0);
+  </script>
+</body>
+</html>

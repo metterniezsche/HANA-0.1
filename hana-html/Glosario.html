@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glosario - Tesis Doctoral</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navigation-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 30px;
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+    }
+
+    .nav-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        min-width: 100px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .nav-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    .nav-btn:hover::before {
+        left: 100%;
+    }
+
+    .nav-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+
+    .nav-btn.active {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+    }
+
+    .glossary-section {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid #667eea;
+        margin-bottom: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .glossary-section h2 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 15px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .term {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 12px;
+        border-left: 4px solid #3498db;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .term:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .term h3 {
+        color: #2c3e50;
+        margin-bottom: 12px;
+        font-size: 1.3rem;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 8px;
+    }
+
+    .term p {
+        color: #555;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    .highlight {
+        background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .acronyms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .acronym-item {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .acronym-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .acronym-item strong {
+        display: block;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .navigation-buttons {
+            padding: 20px 15px;
+            gap: 8px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 20px;
+            font-size: 13px;
+        }
+
+        .glossary-section {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        .term {
+            padding: 15px;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Glosario</h1>
+
+```
+    <div class="navigation-buttons">
+        <button onclick="showSection('A-C')" class="nav-btn active" id="btn-A-C">A - C (10)</button>
+        <button onclick="showSection('D-G')" class="nav-btn" id="btn-D-G">D - G (12)</button>
+        <button onclick="showSection('H-M')" class="nav-btn" id="btn-H-M">H - M (12)</button>
+        <button onclick="showSection('N-P')" class="nav-btn" id="btn-N-P">N - P (12)</button>
+        <button onclick="showSection('R-V')" class="nav-btn" id="btn-R-V">R - V (8)</button>
+        <button onclick="showSection('siglas')" class="nav-btn" id="btn-siglas">Siglas (20+)</button>
+    </div>
+
+    <!-- Sección A-C -->
+    <div id="section-A-C" class="glossary-section">
+        <div class="term">
+            <h3>Acuerdo Estabilizado</h3>
+            <p>Primer paquete normativo sobre comercio electrónico acordado entre <span class="highlight">91 países</span> de la IDCCE-OMC en julio de 2024. Incluye una docena de puntos: protección del consumidor en línea, firmas electrónicas, spam, datos gubernamentales abiertos, contratos electrónicos, transparencia, comercio sin papel, ciberseguridad, acceso abierto a Internet, marcos de transacciones electrónicas, facturación electrónica y "ventanillas únicas".</p>
+        </div>
+
+        <div class="term">
+            <h3>Canal (Venue)</h3>
+            <p>Espacio institucional específico dentro de una organización internacional donde se desarrollan negociaciones y procesos de coordinación regulatoria. En la tesis, se distingue entre el canal multilateral (PTCE) y el canal plurilateral (IDCCE) dentro de la OMC.</p>
+        </div>
+
+        <div class="term">
+            <h3>Capacidades Materiales</h3>
+            <p>Conjunto de recursos estructurales que posee un Estado y que influyen en sus preferencias de coordinación regulatoria. Se operacionalizó en tres indicadores: <span class="highlight">desarrollo de gobierno digital (EGOV)</span>, <span class="highlight">densidad de servidores seguros (DSS)</span> e <span class="highlight">ingreso nacional (IN)</span>.</p>
+        </div>
+
+        <div class="term">
+            <h3>Co-Convocantes</h3>
+            <p>Los tres países coordinadores de las negociaciones de la IDCCE: <span class="highlight">Australia, Japón y Singapur</span>. Responsables de facilitar los "debates estructurados" y anunciar los avances del proceso negociador.</p>
+        </div>
+
+        <div class="term">
+            <h3>Comercio Digital</h3>
+            <p>Comercio electrónico transfronterizo que abarca todas las transacciones comerciales realizadas a través de medios digitales, incluyendo tanto productos digitales como el componente digital del comercio de bienes y servicios tradicionales.</p>
+        </div>
+
+        <div class="term">
+            <h3>Complejo de Regímenes</h3>
+            <p>Red interconectada de instituciones internacionales que abordan aspectos relacionados de un mismo tema. En comercio digital, incluye la OMC, acuerdos regionales con capítulos de comercio electrónico, y otros foros de gobernanza digital.</p>
+        </div>
+
+        <div class="term">
+            <h3>Coordinación Regulatoria</h3>
+            <p>Proceso mediante el cual los Estados ajustan sus marcos normativos nacionales para lograr coherencia y compatibilidad con estándares internacionales, implicando diversos grados de cesión o retención de soberanía estatal.</p>
+        </div>
+    </div>
+
+    <!-- Sección D-G -->
+    <div id="section-D-G" class="glossary-section hidden">
+        <div class="term">
+            <h3>Densidad de Red Comercial (DRC)</h3>
+            <p>Indicador de <span class="highlight">ventajas institucionales</span> basado en la cantidad de Acuerdos Preferenciales de Comercio (APC) suscritos por un país y notificados ante la OMC.</p>
+        </div>
+
+        <div class="term">
+            <h3>Densidad de Red Comercial Digital (DRCD)</h3>
+            <p>Indicador de <span class="highlight">ventajas institucionales</span> basado en la cantidad de Acuerdos Preferenciales de Comercio con capítulos de comercio electrónico (ecAPC) suscritos por un país y notificados ante la OMC.</p>
+        </div>
+
+        <div class="term">
+            <h3>Densidad de Servidores Seguros (DSS)</h3>
+            <p>Cantidad de servidores seguros por cada millón de habitantes, tomado del índice de "penetración" elaborado por Netcraft para 2019. Indicador proxy de <span class="highlight">capacidades materiales</span> relacionado con infraestructura digital.</p>
+        </div>
+
+        <div class="term">
+            <h3>Desarrollo de Gobierno Digital (EGOV)</h3>
+            <p>Índice de desarrollo en gobierno electrónico elaborado por UNDESA para 2020. Principal variable explicativa del modelo, con <span class="highlight">V de Cramer = 0.725</span>. Países con alto EGOV participan al <span class="highlight">100%</span> en IDCCE vs. <span class="highlight">9.8%</span> de países con bajo EGOV.</p>
+        </div>
+
+        <div class="term">
+            <h3>Distribución de Preferencias</h3>
+            <p>Frecuencias observadas en la población de estudio en un momento histórico específico respecto a las preferencias estatales de coordinación regulatoria. La tesis identifica tres distribuciones clave: M1 (2017), M2 (2019) y M3 (2019-2024).</p>
+        </div>
+
+        <div class="term">
+            <h3>Ecología Organizacional</h3>
+            <p>Enfoque teórico que enfatiza "la influencia de los entornos institucionales, especialmente su densidad organizacional y la disponibilidad de recursos, en el comportamiento y la viabilidad organizacionales" (Abbott, Green y Keohane, 2016). Adaptado para analizar las dinámicas entre IDCCE y PTCE en la OMC.</p>
+        </div>
+
+        <div class="term">
+            <h3>Estructura de Preferencias</h3>
+            <p>Espectro ordenado de opciones de política exterior considerando como línea de base la disposición estatal a ceder o retener márgenes de soberanía a cambio de potenciales externalidades positivas. Se distingue entre <span class="highlight">estándares defensivos</span> y <span class="highlight">estándares ofensivos</span>.</p>
+        </div>
+
+        <div class="term">
+            <h3>Estándares Defensivos</h3>
+            <p>Preferencias que tienden a retener mayores márgenes de soberanía estatal en los procesos de coordinación regulatoria.</p>
+        </div>
+
+        <div class="term">
+            <h3>Estándares Ofensivos</h3>
+            <p>Preferencias que tienden a favorecer fórmulas que suponen cierta delegación o pool de soberanía estatal para obtener externalidades positivas.</p>
+        </div>
+
+        <div class="term">
+            <h3>Gobernanza Global</h3>
+            <p>Según Drezner (2007): "no solo el ajuste codificado de las normas y regulaciones nacionales" sino también "el conjunto de relaciones de autoridad designadas para supervisar, hacer cumplir y modificar cualquier conjunto transnacional de normas y reglamentos".</p>
+        </div>
+    </div>
+
+    <!-- Sección H-M -->
+    <div id="section-H-M" class="glossary-section hidden">
+        <div class="term">
+            <h3>IDCCE-OMC</h3>
+            <p><span class="highlight">Iniciativa de Declaración Conjunta sobre Comercio Electrónico de la Organización Mundial de Comercio</span> (JSI-EC en inglés). Venue plurilateral creado en 2019 con <span class="highlight">91 países</span> participantes de los <span class="highlight">164 miembros</span> de la OMC para establecer futuras reglas vinculantes en comercio electrónico.</p>
+        </div>
+
+        <div class="term">
+            <h3>Inflexión Institucional</h3>
+            <p>Punto de consolidación institucional basado en Finnemore y Sikkink (1998). La IDCCE alcanza este punto en <span class="highlight">enero de 2019 (M2)</span> cuando China se incorpora, marcando la transición de 71 a 77 miembros y estableciendo las condiciones para la consolidación del venue.</p>
+        </div>
+
+        <div class="term">
+            <h3>Ingreso Nacional (IN)</h3>
+            <p>Clasificación del Banco Mundial para 2020 basada en el GNI per capita, operacionalizada en cuatro categorías ordinales (alto, medio alto, medio bajo, bajo) y posteriormente dicotomizada (mayor/menor).</p>
+        </div>
+
+        <div class="term">
+            <h3>Metodología de 3 Pasos</h3>
+            <p>Adaptación del modelo secuencial de Moravcsik (1998) que analiza: <span class="highlight">Paso 1</span> (Preferencias de Cooperación Sustantiva), <span class="highlight">Paso 2</span> (Preferencias de Elección Institucional) y <span class="highlight">Paso 3</span> (Preferencias del Núcleo Negociador).</p>
+        </div>
+
+        <div class="term">
+            <h3>Modelo Integrador</h3>
+            <p>Enfoque híbrido que combina factores de <span class="highlight">capacidades materiales</span> y <span class="highlight">ventajas institucionales</span> para explicar las preferencias estatales. Alcanza <span class="highlight">87.3% de precisión predictiva</span> en el análisis estadístico.</p>
+        </div>
+
+        <div class="term">
+            <h3>Momentos Históricos</h3>
+            <p>Tres distribuciones clave de preferencias estatales:<br>
+            • <span class="highlight">M0</span>: Período previo a diciembre 2017<br>
+            • <span class="highlight">M1</span>: Diciembre 2017 (71 países)<br>
+            • <span class="highlight">M2</span>: Enero 2019 (77 países + China - punto de inflexión)<br>
+            • <span class="highlight">M3</span>: 2019-2024 (expansión a 91 países)</p>
+        </div>
+
+        <div class="term">
+            <h3>Moratoria Arancelaria</h3>
+            <p>Postergación establecida desde 1998 en el PTCE de la OMC para la imposición de aranceles a las transmisiones electrónicas. Representa el único acuerdo multilateral vigente en comercio electrónico.</p>
+        </div>
+    </div>
+
+    <!-- Sección N-P -->
+    <div id="section-N-P" class="glossary-section hidden">
+        <div class="term">
+            <h3>Normas Explícitas Vinculantes</h3>
+            <p>Reglas legalmente obligatorias que emergen de procesos de negociación internacional. El acuerdo estabilizado de julio 2024 marca la transición de la IDCCE desde una estrategia de pool de soberanía hacia normas vinculantes.</p>
+        </div>
+
+        <div class="term">
+            <h3>Pool de Soberanía</h3>
+            <p>Estrategia de agrupación de soberanía estatal donde los países mantienen control conjunto sobre ciertos aspectos regulatorios sin delegarlos completamente a una autoridad supranacional.</p>
+        </div>
+
+        <div class="term">
+            <h3>Preferencias de Cooperación Sustantiva</h3>
+            <p><span class="highlight">Paso 1</span>: Preferencias estatales sobre si negociar regulaciones de comercio digital <span class="highlight">AHORA</span> (participando en IDCCE) o <span class="highlight">después</span> (manteniéndose solo en PTCE).</p>
+        </div>
+
+        <div class="term">
+            <h3>Preferencias de Elección Institucional</h3>
+            <p><span class="highlight">Paso 2</span>: Preferencias estatales sobre <span class="highlight">dónde</span> negociar (IDCCE plurilateral vs. PTCE multilateral) y el diseño institucional preferido para la coordinación regulatoria.</p>
+        </div>
+
+        <div class="term">
+            <h3>Preferencias del Núcleo Negociador</h3>
+            <p><span class="highlight">Paso 3</span>: Preferencias estatales sobre <span class="highlight">qué</span> negociar específicamente y en qué términos de máxima y mínima predisposición al pool o delegación de soberanía.</p>
+        </div>
+
+        <div class="term">
+            <h3>Preferencias Estatales</h3>
+            <p>Ordenamiento de opciones de política exterior basado en la evaluación de costos y beneficios esperados de diferentes estrategias de coordinación regulatoria internacional.</p>
+        </div>
+
+        <div class="term">
+            <h3>PTCE</h3>
+            <p><span class="highlight">Programa de Trabajo en Comercio Electrónico</span> de la OMC, establecido en 1998. Canal multilateral original que incluye a todos los <span class="highlight">164 miembros</span> de la OMC y mantiene la moratoria arancelaria.</p>
+        </div>
+
+        <div class="term">
+            <h3>Punto de Inflexión</h3>
+            <p><span class="highlight">Enero 2019 (M2)</span>: Momento de consolidación institucional de la IDCCE marcado por la incorporación de <span class="highlight">China</span>, transformando la dinámica negociadora y estableciendo las condiciones para el venue plurilateral.</p>
+        </div>
+    </div>
+
+    <!-- Sección R-V -->
+    <div id="section-R-V" class="glossary-section hidden">
+        <div class="term">
+            <h3>Régimen Armonizado</h3>
+            <p>Tipo de régimen internacional caracterizado por normas uniformes aplicables a todos los participantes, como la moratoria arancelaria del PTCE.</p>
+        </div>
+
+        <div class="term">
+            <h3>Régimen de Club</h3>
+            <p>Tipo de régimen internacional con membresía restringida y beneficios exclusivos para los participantes, como tiende a configurarse la IDCCE.</p>
+        </div>
+
+        <div class="term">
+            <h3>Ventajas Institucionales</h3>
+            <p>Beneficios derivados de la participación previa en redes de acuerdos comerciales. Se operacionalizó en dos indicadores: <span class="highlight">densidad de red comercial (DRC)</span> y <span class="highlight">densidad de red comercial digital (DRCD)</span>.</p>
+        </div>
+
+        <div class="term">
+            <h3>V de Cramer</h3>
+            <p>Medida de asociación estadística utilizada para evaluar la fuerza de la relación entre variables categóricas. <span class="highlight">EGOV presenta V de Cramer = 0.725</span>, indicando una asociación muy fuerte con la participación en IDCCE.</p>
+        </div>
+    </div>
+
+    <!-- Sección Siglas -->
+    <div id="section-siglas" class="glossary-section hidden">
+        <h2>🔤 Siglas y Acrónimos</h2>
+        <div class="acronyms-grid">
+            <div class="acronym-item">
+                <strong>APC</strong>
+                Acuerdos Preferenciales de Comercio
+            </div>
+            <div class="acronym-item">
+                <strong>CNUDMI</strong>
+                Comisión de las Naciones Unidas para el Derecho Mercantil Internacional
+            </div>
+            <div class="acronym-item">
+                <strong>CP-TPP</strong>
+                Tratado Integral y Progresista de Asociación Transpacífico
+            </div>
+            <div class="acronym-item">
+                <strong>DRC</strong>
+                Densidad de Red de Comercio
+            </div>
+            <div class="acronym-item">
+                <strong>DRCD</strong>
+                Densidad de Red de Comercio Digital
+            </div>
+            <div class="acronym-item">
+                <strong>DSS</strong>
+                Densidad de Servidores Seguros
+            </div>
+            <div class="acronym-item">
+                <strong>ecAPC</strong>
+                Acuerdos Preferenciales de Comercio con capítulos de comercio electrónico
+            </div>
+            <div class="acronym-item">
+                <strong>EGOV</strong>
+                Desarrollo de Gobierno Digital
+            </div>
+            <div class="acronym-item">
+                <strong>GDC</strong>
+                Global Digital Compact
+            </div>
+            <div class="acronym-item">
+                <strong>ICANN</strong>
+                Corporación de Internet para la Asignación de Nombres y Números
+            </div>
+            <div class="acronym-item">
+                <strong>IGF</strong>
+                Foro de Gobernanza de Internet
+            </div>
+            <div class="acronym-item">
+                <strong>IN</strong>
+                Ingreso Nacional
+            </div>
+            <div class="acronym-item">
+                <strong>ITU</strong>
+                Unión Internacional de Telecomunicaciones
+            </div>
+            <div class="acronym-item">
+                <strong>JSI-EC</strong>
+                Joint Statement Initiative on Electronic Commerce
+            </div>
+            <div class="acronym-item">
+                <strong>M1, M2, M3</strong>
+                Momentos 1, 2 y 3 de distribuciones de preferencias
+            </div>
+            <div class="acronym-item">
+                <strong>OMC</strong>
+                Organización Mundial de Comercio
+            </div>
+            <div class="acronym-item">
+                <strong>PTCE</strong>
+                Programa de Trabajo en Comercio Electrónico
+            </div>
+            <div class="acronym-item">
+                <strong>UNCTAD</strong>
+                Conferencia de las Naciones Unidas sobre Comercio y Desarrollo
+            </div>
+            <div class="acronym-item">
+                <strong>UNDESA</strong>
+                Departamento de Asuntos Económicos y Sociales de las Naciones Unidas
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showSection(sectionId) {
+        // Ocultar todas las secciones
+        const sections = document.querySelectorAll('.glossary-section');
+        sections.forEach(section => {
+            section.classList.add('hidden');
+        });
+        
+        // Remover clase active de todos los botones
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+        
+        // Mostrar la sección seleccionada
+        const targetSection = document.getElementById('section-' + sectionId);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+        }
+        
+        // Activar el botón correspondiente
+        const activeButton = document.getElementById('btn-' + sectionId);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    }
+
+    // Inicializar mostrando la primera sección
+    document.addEventListener('DOMContentLoaded', function() {
+        showSection('A-C');
+    });
+
+    // Agregar efecto de entrada suave
+    document.addEventListener('DOMContentLoaded', function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.term').forEach(term => {
+            observer.observe(term);
+        });
+    });
+</script>
+```
+
+</body>
+</html>

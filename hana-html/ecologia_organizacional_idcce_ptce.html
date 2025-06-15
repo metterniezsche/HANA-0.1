@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecología Organizacional IDCCE vs PTCE</title>
+    
+    <!-- 
+    ARTEFACTO SEMÁNTICO: ECOLOGÍA ORGANIZACIONAL IDCCE-PTCE
+    Posición en serie: 2/10 | Concepto: Competencia institucional por jurisdicción
+    Teoría base: Abbott, Green & Keohane (2016) - Ecología organizacional
+    Datos empíricos: M1(71)→M2(77)→M3(91) países | PTCE 164 miembros
+    Conexiones: Artefacto #1 (M1→M2 doblez) | Artefacto #3 (Tropismos capacidades)
+    Metadatos: venue plurilateral vs track multilateral | pool soberanía vs consenso
+    -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-purple: rgba(139, 92, 246, 0.3);
+            --primary-gray: rgba(100, 116, 139, 0.3);
+            --glass-light: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at center, 
+                rgba(15, 15, 35, 0.95) 0%, 
+                rgba(8, 8, 20, 0.98) 50%, 
+                rgba(2, 2, 8, 1) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .accessibility-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .control-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.1);
+        }
+        
+        .control-btn.active {
+            background: var(--primary-purple);
+            color: var(--text-primary);
+        }
+        
+        .ecosystem-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .conceptual-title {
+            position: absolute;
+            top: 1.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 100;
+            padding: 0 40px;
+            max-width: 95%;
+        }
+        
+        .title-main {
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: 1.0px;
+            text-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .title-sub {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+        
+        .title-context {
+            font-size: 9px;
+            font-weight: 300;
+            color: var(--text-tertiary);
+            letter-spacing: 0.3px;
+            font-style: italic;
+            max-width: 750px;
+            line-height: 1.2;
+            margin: 0 auto;
+        }
+        
+        .organizational-space {
+            position: relative;
+            width: 85%;
+            height: 75%;
+            border-radius: 40px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.02) 0%,
+                rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+        
+        .omc-boundary {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 35px;
+            animation: boundary-pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes boundary-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        
+        .omc-context {
+            position: absolute;
+            top: 16px;
+            left: 25px;
+            font-size: 8px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+        }
+        
+        .venue-node {
+            position: absolute;
+            border-radius: 24px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .venue-node::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                transparent 50%);
+            pointer-events: none;
+            border-radius: 24px;
+        }
+        
+        .venue-node:hover {
+            transform: translateY(-2px) scale(1.005);
+        }
+        
+        .idcce-node {
+            top: 26%;
+            left: 8%;
+            width: 40%;
+            height: 48%;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, rgba(168, 85, 247, 0.15) 50%, rgba(196, 132, 252, 0.08) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 15px 40px rgba(139, 92, 246, 0.15);
+        }
+        
+        .idcce-node:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 20px 50px rgba(139, 92, 246, 0.25);
+        }
+        
+        .ptce-node {
+            top: 26%;
+            right: 8%;
+            width: 40%;
+            height: 48%;
+            background: linear-gradient(135deg, var(--primary-gray) 0%, rgba(100, 116, 139, 0.15) 50%, rgba(148, 163, 184, 0.08) 100%);
+            border: 1px solid rgba(100, 116, 139, 0.4);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 15px 40px rgba(100, 116, 139, 0.15);
+        }
+        
+        .ptce-node:hover {
+            border-color: rgba(100, 116, 139, 0.6);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 20px 50px rgba(100, 116, 139, 0.25);
+        }
+        
+        .venue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .venue-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+        
+        .venue-subtitle {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+        
+        .venue-full-name {
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.3;
+            font-style: italic;
+        }
+        
+        .expand-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .expand-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.1);
+        }
+        
+        .venue-concepts {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .venue-concepts::-webkit-scrollbar {
+            width: 2px;
+        }
+        
+        .venue-concepts::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .venue-concepts::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        
+        .concept-tag {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.85);
+            background: var(--glass-light);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(8px);
+            text-align: left;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
+            line-height: 1.4;
+            margin-bottom: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .concept-tag:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 9px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .concept-tag:hover .tooltip {
+            opacity: 1;
+        }
+        
+        .subnodes {
+            margin-top: 10px;
+            padding-left: 15px;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        
+        .subnodes.expanded {
+            max-height: 200px;
+        }
+        
+        .subnode {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 4px 8px;
+            margin: 2px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid rgba(139, 92, 246, 0.5);
+        }
+        
+        .jurisdictional-tension {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(251, 191, 36, 0.8);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+            animation: tension-pulse 3s ease-in-out infinite;
+            z-index: 50;
+        }
+        
+        @keyframes tension-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.5);
+                box-shadow: 0 0 30px rgba(251, 191, 36, 0.7);
+            }
+        }
+        
+        .connection-flow {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, 
+                rgba(251, 191, 36, 0.6) 0%,
+                rgba(251, 191, 36, 0.3) 50%,
+                transparent 100%);
+            transform-origin: bottom;
+            animation: flow-animation 4s ease-in-out infinite;
+        }
+        
+        @keyframes flow-animation {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scaleY(0.8) rotate(0deg);
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: scaleY(1.2) rotate(2deg);
+            }
+        }
+        
+        .flow-left {
+            top: 40%;
+            left: 42%;
+            transform-origin: bottom right;
+        }
+        
+        .flow-right {
+            top: 40%;
+            right: 42%;
+            transform-origin: bottom left;
+        }
+        
+        .temporal-indicators {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 60;
+        }
+        
+        .moment-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .moment-indicator:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .moment-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .moment-label {
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+        }
+        
+        .moment-data {
+            font-size: 7px;
+            color: var(--text-tertiary);
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .semantic-minimap {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 180px;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            padding: 12px;
+            z-index: 150;
+            transition: all 0.3s ease;
+        }
+        
+        .minimap-title {
+            font-size: 8px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .minimap-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+        }
+        
+        .minimap-node {
+            width: 24px;
+            height: 16px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .minimap-node.current {
+            background: var(--primary-purple);
+            border-color: rgba(139, 92, 246, 0.8);
+        }
+        
+        .minimap-node:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .ecosystem-label {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 100;
+        }
+        
+        .label-text {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            font-style: italic;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            max-width: 500px;
+        }
+        
+        .enhanced-effects {
+            animation: enhanced-ambient 8s ease-in-out infinite;
+        }
+        
+        @keyframes enhanced-ambient {
+            0%, 100% { filter: brightness(1) contrast(1); }
+            50% { filter: brightness(1.05) contrast(1.02); }
+        }
+        
+        .reduced-motion * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-controls">
+        <div class="control-btn" id="enhancedBtn" title="Efectos avanzados">✨</div>
+        <div class="control-btn" id="motionBtn" title="Reducir movimiento">⏸</div>
+    </div>
+    
+    <div class="semantic-minimap">
+        <div class="minimap-title">Navegación Semántica</div>
+        <div class="minimap-grid">
+            <div class="minimap-node" title="M1→M2 Doblez"></div>
+            <div class="minimap-node current" title="Ecología Organizacional"></div>
+            <div class="minimap-node" title="Tropismos Capacidades"></div>
+            <div class="minimap-node" title="Temporalidades DeLanda"></div>
+            <div class="minimap-node" title="Umbral Nucleación"></div>
+            <div class="minimap-node" title="Ensamblaje Heterogéneo"></div>
+            <div class="minimap-node" title="Ambigüedad Estratégica"></div>
+            <div class="minimap-node" title="Cascada Legitimidad"></div>
+            <div class="minimap-node" title="Conjuntos vs Variedades"></div>
+            <div class="minimap-node" title="Cristalización Institucional"></div>
+        </div>
+    </div>
+    
+    <div class="ecosystem-container">
+        <div class="conceptual-title">
+            <div class="title-main">ECOLOGÍA ORGANIZACIONAL</div>
+            <div class="title-sub">Competencia entre venues institucionales por jurisdicción regulatoria</div>
+            <div class="title-context">
+                Análisis de la tensión evolutiva entre IDCCE (venue plurilateral emergente) 
+                y PTCE (track multilateral incumbente) dentro del ecosistema OMC para gobernanza del comercio digital
+            </div>
+        </div>
+        
+        <div class="organizational-space">
+            <div class="omc-context">
+                OMC · Organización Mundial de Comercio<br>
+                Ecosistema institucional con 164 miembros estatales<br>
+                Marco multilateral para regulación comercio internacional
+            </div>
+            <div class="omc-boundary"></div>
+            
+            <!-- IDCCE Venue -->
+            <div class="venue-node idcce-node">
+                <div class="venue-header">
+                    <div>
+                        <div class="venue-title">IDCCE</div>
+                        <div class="venue-subtitle">Venue Plurilateral Emergente</div>
+                        <div class="venue-full-name">Iniciativa de Declaración Conjunta en Comercio Electrónico</div>
+                    </div>
+                    <div class="expand-btn" onclick="toggleSubnodes('idcce')">+</div>
+                </div>
+                
+                <div class="venue-concepts">
+                    <div class="concept-tag">
+                        M1 (2017): 71 países grupo exploratorio Buenos Aires
+                        <div class="tooltip">Momento inicial sin China - temporalidad extensiva</div>
+                    </div>
+                    <div class="concept-tag">
+                        M2 (2019): 77 países + China, umbral crítico 1/3 OMC
+                        <div class="tooltip">Singularidad institucional - doblez ontológico</div>
+                    </div>
+                    <div class="concept-tag">
+                        M3 (2024): 91 países adherentes, declaración estabilizada
+                        <div class="tooltip">Cascada legitimidad - países menores capacidades</div>
+                    </div>
+                    <div class="concept-tag">
+                        Estrategia pool soberanía estatal dentro OMC existente
+                        <div class="tooltip">Moravcsik 1998 - credibilidad compromisos</div>
+                    </div>
+                    <div class="concept-tag">
+                        Canal institucional alternativo al consenso multilateral
+                        <div class="tooltip">Coleman 2011 - locación institucional</div>
+                    </div>
+                    <div class="concept-tag">
+                        Coalición países mayores capacidades digitales
+                        <div class="tooltip">Tropismos hacia coordinación regulatoria</div>
+                    </div>
+                    <div class="concept-tag">
+                        Venue plurilateral en organismo multilateral existente
+                        <div class="tooltip">Abbott, Green & Keohane 2016 - innovación institucional</div>
+                    </div>
+                </div>
+                
+                <div class="subnodes" id="idcce-subnodes">
+                    <div class="subnode">Capacidades materiales: EGOV, densidad servidores</div>
+                    <div class="subnode">Ventajas institucionales: RTA#, ecRTA# densidad</div>
+                    <div class="subnode">Motivaciones: Credibilidad compromisos (19 códigos)</div>
+                    <div class="subnode">Diseño institucional: Pool soberanía inter-temporal</div>
+                </div>
+            </div>
+            
+            <!-- PTCE Venue -->
+            <div class="venue-node ptce-node">
+                <div class="venue-header">
+                    <div>
+                        <div class="venue-title">PTCE</div>
+                        <div class="venue-subtitle">Track Multilateral Formal</div>
+                        <div class="venue-full-name">Programa de Trabajo en Comercio Electrónico</div>
+                    </div>
+                    <div class="expand-btn" onclick="toggleSubnodes('ptce')">+</div>
+                </div>
+                
+                <div class="venue-concepts">
+                    <div class="concept-tag">
+                        164 miembros OMC bajo fórmula consenso multilateral
+                        <div class="tooltip">Universalidad vs selectividad institucional</div>
+                    </div>
+                    <div class="concept-tag">
+                        Instituido 1998, proceso incumbente 26 años
+                        <div class="tooltip">Path dependence - dependencia sendero</div>
+                    </div>
+                    <div class="concept-tag">
+                        Conversación exploratoria e intercambio información únicamente
+                        <div class="tooltip">Sin reglas vinculantes - soft governance</div>
+                    </div>
+                    <div class="concept-tag">
+                        Track multilateral tradicional sin reglas vinculantes
+                        <div class="tooltip">Frustración multilateral vs innovación plurilateral</div>
+                    </div>
+                    <div class="concept-tag">
+                        Único elemento vinculante: moratoria arancelaria transmisiones
+                        <div class="tooltip">Logro diplomático menor convertido en crítico</div>
+                    </div>
+                    <div class="concept-tag">
+                        Moratoria renovación periódica cada Cumbre Ministerial OMC
+                        <div class="tooltip">Compensaciones inter-temporales Moravcsik</div>
+                    </div>
+                    <div class="concept-tag">
+                        Distribución preferencias regulatorias altamente polarizada
+                        <div class="tooltip">91 pro-IDCCE vs 73 anti-IDCCE</div>
+                    </div>
+                </div>
+                
+                <div class="subnodes" id="ptce-subnodes">
+                    <div class="subnode">Incumbency advantage: 26 años consolidación</div>
+                    <div class="subnode">Legitimidad multilateral: 164 miembros universales</div>
+                    <div class="subnode">Asset único: moratoria arancelaria renovable</div>
+                    <div class="subnode">Tensión: obsolescencia vs persistencia institucional</div>
+                </div>
+            </div>
+            
+            <!-- Jurisdictional Tension Point -->
+            <div class="jurisdictional-tension"></div>
+            
+            <!-- Connection Flows -->
+            <div class="connection-flow flow-left"></div>
+            <div class="connection-flow flow-right"></div>
+            
+            <!-- Temporal Evolution Indicators -->
+            <div class="temporal-indicators">
+                <div class="moment-indicator">
+                    <div class="moment-number">M1</div>
+                    <div class="moment-label">Buenos Aires<br>2017</div>
+                    <div class="moment-data">71 países</div>
+                </div>
+                <div class="moment-indicator">
+                    <div class="moment-number">M2</div>
+                    <div class="moment-label">Umbral crítico<br>+ China 2019</div>
+                    <div class="moment-data">77 países</div>
+                </div>
+                <div class="moment-indicator">
+                    <div class="moment-number">M3</div>
+                    <div class="moment-label">Declaración<br>estabilizada 2024</div>
+                    <div class="moment-data">91 países</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ecosystem-label">
+            <div class="label-text">
+                "Competencia ecológica entre ensamblajes institucionales por legitimidad jurisdiccional en gobernanza del comercio digital. 
+                Dinámicas evolutivas M1→M2→M3 de revalorización intergubernamental vs. persistencia multilateral en ecosistema OMC."
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Enhanced effects toggle
+        document.getElementById('enhancedBtn').addEventListener('click', function() {
+            document.body.classList.toggle('enhanced-effects');
+            this.classList.toggle('active');
+        });
+        
+        // Reduced motion toggle
+        document.getElementById('motionBtn').addEventListener('click', function() {
+            document.body.classList.toggle('reduced-motion');
+            this.classList.toggle('active');
+        });
+        
+        // Subnodes expansion
+        function toggleSubnodes(nodeType) {
+            const subnodes = document.getElementById(nodeType + '-subnodes');
+            const btn = event.target;
+            
+            subnodes.classList.toggle('
