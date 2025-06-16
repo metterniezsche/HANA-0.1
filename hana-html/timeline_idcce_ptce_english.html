@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDCCE-PTCE Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e8eaed;
+            overflow-x: auto;
+            overflow-y: hidden;
+            height: 100vh;
+        }
+
+        .timeline-container {
+            width: 3000px; /* Total width for horizontal scroll */
+            height: 100vh;
+            position: relative;
+            padding: 40px;
+        }
+
+        .timeline-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 15px;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-header h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #64b5f6, #42a5f5, #1e88e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .timeline-header p {
+            color: #9aa0a6;
+            font-size: 0.9rem;
+        }
+
+        /* Main timeline track */
+        .timeline-track {
+            position: absolute;
+            top: 50%;
+            left: 100px;
+            right: 100px;
+            height: 6px;
+            background: linear-gradient(90deg, #1e88e5 0%, #42a5f5 30%, #64b5f6 60%, #ff6b6b 85%, #ffd700 100%);
+            border-radius: 3px;
+            transform: translateY(-50%);
+            box-shadow: 0 0 20px rgba(30, 136, 229, 0.3);
+        }
+
+        /* Main events container */
+        .events-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding-top: 100px;
+        }
+
+        /* Year/period markers on the line */
+        .year-marker {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e88e5;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 10;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4);
+        }
+
+        /* Critical moment markers */
+        .year-marker.moment {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            transform: translate(-50%, -50%) scale(1.2);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+            animation: pulse-marker 2s infinite;
+        }
+
+        @keyframes pulse-marker {
+            0%, 100% { transform: translate(-50%, -50%) scale(1.2); }
+            50% { transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* Individual events */
+        .event {
+            position: absolute;
+            width: 280px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .event:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        /* Connectors from events to the line */
+        .event::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, #1e88e5, transparent);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        /* Events above the line */
+        .event.top {
+            top: 20%;
+        }
+
+        .event.top::before {
+            bottom: -80px;
+            height: 80px;
+        }
+
+        /* Events below the line */
+        .event.bottom {
+            top: 65%;
+        }
+
+        .event.bottom::before {
+            top: -80px;
+            height: 80px;
+            background: linear-gradient(to top, #1e88e5, transparent);
+        }
+
+        /* Precise horizontal positioning */
+        .event.pos-1998 { left: 150px; }
+        .event.pos-2016 { left: 400px; }
+        .event.pos-oct2017 { left: 650px; }
+        .event.pos-dec2017 { left: 750px; }
+        .event.pos-jan2019 { left: 950px; }
+        .event.pos-mar2019 { left: 1050px; }
+        .event.pos-jun2019 { left: 1150px; }
+        .event.pos-dec2019 { left: 1350px; }
+        .event.pos-2020 { left: 1450px; }
+        .event.pos-2021 { left: 1550px; }
+        .event.pos-2022 { left: 1650px; }
+        .event.pos-2023a { left: 1850px; }
+        .event.pos-2023b { left: 1950px; }
+        .event.pos-2024a { left: 2150px; }
+        .event.pos-2024b { left: 2250px; }
+
+        /* Event types */
+        .event.ptce {
+            border-left: 5px solid #4caf50;
+            background: rgba(76, 175, 80, 0.08);
+        }
+
+        .event.idcce {
+            border-left: 5px solid #ff6b6b;
+            background: rgba(255, 107, 107, 0.08);
+        }
+
+        .event.relaunch {
+            border-left: 5px solid #9c27b0;
+            background: rgba(156, 39, 176, 0.08);
+        }
+
+        .event.structuring {
+            border-left: 5px solid #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+        }
+
+        .event.multiple {
+            border-left: 5px solid #ff9800;
+            background: rgba(255, 152, 0, 0.08);
+        }
+
+        .event.resistance {
+            border-left: 5px solid #f44336;
+            background: rgba(244, 67, 54, 0.08);
+        }
+
+        /* Event content */
+        .event-date {
+            font-size: 0.75rem;
+            color: #64b5f6;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .event-actor {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #e8eaed;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .event-content {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #bdc1c6;
+        }
+
+        .event-quote {
+            background: rgba(30, 136, 229, 0.1);
+            border-left: 3px solid #1e88e5;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 0 6px 6px 0;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        /* Critical moment badge */
+        .moment-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Simplified legend */
+        .legend {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            z-index: 1000;
+            max-width: 200px;
+        }
+
+        .legend h3 {
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            color: #e8eaed;
+            text-align: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 8px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        /* Horizontal navigation */
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #64b5f6;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            animation: fade-in-out 3s ease-in-out infinite;
+        }
+
+        @keyframes fade-in-out {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive for mobile */
+        @media (max-width: 768px) {
+            .timeline-container {
+                width: 2000px;
+            }
+            
+            .event {
+                width: 240px;
+                padding: 12px;
+            }
+            
+            .legend {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-header">
+        <h1>IDCCE-PTCE Timeline</h1>
+        <p>Organizational ecology and critical thresholds in WTO digital trade (1998-2024)</p>
+    </div>
+
+    <div class="timeline-container">
+        <!-- Main timeline track -->
+        <div class="timeline-track"></div>
+
+        <!-- Year markers on the line -->
+        <div class="year-marker" style="left: 200px;">1998</div>
+        <div class="year-marker" style="left: 450px;">2016</div>
+        <div class="year-marker moment" style="left: 700px;">M1<br>2017</div>
+        <div class="year-marker moment" style="left: 1000px;">M2<br>2019</div>
+        <div class="year-marker" style="left: 1500px;">2020-22</div>
+        <div class="year-marker" style="left: 1900px;">2023</div>
+        <div class="year-marker moment" style="left: 2200px;">M3<br>2024</div>
+
+        <div class="events-container">
+            <!-- 1998 - PTCE Origin -->
+            <div class="event ptce pos-1998 top">
+                <div class="event-date">📅 1998</div>
+                <div class="event-actor">WTO</div>
+                <div class="event-content">Establishment of the Work Programme on Electronic Commerce (PTCE)</div>
+            </div>
+
+            <div class="event ptce pos-1998 bottom">
+                <div class="event-date">📅 1998</div>
+                <div class="event-actor">WTO</div>
+                <div class="event-content">Beginning of moratorium on customs duties on electronic transmissions</div>
+            </div>
+
+            <!-- 2016 - Preliminaries -->
+            <div class="event pos-2016 top">
+                <div class="event-date">📅 Jul 25, 2016</div>
+                <div class="event-actor">Japan</div>
+                <div class="event-content">Analyze existing WTO rules for electronic commerce</div>
+            </div>
+
+            <div class="event pos-2016 bottom">
+                <div class="event-date">📅 Aug 1, 2016</div>
+                <div class="event-actor">Canada et al</div>
+                <div class="event-content">Regulatory coordination in electronic commerce</div>
+            </div>
+
+            <!-- Oct 2017 - Resistance -->
+            <div class="event resistance pos-oct2017 top">
+                <div class="event-date">📅 Oct 6, 2017</div>
+                <div class="event-actor">Russia</div>
+                <div class="event-content">Provide appropriate forum for Members</div>
+            </div>
+
+            <div class="event resistance pos-oct2017 bottom">
+                <div class="event-date">📅 Oct 20, 2017</div>
+                <div class="event-actor">African Union</div>
+                <div class="event-content">Institutional resistance to plurilateral venue</div>
+                <div class="event-quote">"Existing multilateral rules limit our national policy space"</div>
+            </div>
+
+            <!-- M1 - Dec 2017 -->
+            <div class="event idcce pos-dec2017 top">
+                <div class="moment-badge">M1</div>
+                <div class="event-date">📅 Dec 13, 2017</div>
+                <div class="event-actor">71 countries</div>
+                <div class="event-content">First joint statement - welcome to initiate exploratory work</div>
+            </div>
+
+            <div class="event resistance pos-dec2017 bottom">
+                <div class="event-date">📅 Dec 6, 2017</div>
+                <div class="event-actor">African Union</div>
+                <div class="event-content">Questioning the Working Group</div>
+                <div class="event-quote">"Establishing a Working Group on Electronic Commerce presupposes that something is not working"</div>
+            </div>
+
+            <!-- M2 - Jan 2019 -->
+            <div class="event idcce pos-jan2019 top">
+                <div class="moment-badge">M2</div>
+                <div class="event-date">📅 Jan 25, 2019</div>
+                <div class="event-actor">77 countries + China</div>
+                <div class="event-content">Effective formation of IDCCE - critical threshold</div>
+                <div class="event-quote">Tipping point: US-China bipolar consensus</div>
+            </div>
+
+            <!-- Mar 2019 - Document avalanche -->
+            <div class="event multiple pos-mar2019 top">
+                <div class="event-date">📅 Mar 25, 2019</div>
+                <div class="event-actor">Multiple countries</div>
+                <div class="event-content">Post-consolidation document avalanche: Argentina, Taiwan, Brazil, Ukraine, Japan, EU</div>
+            </div>
+
+            <div class="event pos-mar2019 bottom">
+                <div class="event-date">📅 Apr 23, 2019</div>
+                <div class="event-actor">China</div>
+                <div class="event-content">Ensure participation of all stakeholders</div>
+            </div>
+
+            <!-- Jun 2019 - Procedures -->
+            <div class="event pos-jun2019 top">
+                <div class="event-date">📅 Jun 4, 2019</div>
+                <div class="event-actor">India and South Africa</div>
+                <div class="event-content">Consider negotiations premature</div>
+            </div>
+
+            <div class="event pos-jun2019 bottom">
+                <div class="event-date">📅 Jun 11, 2019</div>
+                <div class="event-actor">New Zealand, Canada</div>
+                <div class="event-content">Transparency in decision-making procedures</div>
+            </div>
+
+            <!-- Dec 2019 - 1st PTCE Relaunch -->
+            <div class="event relaunch pos-dec2019 top">
+                <div class="event-date">📅 Dec 9, 2019</div>
+                <div class="event-actor">WTO General Council</div>
+                <div class="event-content">1st PTCE Relaunch - "Structured discussions"</div>
+                <div class="event-quote">Institutional response to ecological competition</div>
+            </div>
+
+            <div class="event pos-dec2019 bottom">
+                <div class="event-date">📅 Dec 16, 2019</div>
+                <div class="event-actor">Côte d'Ivoire</div>
+                <div class="event-content">Participate vs abstain to have a voice in development</div>
+            </div>
+
+            <!-- 2020 -->
+            <div class="event resistance pos-2020 bottom">
+                <div class="event-date">📅 Dec 2020</div>
+                <div class="event-actor">India and South Africa</div>
+                <div class="event-content">PTCE as permanent agenda item</div>
+            </div>
+
+            <!-- 2021 - 2nd Relaunch -->
+            <div class="event relaunch pos-2021 top">
+                <div class="event-date">📅 Feb 2021</div>
+                <div class="event-actor">General Council Minutes</div>
+                <div class="event-content">2nd PTCE Relaunch</div>
+            </div>
+
+            <!-- 2022 - 3rd Relaunch -->
+            <div class="event relaunch pos-2022 bottom">
+                <div class="event-date">📅 Jun 2022</div>
+                <div class="event-actor">Ministerial Decision</div>
+                <div class="event-content">3rd PTCE Relaunch + greater openness to defensive standards</div>
+            </div>
+
+            <!-- 2023 - Structuring -->
+            <div class="event structuring pos-2023a top">
+                <div class="event-date">📅 Oct 27, 2023</div>
+                <div class="event-actor">Co-conveners</div>
+                <div class="event-content">Urgency for consolidation</div>
+                <div class="event-quote">"We must lock in the credible package that we have in our hands"</div>
+            </div>
+
+            <div class="event structuring pos-2023b bottom">
+                <div class="event-date">📅 Dec 1-11, 2023</div>
+                <div class="event-actor">South Africa vs Australia vs Samoa</div>
+                <div class="event-content">Moratorium debate: terminate vs continue vs capacity building</div>
+            </div>
+
+            <!-- 2024 - India resistance -->
+            <div class="event resistance pos-2024a bottom">
+                <div class="event-date">📅 Jan 23, 2024</div>
+                <div class="event-actor">India</div>
+                <div class="event-content">Deliberately refuses to allude to the issue</div>
+            </div>
+
+            <!-- M3 - Jul 2024 -->
+            <div class="event idcce pos-2024b top">
+                <div class="moment-badge">M3</div>
+                <div class="event-date">📅 Jul 2024</div>
+                <div class="event-actor">91 countries</div>
+                <div class="event-content">Stabilized Joint Statement - 12 normative points</div>
+                <div class="event-quote">Legitimacy cascade: incorporation of lower-capacity countries</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <h3>Legend</h3>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #4caf50;"></div>
+            <span>PTCE Multilateral</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff6b6b;"></div>
+            <span>IDCCE Plurilateral</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #9c27b0;"></div>
+            <span>Relaunches</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff9800;"></div>
+            <span>Multiple Docs</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #f44336;"></div>
+            <span>Resistance</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ffd700;"></div>
+            <span>Structuring</span>
+        </div>
+    </div>
+
+    <div class="nav-hint">
+        ← Scroll horizontally to navigate the timeline →
+    </div>
+</body>
+</html>

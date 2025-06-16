@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEP 1: Structural Models - Definitive English Version</title>
+    
+    <!-- 
+    DEFINITIVE SEMANTIC ARTIFACT: STEP 1 STRUCTURAL MODELS
+    Concept: Complete navigation of explanatory power for substantive cooperation preferences JSI-WTO
+    Theory: Institutionalist structuralism + Moravcsik preferences + DeLanda assemblages
+    Empirical data: Logistic regression 164 synchronic + 492 diachronic | Functions A/B/C
+    Findings: Integrative maximalista 76.9% Pseudo R² | Minimalist 48x odds | EGOV pivot
+    Connections: Atlas.ti 800+ codes | M2 crystallization | Conceptual attraction basins
+    -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+        
+        :root {
+            --model-techno: rgba(59, 130, 246, 0.3);
+            --model-issues: rgba(245, 158, 11, 0.3);
+            --model-integrator: rgba(139, 92, 246, 0.4);
+            --glass-light: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --success-color: rgba(34, 197, 94, 0.8);
+            --critical-color: rgba(239, 68, 68, 0.8);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at center, 
+                rgba(5, 15, 30, 0.95) 0%, 
+                rgba(2, 8, 15, 0.98) 50%, 
+                rgba(1, 4, 8, 1) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Navigation and controls */
+        .navigation-suite {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .nav-controls {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .nav-toggle {
+            padding: 12px 18px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .nav-toggle:hover {
+            background: var(--glass-light);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+        
+        .nav-toggle.active {
+            background: linear-gradient(135deg, var(--model-integrator), #7c3aed);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .accessibility-controls {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .control-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.1);
+        }
+        
+        .control-btn.active {
+            background: var(--model-integrator);
+            color: var(--text-primary);
+        }
+        
+        /* Semantic minimap */
+        .semantic-minimap {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 220px;
+            height: 140px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            padding: 16px;
+            z-index: 150;
+            transition: all 0.3s ease;
+        }
+        
+        .minimap-title {
+            font-size: 9px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+        
+        .minimap-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+        
+        .minimap-node {
+            width: 32px;
+            height: 20px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 600;
+        }
+        
+        .minimap-node.current {
+            background: var(--model-integrator);
+            border-color: rgba(139, 92, 246, 0.8);
+            color: white;
+        }
+        
+        .minimap-node:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        /* Main container */
+        .main-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 3rem 2rem;
+            border-radius: 28px;
+            backdrop-filter: blur(30px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(139, 92, 246, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .main-title {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 30px rgba(139, 92, 246, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: rgba(139, 92, 246, 0.9);
+            font-weight: 400;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-context {
+            font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* View sections */
+        .view-section {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .view-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Winner declaration */
+        .winner-declaration {
+            background: linear-gradient(135deg, 
+                var(--success-color) 0%, 
+                rgba(16, 185, 129, 0.6) 50%, 
+                rgba(34, 197, 94, 0.4) 100%);
+            color: white;
+            padding: 2.5rem 3rem;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 
+                0 20px 60px rgba(34, 197, 94, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .winner-declaration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate-light 12s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes rotate-light {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .winner-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .winner-metrics {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            opacity: 0.95;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Models grid */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .model-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 24px;
+            padding: 2.8rem;
+            backdrop-filter: blur(30px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-left: 4px solid;
+            border-right: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 35px 90px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        .model-card.techno { 
+            border-left-color: rgba(59, 130, 246, 0.8); 
+        }
+        .model-card.issues { 
+            border-left-color: rgba(245, 158, 11, 0.8); 
+        }
+        .model-card.integrator { 
+            border-left-color: rgba(139, 92, 246, 0.8); 
+        }
+        
+        .model-header {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .model-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .model-title.techno { 
+            color: rgba(59, 130, 246, 0.95);
+            text-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+        .model-title.issues { 
+            color: rgba(245, 158, 11, 0.95);
+            text-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+        }
+        .model-title.integrator { 
+            color: rgba(139, 92, 246, 0.95);
+            text-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+        }
+        
+        .model-approach {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Functions A/B/C tabs */
+        .functions-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .function-tab {
+            flex: 1;
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-align: center;
+        }
+        
+        .function-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .function-tab.active {
+            background: linear-gradient(135deg, var(--model-integrator), #7c3aed);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .function-content {
+            display: none;
+        }
+        
+        .function-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Metrics per function */
+        .metrics-suite {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 0.8rem;
+            margin: 1.2rem 0;
+        }
+        
+        .metric-box {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.8rem 0.6rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(139, 92, 246, 0.6), 
+                transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .metric-box:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .metric-box:hover::before {
+            opacity: 1;
+        }
+        
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.3rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        /* Variables section */
+        .variables-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 1.5rem 0;
+        }
+        
+        .variable-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+        
+        .variable-item.primary {
+            border-left-color: var(--model-integrator);
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--text-primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+        
+        .variable-item.interaction {
+            border-left-color: var(--success-color);
+            background: rgba(34, 197, 94, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .variable-item:hover {
+            transform: translateX(4px) translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .variable-coefficient {
+            font-weight: 600;
+            color: var(--success-color);
+            float: right;
+        }
+        
+        /* Model insight */
+        .model-insight {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 1.2rem;
+            background: rgba(248, 250, 252, 0.08);
+            border-radius: 12px;
+            border-top: 2px solid;
+            margin-top: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .model-insight.techno { border-top-color: rgba(59, 130, 246, 0.8); }
+        .model-insight.issues { border-top-color: rgba(245, 158, 11, 0.8); }
+        .model-insight.integrator { border-top-color: rgba(139, 92, 246, 0.8); }
+        
+        /* EGOV analysis */
+        .egov-analysis {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 3rem 0;
+            color: #1f2937;
+        }
+        
+        .egov-title {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .egov-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .egov-level {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .egov-level::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 18px;
+            padding: 3px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: exclude;
+            transition: all 0.3s ease;
+        }
+        
+        .egov-level.high {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        }
+        .egov-level.high::before {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+        
+        .egov-level.medium-high {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+        }
+        .egov-level.medium-high::before {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+        }
+        
+        .egov-level.low {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+        }
+        .egov-level.low::before {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+        }
+        
+        .egov-level:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .egov-percentage {
+            font-size: 3.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .egov-percentage.high { color: #059669; }
+        .egov-percentage.medium-high { color: #d97706; }
+        .egov-percentage.low { color: #dc2626; }
+        
+        .egov-label {
+            font-size: 1rem;
+            color: #4b5563;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .egov-participation {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        
+        /* Outliers section */
+        .outliers-section {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .outliers-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--critical-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .outliers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .outlier-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 3px solid var(--critical-color);
+        }
+        
+        .outlier-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .outlier-cases {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        /* Comparative synthesis */
+        .comparative-synthesis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .synthesis-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(30px);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-top: 4px solid var(--model-integrator);
+            transition: all 0.3s ease;
+        }
+        
+        .synthesis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        .synthesis-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+        
+        .synthesis-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, 
+                rgba(139, 92, 246, 0.3) 0%, 
+                rgba(168, 85, 247, 0.2) 100%);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .models-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .navigation-suite {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .semantic-minimap {
+                position: relative;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                margin-top: 2rem;
+            }
+        }
+        
+        .enhanced-effects {
+            animation: enhanced-ambient 8s ease-in-out infinite;
+        }
+        
+        @keyframes enhanced-ambient {
+            0%, 100% { filter: brightness(1) contrast(1); }
+            50% { filter: brightness(1.05) contrast(1.02); }
+        }
+        
+        .reduced-motion * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation-suite">
+        <div class="nav-controls">
+            <button class="nav-toggle active" data-view="overview">Overview</button>
+            <button class="nav-toggle" data-view="functions">Functions</button>
+            <button class="nav-toggle" data-view="egov">EGOV Pivot</button>
+            <button class="nav-toggle" data-view="synthesis">Synthesis</button>
+        </div>
+        <div class="accessibility-controls">
+            <div class="control-btn" id="enhancedBtn" title="Enhanced effects">✨</div>
+            <div class="control-btn" id="motionBtn" title="Reduce motion">⏸</div>
+        </div>
+    </div>
+    
+    <div class="semantic-minimap">
+        <div class="minimap-title">Federated Semantic Navigation</div>
+        <div class="minimap-grid">
+            <div class="minimap-node" title="M1→M2 Fold">M1</div>
+            <div class="minimap-node" title="WTO Ecology">ECO</div>
+            <div class="minimap-node" title="Tropisms">TRP</div>
+            <div class="minimap-node current" title="Structural Models">MOD</div>
+            <div class="minimap-node" title="Threshold">THR</div>
+            <div class="minimap-node" title="Assemblage">ASM</div>
+            <div class="minimap-node" title="Ambiguity">AMB</div>
+            <div class="minimap-node" title="Cascade">CAS</div>
+            <div class="minimap-node" title="Sets">SET</div>
+            <div class="minimap-node" title="Crystallization">CRY</div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="header-section">
+            <h1 class="main-title">STEP 1: SUBSTANTIVE COOPERATION PREFERENCES</h1>
+            <p class="main-subtitle">Comparative Analysis of Structural Models for JSI-WTO</p>
+            <p class="main-context">
+                Complete navigation of explanatory power for three theoretical-empirical approaches to explain 
+                state preferences for substantive cooperation in digital trade. Empirical base: 
+                logistic regression 164 WTO countries synchronic + 492 diachronic observations M1-M2-M3. 
+                Theoretical framework: institutionalist structuralism with DeLanda assemblages and Moravcsik preferences.
+            </p>
+        </div>
+
+        <!-- VIEW 1: OVERVIEW -->
+        <div id="overview" class="view-section active">
+            <div class="winner-declaration">
+                <div class="winner-title">🏆 INTEGRATIVE MODEL: EMPIRICAL SUPERIORITY CONFIRMED</div>
+                <div class="winner-metrics">
+                    <strong>76.9% Pseudo R²</strong> maximalist vs. pure models (59.3% techno-economic, 54.1% issues)<br>
+                    <strong>EGOV × Commercial Network:</strong> Synergic interaction minimalist 48x odds<br>
+                    <strong>90.4% accuracy</strong> synchronic | <strong>83.5% robustness</strong> diachronic M1-M2-M3
+                </div>
+            </div>
+
+            <div class="models-grid">
+                <div class="model-card techno">
+                    <div class="model-header">
+                        <div class="model-title techno">🔴 TECHNO-ECONOMIC GROWTH</div>
+                        <div class="model-approach">
+                            Neorealist approach centered on digital material capabilities as primary 
+                            determinant of JSI substantive cooperation preferences
+                        </div>
+                    </div>
+                    
+                    <div class="functions-tabs">
+                        <button class="function-tab active" data-function="techno-a">Function A</button>
+                        <button class="function-tab" data-function="techno-b">Function B</button>
+                        <button class="function-tab" data-function="techno-c">Function C</button>
+                    </div>
+                    
+                    <div id="techno-a" class="function-content active">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">59.3%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">86.3%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">0.725</span>
+                                <div class="metric-label">Cramer's V</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item primary">
+                                EGOV - E-government development <span class="variable-coefficient">40x odds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="techno-b" class="function-content">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">63.2%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">87.8%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">126.3</span>
+                                <div class="metric-label">Log-2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item primary">EGOV - E-government development</div>
+                            <div class="variable-item">DSS - Secure server density</div>
+                            <div class="variable-item">National income per capita</div>
+                        </div>
+                    </div>
+                    
+                    <div id="techno-c" class="function-content">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">71.6%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">89.6%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">82.8</span>
+                                <div class="metric-label">Log-2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item primary">EGOV - Main variable</div>
+                            <div class="variable-item">DSS - Secure servers</div>
+                            <div class="variable-item interaction">
+                                EGOV×DSS - Tech elite interaction <span class="variable-coefficient">257x odds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="model-insight techno">
+                        "Greater state digitization → higher disposition for international regulatory coordination"
+                    </div>
+                </div>
+
+                <div class="model-card issues">
+                    <div class="model-header">
+                        <div class="model-title issues">🟡 ISSUE-STRUCTURED APPROACH</div>
+                        <div class="model-approach">
+                            Diplomatic approach based on accumulated negotiating experience and commercial 
+                            network density as institutional advantages
+                        </div>
+                    </div>
+                    
+                    <div class="functions-tabs">
+                        <button class="function-tab active" data-function="issues-a">Function A</button>
+                        <button class="function-tab" data-function="issues-b">Function B</button>
+                        <button class="function-tab" data-function="issues-c">Function C</button>
+                    </div>
+                    
+                    <div id="issues-a" class="function-content active">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">54.1%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">80.0%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">0.650</span>
+                                <div class="metric-label">Cramer's V</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item primary">
+                                RTA# - Traditional commercial network density <span class="variable-coefficient">12x odds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="issues-b" class="function-content">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">58.7%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">82.1%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">138.2</span>
+                                <div class="metric-label">Log-2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item primary">RTA# - Commercial network density</div>
+                            <div class="variable-item">ecRTA# - Specific digital commercial network</div>
+                        </div>
+                    </div>
+                    
+                    <div id="issues-c" class="function-content">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">62.8%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">84.3%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">122.4</span>
+                                <div class="metric-label">Log-2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item primary">RTA# - Main variable</div>
+                            <div class="variable-item">ecRTA# - Specific digital network</div>
+                            <div class="variable-item interaction">
+                                RTA×ecRTA - Network interaction <span class="variable-coefficient">18+ RTAs = unanimous</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="model-insight issues">
+                        "Dense institutional framework → need for common digital rules"
+                    </div>
+                </div>
+
+                <div class="model-card integrator">
+                    <div class="model-header">
+                        <div class="model-title integrator">🟢 INTEGRATIVE MODEL</div>
+                        <div class="model-approach">
+                            Hybrid synthesis material capabilities + institutional advantages. Systematic 
+                            empirical superiority across all comparative metrics
+                        </div>
+                    </div>
+                    
+                    <div class="functions-tabs">
+                        <button class="function-tab active" data-function="integrator-min">Minimalist</button>
+                        <button class="function-tab" data-function="integrator-max">Maximalist</button>
+                    </div>
+                    
+                    <div id="integrator-min" class="function-content active">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">59.6%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">86.3%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">126.3</span>
+                                <div class="metric-label">Log-2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item interaction">
+                                EGOV×RTA - Parsimonious interaction <span class="variable-coefficient">48x odds</span>
+                            </div>
+                            <div class="variable-item">Diachronic robustness: 83.5% M1-M2-M3</div>
+                        </div>
+                    </div>
+                    
+                    <div id="integrator-max" class="function-content">
+                        <div class="metrics-suite">
+                            <div class="metric-box">
+                                <span class="metric-value">76.9%</span>
+                                <div class="metric-label">Pseudo R²</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">90.4%</span>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value">70.8</span>
+                                <div class="metric-label">Log-2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="variables-section">
+                            <div class="variable-item interaction">EGOV×DSS - Material capabilities interaction</div>
+                            <div class="variable-item interaction">RTA×ecRTA - Institutional advantages interaction</div>
+                            <div class="variable-item primary">Double synergy: +28 points vs best unidimensional</div>
+                        </div>
+                    </div>
+                    
+                    <div class="model-insight integrator">
+                        "Legitimacy emerges when digital capabilities and institutional context converge"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: FUNCTIONS ANALYSIS -->
+        <div id="functions" class="view-section">
+            <div class="egov-analysis">
+                <div class="egov-title">Explanatory Power Evolution: Functions A → B → C</div>
+                
+                <div class="comparative-synthesis">
+                    <div class="synthesis-card">
+                        <div class="synthesis-title">📈 Function A: Bivariate</div>
+                        <div class="synthesis-text">
+                            Original relationship based on main variable of each model. 
+                            <span class="highlight">EGOV dominates</span> with 59.3% Pseudo R² vs 54.1% RTA#. 
+                            Confirms relative importance <span class="highlight">capabilities > advantages</span> 
+                            in substantive cooperation preferences.
+                        </div>
+                    </div>
+                    
+                    <div class="synthesis-card">
+                        <div class="synthesis-title">⚡ Function B: Multivariate</div>
+                        <div class="synthesis-text">
+                            Additional covariates improve models partially. 
+                            Techno-economic rises to <span class="highlight">63.2%</span>, 
+                            issue-structured reaches <span class="highlight">58.7%</span>. 
+                            Maintains hierarchy capabilities > advantages.
+                        </div>
+                    </div>
+                    
+                    <div class="synthesis-card">
+                        <div class="synthesis-title">🔄 Function C: Interactions</div>
+                        <div class="synthesis-text">
+                            Synergy effects reveal complexity. Techno-economic achieves 
+                            <span class="highlight">71.6%</span> with EGOV×DSS, issues 
+                            <span class="highlight">62.8%</span> with RTA×ecRTA. Prepares ground 
+                            for integrative superiority.
+                        </div>
+                    </div>
+                    
+                    <div class="synthesis-card">
+                        <div class="synthesis-title">🏆 Integrative: Convergence</div>
+                        <div class="synthesis-text">
+                            Minimalist EGOV×RTA reaches <span class="highlight">59.6%</span> 
+                            with maximum parsimony. Maximalist <span class="highlight">76.9%</span> 
+                            with double interaction. Demonstrates need for synthesis 
+                            capabilities + advantages.
+                        </div>
+                    </div>
+                    
+                    <div class="synthesis-card">
+                        <div class="synthesis-title">⏱️ Temporal Robustness</div>
+                        <div class="synthesis-text">
+                            Diachronic population 492 observations confirms findings. 
+                            Integrative maintains <span class="highlight">83.5% precision</span> 
+                            across M1-M2-M3, while pure models lose 
+                            explanatory power post-consolidation.
+                        </div>
+                    </div>
+                    
+                    <div class="synthesis-card">
+                        <div class="synthesis-title">📊 Statistical Significance</div>
+                        <div class="synthesis-text">
+                            All χ² tests p=0.000, significant Wald coefficients. 
+                            <span class="highlight">Standard error &lt;15%</span> in key interactions. 
+                            95% confidence intervals confirm robustness of inferences 
+                            about state preferences.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: EGOV AS PIVOT -->
+        <div id="egov" class="view-section">
+            <div class="egov-analysis">
+                <div class="egov-title">EGOV: Pivot Variable of Step 1</div>
+                
+                <div class="egov-levels">
+                    <div class="egov-level high">
+                        <span class="egov-percentage high">100%</span>
+                        <div class="egov-label">High EGOV</div>
+                        <div class="egov-participation">37/37 countries participate JSI</div>
+                    </div>
+                    <div class="egov-level medium-high">
+                        <span class="egov-percentage medium-high">68.3%</span>
+                        <div class="egov-label">Medium-High EGOV</div>
+                        <div class="egov-participation">28/41 countries participate</div>
+                    </div>
+                    <div class="egov-level low">
+                        <span class="egov-percentage low">9.8%</span>
+                        <div class="egov-label">Low/Medium-Low EGOV</div>
+                        <div class="egov-participation">9/82 countries participate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="outliers-section">
+                <div class="outliers-title">⚠️ Deviant Cases: Confirmation by Exception</div>
+                <div class="outliers-grid">
+                    <div class="outlier-card">
+                        <div class="outlier-title">Low EGOV + Participate</div>
+                        <div class="outlier-cases">
+                            <strong>4 cases (9.8%):</strong> Honduras, Nigeria, Laos, Myanmar<br>
+                            <em>Explanation:</em> Specific geopolitical strategies, not digitization
+                        </div>
+                    </div>
+                    <div class="outlier-card">
+                        <div class="outlier-title">High EGOV + Don't Participate</div>
+                        <div class="outlier-cases">
+                            <strong>0 cases (0%):</strong> No high EGOV country stays out<br>
+                            <em>Confirmation:</em> High EGOV = sufficient condition for participation
+                        </div>
+                    </div>
+                    <div class="outlier-card">
+                        <div class="outlier-title">High Network + Don't Participate</div>
+                        <div class="outlier-cases">
+                            <strong>Minority cases:</strong> Armenia, South Africa in specific periods<br>
+                            <em>Explanation:</em> Geopolitical timing, not technical capabilities
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparative-synthesis">
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🔑 Sufficient Condition</div>
+                    <div class="synthesis-text">
+                        High EGOV constitutes <span class="highlight">sufficient condition</span> 
+                        for JSI participation (100% cases). No country with high e-government 
+                        development stays out of the plurilateral venue.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">❌ NOT Necessary Condition</div>
+                    <div class="synthesis-text">
+                        Low EGOV doesn't completely prevent participation (9.8% deviant cases). 
+                        <span class="highlight">Geopolitical factors</span> can compensate 
+                        digital material capability limitations.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">⚖️ Critical Threshold</div>
+                    <div class="synthesis-text">
+                        The <span class="highlight">medium-high EGOV</span> category shows 
+                        greatest variability (68.3% participate, 31.7% don't). Here 
+                        institutional advantages exercise differentiating effect.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🔢 Multiplicative Interaction</div>
+                    <div class="synthesis-text">
+                        EGOV×RTA generates <span class="highlight">48x odds</span> vs individual effects. 
+                        EGOV×DSS produces <span class="highlight">257x odds</span> 
+                        for technological elite. Confirms non-additive synergies.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: SYNTHESIS -->
+        <div id="synthesis" class="view-section">
+            <div class="winner-declaration">
+                <div class="winner-title">CAPABILITIES + ADVANTAGES = DIGITAL COOPERATION</div>
+                <div class="winner-metrics">
+                    Step 1 demonstrates that <strong>substantive cooperation preferences</strong> in digital trade 
+                    emerge from <strong>synergic interaction</strong> between material capabilities (especially EGOV) 
+                    and institutional advantages (commercial networks). Neither techno-centric nor diplomatic approach 
+                    suffices alone: <strong>integrative model</strong> required to explain 76.9% of variance.
+                </div>
+            </div>
+
+            <div class="comparative-synthesis">
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🔬 Theoretical Validation</div>
+                    <div class="synthesis-text">
+                        Confirms <span class="highlight">integrated structuralist</span> approach: 
+                        state preferences emerge from <span class="highlight">complex configurations</span> 
+                        of material capabilities + convergent institutional advantages, not isolated factors.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">📈 Statistical Superiority</div>
+                    <div class="synthesis-text">
+                        Integrative model surpasses by <span class="highlight">+28 percentage points</span> 
+                        the best unidimensional (techno-economic 59.3%). Demonstrates need for 
+                        <span class="highlight">multifactorial analysis</span> in regulatory coordination.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🏛️ EGOV as Determinant</div>
+                    <div class="synthesis-text">
+                        E-government development emerges as <span class="highlight">pivot variable</span>: 
+                        sufficient condition for participation (100% high EGOV) and 
+                        <span class="highlight">synergic multiplier</span> of institutional effects.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🔄 Evolutionary Dynamics</div>
+                    <div class="synthesis-text">
+                        Temporal robustness 83.5% in diachronic population confirms 
+                        <span class="highlight">explanatory stability M1-M2-M3</span>. 
+                        M2 institutional consolidation doesn't alter fundamental adhesion logics.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🌍 Policy Implications</div>
+                    <div class="synthesis-text">
+                        Countries with <span class="highlight">low digital development</span> require 
+                        governmental capacity strengthening before negotiating experience 
+                        to participate effectively in plurilateral venues.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🔮 Future Predictions</div>
+                    <div class="synthesis-text">
+                        Model allows identifying <span class="highlight">probable candidates</span> 
+                        for future JSI expansions: medium-high EGOV + commercial experience 
+                        countries that haven't adhered due to specific geopolitical timing.
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🔗 Connection Steps 2-3</div>
+                    <div class="synthesis-text">
+                        Step 1 explains <span class="highlight">"who participates"</span> (substantive cooperation), 
+                        preparing ground for Step 2 (pool vs sovereignty retention) and 
+                        Step 3 (normative contents negotiating core).
+                    </div>
+                </div>
+                
+                <div class="synthesis-card">
+                    <div class="synthesis-title">🧠 Hybrid Methodology</div>
+                    <div class="synthesis-text">
+                        Logistic regression 164+492 observations + <span class="highlight">800+ Atlas.ti codes</span> 
+                        (manual, pre-AI) provides robust quanti-qualitative methodological triangulation 
+                        for theoretical findings validation.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main navigation between views
+            const navToggles = document.querySelectorAll('.nav-toggle');
+            const viewSections = document.querySelectorAll('.view-section');
+
+            navToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetView = this.getAttribute('data-view');
+                    
+                    // Update navigation
+                    navToggles.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Change view
+                    viewSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetView) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Function navigation within each model
+            const functionTabs = document.querySelectorAll('.function-tab');
+            
+            functionTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetFunction = this.getAttribute('data-function');
+                    const parentCard = this.closest('.model-card');
+                    
+                    // Update specific model tabs
+                    parentCard.querySelectorAll('.function-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Change function content
+                    parentCard.querySelectorAll('.function-content').forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetFunction) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Accessibility controls
+            document.getElementById('enhancedBtn').addEventListener('click', function() {
+                document.body.classList.toggle('enhanced-effects');
+                this.classList.toggle('active');
+            });
+            
+            document.getElementById('motionBtn').addEventListener('click', function() {
+                document.body.classList.toggle('reduced-motion');
+                this.classList.toggle('active');
+            });
+
+            // Semantic minimap navigation
+            document.querySelectorAll('.minimap-node').forEach((node, index) => {
+                node.addEventListener('click', function() {
+                    // Federated navigation simulation
+                    console.log(`Navigate to semantic artifact ${index + 1}: ${node.title}`);
+                    
+                    // Visual feedback
+                    node.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        node.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+
+            // Advanced hover effects for model cards
+            document.querySelectorAll('.model-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-12px) scale(1.02)';
+                    this.style.filter = 'brightness(1.05)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.filter = 'brightness(1)';
+                });
+            });
+
+            // Progressive metrics animation when changing function
+            function animateMetrics(container) {
+                const metricValues = container.querySelectorAll('.metric-value');
+                metricValues.forEach((metric, index) => {
+                    setTimeout(() => {
+                        metric.style.opacity = '0';
+                        metric.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            metric.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                            metric.style.opacity = '1';
+                            metric.
