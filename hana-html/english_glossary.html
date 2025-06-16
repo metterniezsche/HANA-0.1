@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary - Doctoral Thesis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navigation-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            min-width: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .glossary-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glossary-section h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .term {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .term:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .term h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+        }
+
+        .term p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .acronyms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .acronym-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .acronym-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .acronym-item strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .navigation-buttons {
+                padding: 20px 15px;
+                gap: 8px;
+            }
+            
+            .nav-btn {
+                flex: 1;
+                min-width: 80px;
+                padding: 12px 20px;
+                font-size: 13px;
+            }
+
+            .glossary-section {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .term {
+                padding: 15px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Glossary</h1>
+
+        <div class="navigation-buttons">
+            <button onclick="showSection('A-C')" class="nav-btn active" id="btn-A-C">A - C (10)</button>
+            <button onclick="showSection('D-G')" class="nav-btn" id="btn-D-G">D - G (12)</button>
+            <button onclick="showSection('H-M')" class="nav-btn" id="btn-H-M">H - M (12)</button>
+            <button onclick="showSection('N-P')" class="nav-btn" id="btn-N-P">N - P (12)</button>
+            <button onclick="showSection('R-V')" class="nav-btn" id="btn-R-V">R - V (8)</button>
+            <button onclick="showSection('acronyms')" class="nav-btn" id="btn-acronyms">Acronyms (20+)</button>
+        </div>
+
+        <!-- Section A-C -->
+        <div id="section-A-C" class="glossary-section">
+            <div class="term">
+                <h3>Club Regime</h3>
+                <p>Type of international regime with restricted membership and exclusive benefits for participants, as the JSI-EC tends to configure itself.</p>
+            </div>
+
+            <div class="term">
+                <h3>Complex of Regimes</h3>
+                <p>Interconnected network of international institutions addressing related aspects of the same issue. In digital trade, it includes the WTO, regional agreements with e-commerce chapters, and other digital governance forums.</p>
+            </div>
+
+            <div class="term">
+                <h3>Co-Conveners</h3>
+                <p>The three coordinating countries of JSI-EC negotiations: <span class="highlight">Australia, Japan, and Singapore</span>. Responsible for facilitating "structured discussions" and announcing progress in the negotiation process.</p>
+            </div>
+
+            <div class="term">
+                <h3>Credibility of Commitments</h3>
+                <p>Strategic motivation identified with the highest empirical alignment (<span class="highlight">36 codes</span>). Involves sovereignty pooling for inter-temporal political commitment lock-in, differentiation by issue and country, and transaction cost reduction.</p>
+            </div>
+
+            <div class="term">
+                <h3>Cramer's V</h3>
+                <p>Statistical association measure used to evaluate the strength of the relationship between categorical variables. <span class="highlight">EGOV presents Cramer's V = 0.725</span>, indicating a very strong association with JSI-EC participation.</p>
+            </div>
+        </div>
+
+        <!-- Section D-G -->
+        <div id="section-D-G" class="glossary-section hidden">
+            <div class="term">
+                <h3>Defensive Standards</h3>
+                <p>Preferences that tend to retain greater margins of state sovereignty in regulatory coordination processes.</p>
+            </div>
+
+            <div class="term">
+                <h3>Digital Government Development (EGOV)</h3>
+                <p>Electronic government development index developed by UNDESA for 2020. Main explanatory variable of the model, with <span class="highlight">Cramer's V = 0.725</span>. Countries with high EGOV participate at <span class="highlight">100%</span> in JSI-EC vs. <span class="highlight">9.8%</span> of countries with low EGOV.</p>
+            </div>
+
+            <div class="term">
+                <h3>Digital Trade</h3>
+                <p>Cross-border electronic commerce encompassing all commercial transactions conducted through digital means, including both digital products and the digital component of traditional goods and services trade.</p>
+            </div>
+
+            <div class="term">
+                <h3>Digital Trade Network Density (DTND)</h3>
+                <p><span class="highlight">Institutional advantages</span> indicator based on the number of Preferential Trade Agreements with e-commerce chapters (ecPTAs) signed by a country and notified to the WTO.</p>
+            </div>
+
+            <div class="term">
+                <h3>Electronic Transmissions</h3>
+                <p>Broad definition contained in Article 11.1 of the JSI-EC "stabilized" Joint Declaration, signed in June 2024: "transmission made using any electromagnetic means and includes the content of the transmission".</p>
+            </div>
+
+            <div class="term">
+                <h3>Evolutionary Determinants</h3>
+                <p>Factors related to institutional consolidation dynamics: tipping point thresholds (1/3 of universe), intensive temporality (singular vs. ordinary moments), and post-M2 consolidation that reduces the relative weight of material capabilities.</p>
+            </div>
+
+            <div class="term">
+                <h3>Federal Ideology</h3>
+                <p>Tertiary strategic motivation (<span class="highlight">8 codes</span>). Involves appropriate forum for all members, axiological rationality, and intrinsic values of multilateral coordination.</p>
+            </div>
+
+            <div class="term">
+                <h3>Global Governance</h3>
+                <p>According to Drezner (2007): "not only the codified adjustment of national norms and regulations" but also "the set of authority relationships designated to oversee, enforce, and modify any transnational set of norms and regulations".</p>
+            </div>
+        </div>
+
+        <!-- Section H-M -->
+        <div id="section-H-M" class="glossary-section hidden">
+            <div class="term">
+                <h3>Harmonized Regime</h3>
+                <p>Type of international regime characterized by uniform norms applicable to all participants, such as the WPEC tariff moratorium.</p>
+            </div>
+
+            <div class="term">
+                <h3>Historical Moments</h3>
+                <p>Three key distributions of state preferences:<br>
+                • <span class="highlight">M0</span>: Period prior to December 2017<br>
+                • <span class="highlight">M1</span>: December 2017 (71 countries)<br>
+                • <span class="highlight">M2</span>: January 2019 (77 countries + China - tipping point)<br>
+                • <span class="highlight">M3</span>: 2019-2024 (expansion to 91 countries)</p>
+            </div>
+
+            <div class="term">
+                <h3>Institutional Advantages</h3>
+                <p>Benefits derived from prior participation in commercial agreement networks. Operationalized in two indicators: <span class="highlight">trade network density (TND)</span> and <span class="highlight">digital trade network density (DTND)</span>.</p>
+            </div>
+
+            <div class="term">
+                <h3>Institutional Inflection</h3>
+                <p>Point of institutional consolidation based on Finnemore and Sikkink (1998). The JSI-EC reaches this point in <span class="highlight">January 2019 (M2)</span> when China joins, marking the transition from 71 to 77 members and establishing conditions for venue consolidation.</p>
+            </div>
+
+            <div class="term">
+                <h3>Integrative Model</h3>
+                <p>Hybrid approach combining factors of <span class="highlight">material capabilities</span> and <span class="highlight">institutional advantages</span> to explain state preferences. Achieves <span class="highlight">87.3% predictive accuracy</span> in statistical analysis.</p>
+            </div>
+
+            <div class="term">
+                <h3>JSI-EC-WTO</h3>
+                <p><span class="highlight">Joint Statement Initiative on Electronic Commerce of the World Trade Organization</span>. Plurilateral venue created in 2019 with <span class="highlight">91 participating countries</span> out of <span class="highlight">164 WTO members</span> to establish future binding rules on electronic commerce.</p>
+            </div>
+
+            <div class="term">
+                <h3>Material Capabilities</h3>
+                <p>Set of structural resources possessed by a State that influence its regulatory coordination preferences. Operationalized in three indicators: <span class="highlight">digital government development (EGOV)</span>, <span class="highlight">secure server density (SSD)</span>, and <span class="highlight">national income (NI)</span>.</p>
+            </div>
+
+            <div class="term">
+                <h3>Moravcsik's 3-Step Methodology</h3>
+                <p>Adaptation of Moravcsik's (1998) sequential model analyzing: <span class="highlight">Step 1</span> (Substantive Cooperation Preferences), <span class="highlight">Step 2</span> (Institutional Choice Preferences), and <span class="highlight">Step 3</span> (Negotiating Core Preferences).</p>
+            </div>
+        </div>
+
+        <!-- Section N-P -->
+        <div id="section-N-P" class="glossary-section hidden">
+            <div class="term">
+                <h3>National Income (NI)</h3>
+                <p>World Bank classification for 2020 based on GNI per capita, operationalized in four ordinal categories (high, upper middle, lower middle, low) and subsequently dichotomized (higher/lower).</p>
+            </div>
+
+            <div class="term">
+                <h3>National Ideology</h3>
+                <p>Anti-JSI-EC strategic motivation (<span class="highlight">8 codes</span>). Involves claiming WPEC as the only legitimate track and rejecting the plurilateral venue for eroding national sovereignty.</p>
+            </div>
+
+            <div class="term">
+                <h3>Offensive Standards</h3>
+                <p>Preferences that tend to favor formulas involving certain delegation or pooling of state sovereignty to obtain positive externalities.</p>
+            </div>
+
+            <div class="term">
+                <h3>Organizational Ecology</h3>
+                <p>Theoretical approach emphasizing "the influence of institutional environments, especially their organizational density and resource availability, on organizational behavior and viability" (Abbott, Green, and Keohane, 2016). Adapted to analyze JSI-EC vs. WPEC dynamics in the WTO.</p>
+            </div>
+
+            <div class="term">
+                <h3>Preference Distribution</h3>
+                <p>Frequencies observed in the study population at a specific historical moment regarding state preferences for regulatory coordination. The thesis identifies three key distributions: M1 (2017), M2 (2019), and M3 (2019-2024).</p>
+            </div>
+
+            <div class="term">
+                <h3>Preference Structure</h3>
+                <p>Ordered spectrum of foreign policy options considering as baseline the state disposition to cede or retain sovereignty margins in exchange for potential positive externalities. Distinguished between <span class="highlight">defensive standards</span> and <span class="highlight">offensive standards</span>.</p>
+            </div>
+
+            <div class="term">
+                <h3>Preferences for Institutional Choice</h3>
+                <p><span class="highlight">Step 2</span>: State preferences about <span class="highlight">where</span> to negotiate (plurilateral JSI-EC vs. multilateral WPEC) and the preferred institutional design for regulatory coordination.</p>
+            </div>
+
+            <div class="term">
+                <h3>Preferences for Negotiating Core</h3>
+                <p><span class="highlight">Step 3</span>: State preferences about <span class="highlight">what</span> to negotiate specifically and on what terms of maximum and minimum predisposition to sovereignty pooling or delegation.</p>
+            </div>
+
+            <div class="term">
+                <h3>Preferences for Substantive Cooperation</h3>
+                <p><span class="highlight">Step 1</span>: State preferences on whether to negotiate digital trade regulations <span class="highlight">NOW</span> (participating in JSI-EC) or <span class="highlight">later</span> (remaining only in WPEC).</p>
+            </div>
+        </div>
+
+        <!-- Section R-V -->
+        <div id="section-R-V" class="glossary-section hidden">
+            <div class="term">
+                <h3>Regulatory Coordination</h3>
+                <p>Process by which States adjust their national regulatory frameworks to achieve coherence and compatibility with international standards, involving various degrees of sovereignty cession or retention.</p>
+            </div>
+
+            <div class="term">
+                <h3>Secure Server Density (SSD)</h3>
+                <p>Number of secure servers per million inhabitants, taken from the "penetration" index developed by Netcraft for 2019. Proxy indicator of <span class="highlight">material capabilities</span> related to digital infrastructure.</p>
+            </div>
+
+            <div class="term">
+                <h3>Sovereignty Pooling</h3>
+                <p>State sovereignty grouping strategy where countries maintain joint control over certain regulatory aspects without completely delegating them to a supranational authority.</p>
+            </div>
+
+            <div class="term">
+                <h3>Stabilized Agreement</h3>
+                <p>First normative package on electronic commerce agreed among <span class="highlight">91 countries</span> of the JSI-EC-WTO in July 2024. Includes a dozen points: online consumer protection, electronic signatures, spam, open government data, electronic contracts, transparency, paperless trade, cybersecurity, open Internet access, electronic transaction frameworks, electronic invoicing, and "single windows".</p>
+            </div>
+
+            <div class="term">
+                <h3>State Preferences</h3>
+                <p>Ordering of foreign policy options based on the evaluation of expected costs and benefits of different international regulatory coordination strategies.</p>
+            </div>
+
+            <div class="term">
+                <h3>Structural Determinants</h3>
+                <p>Material capabilities (EGOV, server density, national income) and institutional advantages (trade network density, digital trade network density) that influence tropisms toward coordination venues.</p>
+            </div>
+
+            <div class="term">
+                <h3>Tariff Moratorium</h3>
+                <p>Postponement established since 1998 in the WTO WPEC for imposing tariffs on electronic transmissions. Represents the only multilateral agreement in force on electronic commerce.</p>
+            </div>
+
+            <div class="term">
+                <h3>Technocratic Centralized Management</h3>
+                <p>Secondary strategic motivation (<span class="highlight">11 codes</span>). Involves informational efficiency, "effective continuation of work," differentiation only by issue, and instrumental rationality.</p>
+            </div>
+
+            <div class="term">
+                <h3>Tipping Point</h3>
+                <p><span class="highlight">January 2019 (M2)</span>: Moment of JSI-EC institutional consolidation marked by <span class="highlight">China's</span> incorporation, transforming the negotiating dynamic and establishing conditions for the plurilateral venue.</p>
+            </div>
+
+            <div class="term">
+                <h3>Trade Network Density (TND)</h3>
+                <p><span class="highlight">Institutional advantages</span> indicator based on the number of Preferential Trade Agreements (PTAs) signed by a country and notified to the WTO.</p>
+            </div>
+
+            <div class="term">
+                <h3>Venue</h3>
+                <p>Specific institutional space within an international organization where negotiations and regulatory coordination processes develop. The thesis distinguishes between the multilateral venue (WPEC) and the plurilateral venue (JSI-EC) within the WTO.</p>
+            </div>
+
+            <div class="term">
+                <h3>Venue Explicit Binding Norms</h3>
+                <p>Legally binding rules emerging from international negotiation processes. The July 2024 stabilized agreement marks the JSI-EC transition from a sovereignty pooling strategy toward binding norms.</p>
+            </div>
+
+            <div class="term">
+                <h3>WPEC</h3>
+                <p><span class="highlight">Work Programme on Electronic Commerce</span> of the WTO, established in 1998. Original multilateral venue that includes all <span class="highlight">164 WTO members</span> and maintains the tariff moratorium.</p>
+            </div>
+        </div>
+
+        <!-- Acronyms Section -->
+        <div id="section-acronyms" class="glossary-section hidden">
+            <h2>🔤 Acronyms</h2>
+            <div class="acronyms-grid">
+                <div class="acronym-item">
+                    <strong>CPTPP</strong>
+                    Comprehensive and Progressive Agreement for Trans-Pacific Partnership
+                </div>
+                <div class="acronym-item">
+                    <strong>DTND</strong>
+                    Digital Trade Network Density
+                </div>
+                <div class="acronym-item">
+                    <strong>ecPTA</strong>
+                    Preferential Trade Agreements with e-commerce chapters
+                </div>
+                <div class="acronym-item">
+                    <strong>EGOV</strong>
+                    Electronic Government Development
+                </div>
+                <div class="acronym-item">
+                    <strong>GDC</strong>
+                    Global Digital Compact
+                </div>
+                <div class="acronym-item">
+                    <strong>ICANN</strong>
+                    Internet Corporation for Assigned Names and Numbers
+                </div>
+                <div class="acronym-item">
+                    <strong>IGF</strong>
+                    Internet Governance Forum
+                </div>
+                <div class="acronym-item">
+                    <strong>ITU</strong>
+                    International Telecommunication Union
+                </div>
+                <div class="acronym-item">
+                    <strong>JSI-EC</strong>
+                    Joint Statement Initiative on Electronic Commerce
+                </div>
+                <div class="acronym-item">
+                    <strong>M1, M2, M3</strong>
+                    Moments 1, 2, and 3 of preference distributions
+                </div>
+                <div class="acronym-item">
+                    <strong>NI</strong>
+                    National Income
+                </div>
+                <div class="acronym-item">
+                    <strong>PTA</strong>
+                    Preferential Trade Agreements
+                </div>
+                <div class="acronym-item">
+                    <strong>SSD</strong>
+                    Secure Server Density
+                </div>
+                <div class="acronym-item">
+                    <strong>TND</strong>
+                    Trade Network Density
+                </div>
+                <div class="acronym-item">
+                    <strong>UNCITRAL</strong>
+                    United Nations Commission on International Trade Law
+                </div>
+                <div class="acronym-item">
+                    <strong>UNCTAD</strong>
+                    United Nations Conference on Trade and Development
+                </div>
+                <div class="acronym-item">
+                    <strong>UNDESA</strong>
+                    United Nations Department of Economic and Social Affairs
+                </div>
+                <div class="acronym-item">
+                    <strong>WPEC</strong>
+                    Work Programme on Electronic Commerce
+                </div>
+                <div class="acronym-item">
+                    <strong>WTO</strong>
+                    World Trade Organization
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.glossary-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show the selected section
+            const targetSection = document.getElementById('section-' + sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+            
+            // Activate the corresponding button
+            const activeButton = document.getElementById('btn-' + sectionId);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        // Initialize showing the first section
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('A-C');
+        });
+
+        // Add smooth entrance effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.term').forEach(term => {
+                observer.observe(term);
+            });
+        });
+    </script>
+</body>
+</html>

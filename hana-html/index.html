@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANA – Interpretive Artifacts / Artefactos Interpretativos</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e8eaed;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 3rem 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .main-title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1.5rem;
+    }
+    
+    .description {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    
+    .nav-categories {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .category-btn {
+      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .category-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .category-btn.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: rgba(102, 126, 234, 0.5);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .artifact-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .artifact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .artifact-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .artifact-card:hover::before {
+      opacity: 1;
+    }
+    
+    .artifact-status {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .status-stable {
+      background: rgba(34, 197, 94, 0.2);
+      color: rgba(34, 197, 94, 1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .status-beta-plus {
+      background: rgba(245, 158, 11, 0.2);
+      color: rgba(245, 158, 11, 1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    
+    .status-beta {
+      background: rgba(59, 130, 246, 0.2);
+      color: rgba(59, 130, 246, 1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    
+    .artifact-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #e8eaed;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    
+    .artifact-title a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .artifact-title a:hover {
+      color: #667eea;
+    }
+    
+    .artifact-description {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .artifact-metadata {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    
+    .metadata-tag {
+      padding: 0.2rem 0.6rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .artifact-links {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    
+    .primary-link {
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .primary-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .secondary-link {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.3s ease;
+    }
+    
+    .secondary-link:hover {
+      color: #667eea;
+    }
+    
+    .category-section {
+      display: none;
+    }
+    
+    .category-section.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .artifacts-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-categories {
+        gap: 0.5rem;
+      }
+      
+      .category-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .main-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="main-title" id="main-title-text">Regímenes internacionales sobre comercio digital</h1>
+      <p class="subtitle" id="subtitle-text">Preferencias estatales sobre coordinación regulatoria en la OMC y sus factores determinantes (2017-2024)</p>
+      <p class="description" id="description-text">
+        Tesis doctoral de Alexandra Bustos Frati • Doctorado en Ciencias Sociales, Universidad de Buenos Aires • Directora: Dra. Carolina Aguerre • Análisis cuanti-cualitativo pre-IA generativa • 800+ códigos Atlas.ti • Marcos teóricos híbridos (Moravcsik, DeLanda, Abbott) • 164 países OMC + 492 observaciones diacrónicas
+      </p>
+    </div>
+
+    <div class="nav-categories">
+      <button class="category-btn" id="lang-toggle" onclick="toggleLanguage()">🌐 English</button>
+      <button class="category-btn active" onclick="showCategory('pasos')">Pasos 1-2-3</button>
+      <button class="category-btn" onclick="showCategory('teoricos')">Artefactos Teóricos</button>
+      <button class="category-btn" onclick="showCategory('temporales')">Temporalidades</button>
+      <button class="category-btn" onclick="showCategory('referencias')">Referencias</button>
+      <button class="category-btn" onclick="showCategory('comparativos')">Comparativos</button>
+    </div>
+
+    <!-- PASOS 1-2-3 -->
+    <div id="pasos" class="category-section active">
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a href="PASO 1.html">PASO 1: Modelos Estructurales</a></div>
+          <div class="artifact-description">
+            Análisis comparativo del poder explicativo de tres enfoques teórico-empíricos: crecimiento tecno-económico, estructurado según cuestiones, y modelo integrador. Regresión logística 164 países + 492 observaciones diacrónicas.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">87.3% precisión</span>
+            <span class="metadata-tag">EGOV pivot</span>
+            <span class="metadata-tag">Funciones A/B/C</span>
+          </div>
+          <div class="artifact-links">
+            <a href="PASO 1.html" class="primary-link">Ver Análisis</a>
+            <a href="step1_structural_models_english.html" class="secondary-link">English</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-beta">BETA</div>
+          <div class="artifact-title"><a href="PASO 2.html">PASO 2: Preferencias de Elección Institucional</a></div>
+          <div class="artifact-description">
+            Pool de soberanía digital: análisis de motivaciones estratégicas según Moravcsik (1998). Credibilidad de compromisos vs. gestión tecnocrática centralizada. 50 códigos Atlas.ti de 14 documentos oficiales OMC.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">19 códigos credibilidad</span>
+            <span class="metadata-tag">H2B confirmada</span>
+            <span class="metadata-tag">Pool soberanía</span>
+          </div>
+          <div class="artifact-links">
+            <a href="PASO 2.html" class="primary-link">Ver Análisis</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-beta">BETA</div>
+          <div class="artifact-title"><a href="PASO 3.html">PASO 3: Núcleo Negociador</a></div>
+          <div class="artifact-description">
+            Sistema dual de coordinación regulatoria: moratoria arancelaria como filtro de acceso + reglamentación de datos como espacio de negociación. Análisis de preferencias por estándares defensivos/ofensivos.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">414x Exp(B)</span>
+            <span class="metadata-tag">93.8% precisión</span>
+            <span class="metadata-tag">Núcleo dual</span>
+          </div>
+          <div class="artifact-links">
+            <a href="PASO 3.html" class="primary-link">Ver Análisis</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTEFACTOS TEÓRICOS -->
+    <div id="teoricos" class="category-section">
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a href="cuencas_atraccion_ft_moravcsik_spa.html">Cuencas de Atracción Motivacional</a></div>
+          <div class="artifact-description">
+            Topología de preferencias estatales según motivaciones estratégicas de Moravcsik. Operacionalización empírica mediante 800+ códigos Atlas.ti. Credibilidad compromisos domina con 19 códigos vs 11 gestión tecnocrática.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">4 motivaciones</span>
+            <span class="metadata-tag">Moravcsik 1998</span>
+            <span class="metadata-tag">Topología visual</span>
+          </div>
+          <div class="artifact-links">
+            <a href="cuencas_atraccion_ft_moravcsik_spa.html" class="primary-link">Español</a>
+            <a href="cuencas_atraccion_ft_moravcsik_eng.html" class="secondary-link">English</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a href="ecologia_organizacional_idcce_ptce.html">Ecología Organizacional IDCCE/PTCE</a></div>
+          <div class="artifact-description">
+            Competencia entre venues institucionales por jurisdicción regulatoria. IDCCE (venue plurilateral emergente) vs PTCE (track multilateral incumbente) dentro del ecosistema OMC para gobernanza del comercio digital.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">Abbott 2016</span>
+            <span class="metadata-tag">Competencia venues</span>
+            <span class="metadata-tag">91 vs 164 países</span>
+          </div>
+          <div class="artifact-links">
+            <a href="ecologia_organizacional_idcce_ptce.html" class="primary-link">Ver Ecología</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPORALIDADES -->
+    <div id="temporales" class="category-section">
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a href="m1_m2_transition_spa.html">Doblez Conceptual M1→M2</a></div>
+          <div class="artifact-description">
+            Singularidad institucional como doblez del plano de coordinación regulatoria. Ensamblaje IDCCE-OMC, temporalidad intensiva DeLanda, punto de inflexión Finnemore & Sikkink (47% OMC).
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">M2 umbral crítico</span>
+            <span class="metadata-tag">China factor</span>
+            <span class="metadata-tag">DeLanda temporalidad</span>
+          </div>
+          <div class="artifact-links">
+            <a href="m1_m2_transition_spa.html" class="primary-link">Español</a>
+            <a href="m1_m2_transition_eng.html" class="secondary-link">English</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-stable">ESTABLE</div>
+          <div class="artifact-title"><a href="crono.html">Cronología Estratégica</a></div>
+          <div class="artifact-description">
+            Navegación temporal completa de eventos clave IDCCE-PTCE (1998-2024). Momentos M1-M2-M3, relanzamientos PTCE, declaraciones estabilizadas. Visualización interactiva por años.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">1998-2024</span>
+            <span class="metadata-tag">M1-M2-M3 momentos</span>
+            <span class="metadata-tag">Navegación anual</span>
+          </div>
+          <div class="artifact-links">
+            <a href="crono.html" class="primary-link">Ver Cronología</a>
+            <a href="timeline_idcce_ptce_spanish.html" class="secondary-link">Timeline Horizontal</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a href="expansion_idcce_html.html">Expansión IDCCE</a></div>
+          <div class="artifact-description">
+            Análisis evolutivo de la membresía IDCCE desde M1 (71 países) hasta M3 (91 países). Dinámicas de incorporación, factores de atracción y consolidación institucional post-M2.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">71→77→91 países</span>
+            <span class="metadata-tag">Cascada legitimidad</span>
+            <span class="metadata-tag">Factores atracción</span>
+          </div>
+          <div class="artifact-links">
+            <a href="expansion_idcce_html.html" class="primary-link">Ver Expansión</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-beta">BETA</div>
+          <div class="artifact-title"><a href="timeline_idcce_ptce_spanish.html">Timeline Horizontal Completo</a></div>
+          <div class="artifact-description">
+            Línea de tiempo horizontal navegable con scroll. Ecología organizacional y umbrales críticos en comercio digital OMC (1998-2024). Eventos clasificados por tipo y actor.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">Scroll horizontal</span>
+            <span class="metadata-tag">1998-2024 completo</span>
+            <span class="metadata-tag">Eventos clasificados</span>
+          </div>
+          <div class="artifact-links">
+            <a href="timeline_idcce_ptce_spanish.html" class="primary-link">Español</a>
+            <a href="timeline_idcce_ptce_english.html" class="secondary-link">English</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERENCIAS -->
+    <div id="referencias" class="category-section">
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <div class="artifact-status status-stable">ESTABLE</div>
+          <div class="artifact-title"><a href="Glosario.html">Glosario Conceptual</a></div>
+          <div class="artifact-description">
+            Terminología técnica completa de la tesis. 54+ términos organizados alfabéticamente (A-C hasta R-V) + 20+ siglas. Navegación por secciones con definiciones precisas y contexto teórico.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">54+ términos</span>
+            <span class="metadata-tag">20+ siglas</span>
+            <span class="metadata-tag">Navegación A-Z</span>
+          </div>
+          <div class="artifact-links">
+            <a href="Glosario.html" class="primary-link">Ver Glosario</a>
+            <a href="english_glossary.html" class="secondary-link">English</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-stable">ESTABLE</div>
+          <div class="artifact-title"><a href="miembros_idcce_html.html">Miembros IDCCE</a></div>
+          <div class="artifact-description">
+            Distribución de países según momento de incorporación a la IDCCE. Navegación por momentos M1-M2-M3 más países que nunca se sumaron (hasta 2024). Listado completo con fechas.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">164 países OMC</span>
+            <span class="metadata-tag">91 miembros IDCCE</span>
+            <span class="metadata-tag">Por momentos</span>
+          </div>
+          <div class="artifact-links">
+            <a href="miembros_idcce_html.html" class="primary-link">Ver Miembros</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARATIVOS -->
+    <div id="comparativos" class="category-section">
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <div class="artifact-status status-beta">BETA</div>
+          <div class="artifact-title"><a href="comparativo_spss_vs_atlas.html">SPSS vs Atlas.ti</a></div>
+          <div class="artifact-description">
+            Comparación metodológica entre análisis cuantitativo (SPSS - Paso 1) y cualitativo (Atlas.ti - Paso 3). Unidades de análisis, variables, técnicas y complementariedad analítica.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">Metodología híbrida</span>
+            <span class="metadata-tag">Cuanti vs Cuali</span>
+            <span class="metadata-tag">Triangulación</span>
+          </div>
+          <div class="artifact-links">
+            <a href="comparativo_spss_vs_atlas.html" class="primary-link">Ver Comparativo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>
+        Tesis doctoral de Alexandra Bustos Frati • Doctorado en Ciencias Sociales, Universidad de Buenos Aires • Directora: Dra. Carolina Aguerre • 2024<br>
+        <span id="footer-text">Artefactos interpretativos generados mediante HANA (Human Agency & Neural Architecture) - programa KeelerApp para combatir obsolescencia humana programada, integrando geopolítica, cibernética y teoría de la decisión</span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let currentLanguage = 'es';
+    
+    const translations = {
+      es: {
+        mainTitle: 'Regímenes internacionales sobre comercio digital',
+        subtitle: 'Preferencias estatales sobre coordinación regulatoria en la OMC y sus factores determinantes (2017-2024)',
+        description: 'Tesis doctoral de Alexandra Bustos Frati • Doctorado en Ciencias Sociales, Universidad de Buenos Aires • Directora: Dra. Carolina Aguerre • Análisis cuanti-cualitativo pre-IA generativa • 800+ códigos Atlas.ti • Marcos teóricos híbridos (Moravcsik, DeLanda, Abbott) • 164 países OMC + 492 observaciones diacrónicas',
+        footer: 'Artefactos interpretativos generados mediante HANA (Human Agency & Neural Architecture) - programa KeelerApp para combatir obsolescencia humana programada, integrando geopolítica, cibernética y teoría de la decisión',
+        categories: {
+          pasos: 'Pasos 1-2-3',
+          teoricos: 'Artefactos Teóricos', 
+          temporales: 'Temporalidades',
+          referencias: 'Referencias',
+          comparativos: 'Comparativos'
+        },
+        artifacts: {
+          paso1: {
+            title: 'PASO 1: Modelos Estructurales',
+            description: 'Análisis comparativo del poder explicativo de tres enfoques teórico-empíricos: crecimiento tecno-económico, estructurado según cuestiones, y modelo integrador. Regresión logística 164 países + 492 observaciones diacrónicas.',
+            link: 'Ver Análisis'
+          },
+          paso2: {
+            title: 'PASO 2: Preferencias de Elección Institucional',
+            description: 'Pool de soberanía digital: análisis de motivaciones estratégicas según Moravcsik (1998). Credibilidad de compromisos vs. gestión tecnocrática centralizada. 50 códigos Atlas.ti de 14 documentos oficiales OMC.',
+            link: 'Ver Análisis'
+          },
+          paso3: {
+            title: 'PASO 3: Núcleo Negociador',
+            description: 'Sistema dual de coordinación regulatoria: moratoria arancelaria como filtro de acceso + reglamentación de datos como espacio de negociación. Análisis de preferencias por estándares defensivos/ofensivos.',
+            link: 'Ver Análisis'
+          },
+          cuencas: {
+            title: 'Cuencas de Atracción Motivacional',
+            description: 'Topología de preferencias estatales según motivaciones estratégicas de Moravcsik. Operacionalización empírica mediante 800+ códigos Atlas.ti. Credibilidad compromisos domina con 19 códigos vs 11 gestión tecnocrática.',
+            link: 'Español'
+          },
+          ecologia: {
+            title: 'Ecología Organizacional IDCCE/PTCE',
+            description: 'Competencia entre venues institucionales por jurisdicción regulatoria. IDCCE (venue plurilateral emergente) vs PTCE (track multilateral incumbente) dentro del ecosistema OMC para gobernanza del comercio digital.',
+            link: 'Ver Ecología'
+          },
+          doblez: {
+            title: 'Doblez Conceptual M1→M2',
+            description: 'Singularidad institucional como doblez del plano de coordinación regulatoria. Ensamblaje IDCCE-OMC, temporalidad intensiva DeLanda, punto de inflexión Finnemore & Sikkink (47% OMC).',
+            link: 'Español'
+          },
+          cronologia: {
+            title: 'Cronología Estratégica',
+            description: 'Navegación temporal completa de eventos clave IDCCE-PTCE (1998-2024). Momentos M1-M2-M3, relanzamientos PTCE, declaraciones estabilizadas. Visualización interactiva por años.',
+            link: 'Ver Cronología'
+          },
+          expansion: {
+            title: 'Expansión IDCCE',
+            description: 'Análisis evolutivo de la membresía IDCCE desde M1 (71 países) hasta M3 (91 países). Dinámicas de incorporación, factores de atracción y consolidación institucional post-M2.',
+            link: 'Ver Expansión'
+          },
+          timeline: {
+            title: 'Timeline Horizontal Completo',
+            description: 'Línea de tiempo horizontal navegable con scroll. Ecología organizacional y umbrales críticos en comercio digital OMC (1998-2024). Eventos clasificados por tipo y actor.',
+            link: 'Español'
+          },
+          glosario: {
+            title: 'Glosario Conceptual',
+            description: 'Terminología técnica completa de la tesis. 54+ términos organizados alfabéticamente (A-C hasta R-V) + 20+ siglas. Navegación por secciones con definiciones precisas y contexto teórico.',
+            link: 'Ver Glosario'
+          },
+          miembros: {
+            title: 'Miembros IDCCE',
+            description: 'Distribución de países según momento de incorporación a la IDCCE. Navegación por momentos M1-M2-M3 más países que nunca se sumaron (hasta 2024). Listado completo con fechas.',
+            link: 'Ver Miembros'
+          },
+          comparativo: {
+            title: 'SPSS vs Atlas.ti',
+            description: 'Comparación metodológica entre análisis cuantitativo (SPSS - Paso 1) y cualitativo (Atlas.ti - Paso 3). Unidades de análisis, variables, técnicas y complementariedad analítica.',
+            link: 'Ver Comparativo'
+          }
+        }
+      },
+      en: {
+        mainTitle: 'International regimes on digital trade',
+        subtitle: 'State preferences on regulatory coordination in the WTO and their determining factors (2017-2024)',
+        description: 'Doctoral thesis by Alexandra Bustos Frati • PhD in Social Sciences, University of Buenos Aires • Director: Dr. Carolina Aguerre • Pre-generative AI quanti-qualitative analysis • 800+ Atlas.ti codes • Hybrid theoretical frameworks (Moravcsik, DeLanda, Abbott) • 164 WTO countries + 492 diachronic observations',
+        footer: 'Interpretive artifacts generated through HANA (Human Agency & Neural Architecture) - KeelerApp program to combat planned human obsolescence, integrating geopolitics, cybernetics and decision theory',
+        categories: {
+          pasos: 'Steps 1-2-3',
+          teoricos: 'Theoretical Artifacts',
+          temporales: 'Temporalities', 
+          referencias: 'References',
+          comparativos: 'Comparatives'
+        },
+        artifacts: {
+          paso1: {
+            title: 'STEP 1: Structural Models',
+            description: 'Comparative analysis of explanatory power of three theoretical-empirical approaches: techno-economic growth, issue-structured, and integrative model. Logistic regression 164 countries + 492 diachronic observations.',
+            link: 'View Analysis'
+          },
+          paso2: {
+            title: 'STEP 2: Institutional Choice Preferences',
+            description: 'Digital sovereignty pooling: analysis of strategic motivations according to Moravcsik (1998). Commitment credibility vs. centralized technocratic management. 50 Atlas.ti codes from 14 official WTO documents.',
+            link: 'View Analysis'
+          },
+          paso3: {
+            title: 'STEP 3: Negotiating Core',
+            description: 'Dual regulatory coordination system: tariff moratorium as access filter + data regulation as negotiation space. Analysis of preferences by defensive/offensive standards.',
+            link: 'View Analysis'
+          },
+          cuencas: {
+            title: 'Motivational Basins of Attraction',
+            description: 'Topology of state preferences according to Moravcsik strategic motivations. Empirical operationalization through 800+ Atlas.ti codes. Commitment credibility dominates with 19 codes vs 11 technocratic management.',
+            link: 'Spanish'
+          },
+          ecologia: {
+            title: 'JECDI/WPEC Organizational Ecology',
+            description: 'Competition between institutional venues for regulatory jurisdiction. JECDI (emerging plurilateral venue) vs WPEC (incumbent multilateral track) within WTO ecosystem for digital trade governance.',
+            link: 'View Ecology'
+          },
+          doblez: {
+            title: 'Conceptual Fold M1→M2',
+            description: 'Institutional singularity as fold in the regulatory coordination plane. JECDI-WTO assemblage, DeLanda intensive temporality, Finnemore & Sikkink tipping point (47% WTO).',
+            link: 'Spanish'
+          },
+          cronologia: {
+            title: 'Strategic Chronology',
+            description: 'Complete temporal navigation of key JECDI-WPEC events (1998-2024). M1-M2-M3 moments, WPEC relaunches, stabilized declarations. Interactive visualization by years.',
+            link: 'View Chronology'
+          },
+          expansion: {
+            title: 'JECDI Expansion',
+            description: 'Evolutionary analysis of JECDI membership from M1 (71 countries) to M3 (91 countries). Incorporation dynamics, attraction factors and post-M2 institutional consolidation.',
+            link: 'View Expansion'
+          },
+          timeline: {
+            title: 'Complete Horizontal Timeline',
+            description: 'Navigable horizontal timeline with scroll. Organizational ecology and critical thresholds in WTO digital trade (1998-2024). Events classified by type and actor.',
+            link: 'Spanish'
+          },
+          glosario: {
+            title: 'Conceptual Glossary',
+            description: 'Complete technical terminology of the thesis. 54+ terms organized alphabetically (A-C to R-V) + 20+ acronyms. Section navigation with precise definitions and theoretical context.',
+            link: 'View Glossary'
+          },
+          miembros: {
+            title: 'JECDI Members',
+            description: 'Distribution of countries by moment of incorporation into JECDI. Navigation by M1-M2-M3 moments plus countries that never joined (until 2024). Complete list with dates.',
+            link: 'View Members'
+          },
+          comparativo: {
+            title: 'SPSS vs Atlas.ti',
+            description: 'Methodological comparison between quantitative analysis (SPSS - Step 1) and qualitative (Atlas.ti - Step 3). Units of analysis, variables, techniques and analytical complementarity.',
+            link: 'View Comparison'
+          }
+        }
+      }
+    };
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+      updateContent();
+      
+      const langBtn = document.getElementById('lang-toggle');
+      langBtn.textContent = currentLanguage === 'es' ? '🌐 English' : '🌐 Español';
+    }
+    
+    function updateContent() {
+      const t = translations[currentLanguage];
+      
+      document.getElementById('main-title-text').textContent = t.mainTitle;
+      document.getElementById('subtitle-text').textContent = t.subtitle;
+      document.getElementById('description-text').textContent = t.description;
+      document.getElementById('footer-text').textContent = t.footer;
+      
+      // Update category buttons
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      categoryBtns.forEach(btn => {
+        if (btn.onclick && btn.onclick.toString().includes('showCategory')) {
+          const category = btn.onclick.toString().match(/'(\w+)'/)[1];
+          if (t.categories[category]) {
+            btn.textContent = t.categories[category];
+          }
+        }
+      });
+      
+      // Update artifact cards content
+      updateArtifactCard('paso1', t.artifacts.paso1);
+      updateArtifactCard('paso2', t.artifacts.paso2);
+      updateArtifactCard('paso3', t.artifacts.paso3);
+      updateArtifactCard('cuencas', t.artifacts.cuencas);
+      updateArtifactCard('ecologia', t.artifacts.ecologia);
+      updateArtifactCard('doblez', t.artifacts.doblez);
+      updateArtifactCard('cronologia', t.artifacts.cronologia);
+      updateArtifactCard('expansion', t.artifacts.expansion);
+      updateArtifactCard('timeline', t.artifacts.timeline);
+      updateArtifactCard('glosario', t.artifacts.glosario);
+      updateArtifactCard('miembros', t.artifacts.miembros);
+      updateArtifactCard('comparativo', t.artifacts.comparativo);
+    }
+    
+    function updateArtifactCard(cardId, content) {
+      const cardData = {
+        paso1: { titleSelector: '.artifact-card:nth-child(1) .artifact-title a', descSelector: '.artifact-card:nth-child(1) .artifact-description', linkSelector: '.artifact-card:nth-child(1) .primary-link' },
+        paso2: { titleSelector: '.artifact-card:nth-child(2) .artifact-title a', descSelector: '.artifact-card:nth-child(2) .artifact-description', linkSelector: '.artifact-card:nth-child(2) .primary-link' },
+        paso3: { titleSelector: '.artifact-card:nth-child(3) .artifact-title a', descSelector: '.artifact-card:nth-child(3) .artifact-description', linkSelector: '.artifact-card:nth-child(3) .primary-link' },
+        cuencas: { titleSelector: '#teoricos .artifact-card:nth-child(1) .artifact-title a', descSelector: '#teoricos .artifact-card:nth-child(1) .artifact-description', linkSelector: '#teoricos .artifact-card:nth-child(1) .primary-link' },
+        ecologia: { titleSelector: '#teoricos .artifact-card:nth-child(2) .artifact-title a', descSelector: '#teoricos .artifact-card:nth-child(2) .artifact-description', linkSelector: '#teoricos .artifact-card:nth-child(2) .primary-link' },
+        doblez: { titleSelector: '#temporales .artifact-card:nth-child(1) .artifact-title a', descSelector: '#temporales .artifact-card:nth-child(1) .artifact-description', linkSelector: '#temporales .artifact-card:nth-child(1) .primary-link' },
+        cronologia: { titleSelector: '#temporales .artifact-card:nth-child(2) .artifact-title a', descSelector: '#temporales .artifact-card:nth-child(2) .artifact-description', linkSelector: '#temporales .artifact-card:nth-child(2) .primary-link' },
+        expansion: { titleSelector: '#temporales .artifact-card:nth-child(3) .artifact-title a', descSelector: '#temporales .artifact-card:nth-child(3) .artifact-description', linkSelector: '#temporales .artifact-card:nth-child(3) .primary-link' },
+        timeline: { titleSelector: '#temporales .artifact-card:nth-child(4) .artifact-title a', descSelector: '#temporales .artifact-card:nth-child(4) .artifact-description', linkSelector: '#temporales .artifact-card:nth-child(4) .primary-link' },
+        glosario: { titleSelector: '#referencias .artifact-card:nth-child(1) .artifact-title a', descSelector: '#referencias .artifact-card:nth-child(1) .artifact-description', linkSelector: '#referencias .artifact-card:nth-child(1) .primary-link' },
+        miembros: { titleSelector: '#referencias .artifact-card:nth-child(2) .artifact-title a', descSelector: '#referencias .artifact-card:nth-child(2) .artifact-description', linkSelector: '#referencias .artifact-card:nth-child(2) .primary-link' },
+        comparativo: { titleSelector: '#comparativos .artifact-card:nth-child(1) .artifact-title a', descSelector: '#comparativos .artifact-card:nth-child(1) .artifact-description', linkSelector: '#comparativos .artifact-card:nth-child(1) .primary-link' }
+      };
+      
+      const card = cardData[cardId];
+      if (!card) return;
+      
+      const titleEl = document.querySelector(card.titleSelector);
+      const descEl = document.querySelector(card.descSelector);
+      const linkEl = document.querySelector(card.linkSelector);
+      
+      if (titleEl) titleEl.textContent = content.title;
+      if (descEl) descEl.textContent = content.description;
+      if (linkEl) linkEl.textContent = content.link;
+    }
+
+    function showCategory(categoryId) {
+      // Ocultar todas las categorías
+      const categories = document.querySelectorAll('.category-section');
+      categories.forEach(cat => {
+        cat.classList.remove('active');
+      });
+      
+      // Remover active de todos los botones
+      const buttons = document.querySelectorAll('.category-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Mostrar la categoría seleccionada
+      const targetCategory = document.getElementById(categoryId);
+      if (targetCategory) {
+        targetCategory.classList.add('active');
+      }
+      
+      // Activar el botón correspondiente
+      const activeButton = Array.from(buttons).find(btn => 
+        btn.onclick && btn.onclick.toString().includes(categoryId)
+      );
+      if (activeButton) {
+        activeButton.classList.add('active');
+      }
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', function() {
+      showCategory('pasos');
+    });
+  </script>
+</body>
+</html>
