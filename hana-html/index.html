@@ -514,15 +514,68 @@
 
     <div class="nav-categories">
       <button class="category-btn" id="lang-toggle" onclick="toggleLanguage()">🌐 English</button>
-      <button class="category-btn active" onclick="showCategory('pasos')">Pasos 1-2-3</button>
+      <button class="category-btn active" onclick="showCategory('integrados')">Vistas Integradas</button>
+      <button class="category-btn" onclick="showCategory('pasos')">Pasos 1-2-3</button>
       <button class="category-btn" onclick="showCategory('teoricos')">Artefactos Teóricos</button>
       <button class="category-btn" onclick="showCategory('temporales')">Temporalidades</button>
       <button class="category-btn" onclick="showCategory('referencias')">Referencias</button>
       <button class="category-btn" onclick="showCategory('comparativos')">Comparativos</button>
     </div>
+    
+    <div id="integrados" class="category-section active">
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a onclick="openModal('resumen ejecutivo.html', 'Consola Analítica Integrada')">Consola Analítica Integrada</a></div>
+          <div class="artifact-description">
+            Dashboard interactivo que resume los hallazgos clave de los 3 Pasos, el ensamblaje teórico y los artefactos principales en una única interfaz de alto nivel.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">Dashboard</span>
+            <span class="metadata-tag">Resumen Clave</span>
+            <span class="metadata-tag">Pasos 1-2-3</span>
+          </div>
+          <div class="artifact-links">
+            <a class="primary-link" onclick="openModal('resumen ejecutivo.html', 'Consola Analítica Integrada')">Explorar Consola</a>
+          </div>
+        </div>
 
-    <!-- PASOS 1-2-3 -->
-    <div id="pasos" class="category-section active">
+        <div class="artifact-card">
+          <div class="artifact-status status-beta-plus">BETA+</div>
+          <div class="artifact-title"><a onclick="openModal('resumen narrativo.html', 'El Relato Integrado')">El Relato Integrado (Narrativa)</a></div>
+          <div class="artifact-description">
+            Recorrido narrativo inmersivo que deconstruye la tesis paso a paso, desde la decisión de cooperar hasta el núcleo del conflicto, en un formato de storytelling visual.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">Narrativa</span>
+            <span class="metadata-tag">Storytelling</span>
+            <span class="metadata-tag">Síntesis Visual</span>
+          </div>
+          <div class="artifact-links">
+            <a class="primary-link" onclick="openModal('resumen narrativo.html', 'El Relato Integrado')">Iniciar Relato</a>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="artifact-status status-beta">BETA</div>
+          <div class="artifact-title"><a onclick="openModal('eda.html', 'Explorador de Datos Analíticos (EDA)')">Explorador de Datos Analíticos (EDA)</a></div>
+          <div class="artifact-description">
+            Navegador completo para las 109 tablas y 9 figuras que conforman la evidencia empírica. Permite filtrar y explorar los datos y resultados estadísticos.
+          </div>
+          <div class="artifact-metadata">
+            <span class="metadata-tag">Datos Empíricos</span>
+            <span class="metadata-tag">109 Tablas</span>
+            <span class="metadata-tag">9 Figuras</span>
+          </div>
+          <div class="artifact-links">
+            <a class="primary-link" onclick="openModal('eda.html', 'Explorador de Datos Analíticos (EDA)')">Explorar Datos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="pasos" class="category-section">
       <div class="artifacts-grid">
         <div class="artifact-card">
           <div class="artifact-status status-beta-plus">BETA+</div>
@@ -575,7 +628,6 @@
       </div>
     </div>
 
-    <!-- ARTEFACTOS TEÓRICOS -->
     <div id="teoricos" class="category-section">
       <div class="artifacts-grid">
         <div class="artifact-card">
@@ -613,7 +665,6 @@
       </div>
     </div>
 
-    <!-- TEMPORALIDADES -->
     <div id="temporales" class="category-section">
       <div class="artifacts-grid">
         <div class="artifact-card">
@@ -684,7 +735,6 @@
       </div>
     </div>
 
-    <!-- REFERENCIAS -->
     <div id="referencias" class="category-section">
       <div class="artifacts-grid">
         <div class="artifact-card">
@@ -722,7 +772,6 @@
       </div>
     </div>
 
-    <!-- COMPARATIVOS -->
     <div id="comparativos" class="category-section">
       <div class="artifacts-grid">
         <div class="artifact-card">
@@ -773,7 +822,6 @@
     </div>
   </div>
 
-  <!-- MODAL SYSTEM -->
   <div id="modal-overlay" class="modal-overlay">
     <div class="modal-container">
       <div class="modal-header">
@@ -800,6 +848,7 @@
         description: 'Tesis doctoral de Alexandra Bustos Frati • Doctorado en Ciencias Sociales, Universidad de Buenos Aires • Directora: Dra. Carolina Aguerre • Análisis cuanti-cualitativo pre-IA generativa • 800+ códigos Atlas.ti • Marcos teóricos híbridos (Moravcsik, DeLanda, Abbott) • 164 países OMC + 492 observaciones diacrónicas',
         footer: 'Artefactos interpretativos generados mediante HANA (Human Agency & Neural Architecture) - programa KeelerApp para combatir obsolescencia humana programada, integrando geopolítica, cibernética y teoría de la decisión',
         categories: {
+          integrados: 'Vistas Integradas',
           pasos: 'Pasos 1-2-3',
           teoricos: 'Artefactos Teóricos', 
           temporales: 'Temporalidades',
@@ -808,9 +857,24 @@
         },
         loadingText: 'Cargando artefacto semántico...',
         citation: 'Citar esta tesis',
-        citationText: 'Bustos Frati, A. (2025). Regímenes internacionales sobre comercio digital: preferencias estatales sobre coordinación regulatoria en la OMC y sus factores determinantes (2017–2024) (Tesis doctoral, Universidad de Buenos Aires).',
+        citationText: '<strong>Bustos Frati, A.</strong> (2025). <em>Regímenes internacionales sobre comercio digital: preferencias estatales sobre coordinación regulatoria en la OMC y sus factores determinantes (2017–2024)</em> (Tesis doctoral, Universidad de Buenos Aires).',
         socialLinks: 'Redes académicas',
         artifacts: {
+          consola: {
+            title: 'Consola Analítica Integrada',
+            description: 'Dashboard interactivo que resume los hallazgos clave de los 3 Pasos, el ensamblaje teórico y los artefactos principales en una única interfaz de alto nivel.',
+            link: 'Explorar Consola'
+          },
+          relato: {
+            title: 'El Relato Integrado (Narrativa)',
+            description: 'Recorrido narrativo inmersivo que deconstruye la tesis paso a paso, desde la decisión de cooperar hasta el núcleo del conflicto, en un formato de storytelling visual.',
+            link: 'Iniciar Relato'
+          },
+          eda: {
+            title: 'Explorador de Datos Analíticos (EDA)',
+            description: 'Navegador completo para las 109 tablas y 9 figuras que conforman la evidencia empírica. Permite filtrar y explorar los datos y resultados estadísticos.',
+            link: 'Explorar Datos'
+          },
           paso1: {
             title: 'PASO 1: Modelos Estructurales',
             description: 'Análisis comparativo del poder explicativo de tres enfoques teórico-empíricos: crecimiento tecno-económico, estructurado según cuestiones, y modelo integrador. Regresión logística 164 países + 492 observaciones diacrónicas.',
@@ -879,6 +943,7 @@
         description: 'Doctoral thesis by Alexandra Bustos Frati • PhD in Social Sciences, University of Buenos Aires • Director: Dr. Carolina Aguerre • Pre-generative AI quanti-qualitative analysis • 800+ Atlas.ti codes • Hybrid theoretical frameworks (Moravcsik, DeLanda, Abbott) • 164 WTO countries + 492 diachronic observations',
         footer: 'Interpretive artifacts generated through HANA (Human Agency & Neural Architecture) - KeelerApp program to combat planned human obsolescence, integrating geopolitics, cybernetics and decision theory',
         categories: {
+          integrados: 'Integrated Views',
           pasos: 'Steps 1-2-3',
           teoricos: 'Theoretical Artifacts',
           temporales: 'Temporalities', 
@@ -887,9 +952,24 @@
         },
         loadingText: 'Loading semantic artifact...',
         citation: 'Cite this thesis',
-        citationText: 'Bustos Frati, A. (2025). International regimes on digital trade: State preferences on regulatory coordination in the WTO and their determining factors (2017–2024) (Doctoral thesis, University of Buenos Aires).',
+        citationText: '<strong>Bustos Frati, A.</strong> (2025). <em>International regimes on digital trade: State preferences on regulatory coordination in the WTO and their determining factors (2017–2024)</em> (Doctoral thesis, University of Buenos Aires).',
         socialLinks: 'Academic networks',
         artifacts: {
+          consola: {
+            title: 'Integrated Analytics Console',
+            description: 'Interactive dashboard summarizing key findings from all 3 Steps, the theoretical assemblage, and main artifacts in a single high-level interface.',
+            link: 'Explore Console'
+          },
+          relato: {
+            title: 'The Integrated Story (Narrative)',
+            description: 'Immersive narrative journey that deconstructs the thesis step-by-step, from the decision to cooperate to the core of the conflict, in a visual storytelling format.',
+            link: 'Start Story'
+          },
+          eda: {
+            title: 'Analytical Data Explorer (ADE)',
+            description: 'Complete browser for the 109 tables and 9 figures that constitute the empirical evidence. Allows filtering and exploring raw data and statistical results.',
+            link: 'Explore Data'
+          },
           paso1: {
             title: 'STEP 1: Structural Models',
             description: 'Comparative analysis of explanatory power of three theoretical-empirical approaches: techno-economic growth, issue-structured, and integrative model. Logistic regression 164 countries + 492 diachronic observations.',
@@ -961,68 +1041,38 @@
       const modalIframe = document.getElementById('modal-iframe');
       const modalLoading = document.getElementById('modal-loading');
       
-      // Set title
       modalTitle.textContent = title;
-      
-      // Show loading
       modalLoading.style.display = 'block';
       modalIframe.style.display = 'none';
-      
-      // Show modal
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
       
-      // Load content
       modalIframe.src = url;
       
-      // Handle iframe load
       modalIframe.onload = function() {
         modalLoading.style.display = 'none';
         modalIframe.style.display = 'block';
       };
       
-      // Handle iframe error
       modalIframe.onerror = function() {
-        modalLoading.innerHTML = `
-          <div style="color: rgba(255, 100, 100, 0.8);">
-            <p>Error cargando: ${title}</p>
-            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Verifica que el archivo ${url} existe</p>
-          </div>
-        `;
+        modalLoading.innerHTML = `<div style="color: rgba(255, 100, 100, 0.8);"><p>Error loading: ${title}</p><p style="font-size: 0.8rem; margin-top: 0.5rem;">Verify that the file ${url} exists</p></div>`;
       };
     }
     
     function closeModal() {
       const modal = document.getElementById('modal-overlay');
       const modalIframe = document.getElementById('modal-iframe');
-      
       modal.classList.remove('active');
       document.body.style.overflow = 'auto';
-      
-      // Clear iframe after animation
-      setTimeout(() => {
-        modalIframe.src = '';
-      }, 300);
+      setTimeout(() => { modalIframe.src = ''; }, 300);
     }
     
-    // Close modal on overlay click
-    document.getElementById('modal-overlay').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
-    });
-    
-    // Close modal on Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
-    });
+    document.getElementById('modal-overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
     function toggleLanguage() {
       currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
       updateContent();
-      
       const langBtn = document.getElementById('lang-toggle');
       langBtn.textContent = currentLanguage === 'es' ? '🌐 English' : '🌐 Español';
     }
@@ -1032,36 +1082,30 @@
       
       document.getElementById('main-title-text').textContent = t.mainTitle;
       document.getElementById('subtitle-text').textContent = t.subtitle;
-      document.getElementById('description-text').textContent = t.description;
-      document.getElementById('footer-text').textContent = t.footer;
+      document.getElementById('description-text').innerHTML = t.description;
+      document.getElementById('footer-text').innerHTML = t.footer;
       
-      // Update loading text
       const loadingText = document.querySelector('.modal-loading p');
-      if (loadingText) {
-        loadingText.textContent = t.loadingText;
-      }
+      if (loadingText) loadingText.textContent = t.loadingText;
       
-      // Update citation section
       const citationTitle = document.getElementById('citation-title');
       const citationText = document.getElementById('citation-text');
       const socialTitle = document.getElementById('social-title');
-      
       if (citationTitle) citationTitle.textContent = t.citation;
       if (citationText) citationText.innerHTML = t.citationText;
       if (socialTitle) socialTitle.textContent = t.socialLinks;
       
-      // Update category buttons
       const categoryBtns = document.querySelectorAll('.category-btn');
       categoryBtns.forEach(btn => {
         if (btn.onclick && btn.onclick.toString().includes('showCategory')) {
           const category = btn.onclick.toString().match(/'(\w+)'/)[1];
-          if (t.categories[category]) {
-            btn.textContent = t.categories[category];
-          }
+          if (t.categories[category]) btn.textContent = t.categories[category];
         }
       });
       
-      // Update artifact cards content
+      updateArtifactCard('consola', t.artifacts.consola);
+      updateArtifactCard('relato', t.artifacts.relato);
+      updateArtifactCard('eda', t.artifacts.eda);
       updateArtifactCard('paso1', t.artifacts.paso1);
       updateArtifactCard('paso2', t.artifacts.paso2);
       updateArtifactCard('paso3', t.artifacts.paso3);
@@ -1078,6 +1122,9 @@
     
     function updateArtifactCard(cardId, content) {
       const cardData = {
+        consola: { titleSelector: '#integrados .artifact-card:nth-child(1) .artifact-title a', descSelector: '#integrados .artifact-card:nth-child(1) .artifact-description', linkSelector: '#integrados .artifact-card:nth-child(1) .primary-link' },
+        relato: { titleSelector: '#integrados .artifact-card:nth-child(2) .artifact-title a', descSelector: '#integrados .artifact-card:nth-child(2) .artifact-description', linkSelector: '#integrados .artifact-card:nth-child(2) .primary-link' },
+        eda: { titleSelector: '#integrados .artifact-card:nth-child(3) .artifact-title a', descSelector: '#integrados .artifact-card:nth-child(3) .artifact-description', linkSelector: '#integrados .artifact-card:nth-child(3) .primary-link' },
         paso1: { titleSelector: '#pasos .artifact-card:nth-child(1) .artifact-title a', descSelector: '#pasos .artifact-card:nth-child(1) .artifact-description', linkSelector: '#pasos .artifact-card:nth-child(1) .primary-link' },
         paso2: { titleSelector: '#pasos .artifact-card:nth-child(2) .artifact-title a', descSelector: '#pasos .artifact-card:nth-child(2) .artifact-description', linkSelector: '#pasos .artifact-card:nth-child(2) .primary-link' },
         paso3: { titleSelector: '#pasos .artifact-card:nth-child(3) .artifact-title a', descSelector: '#pasos .artifact-card:nth-child(3) .artifact-description', linkSelector: '#pasos .artifact-card:nth-child(3) .primary-link' },
@@ -1105,36 +1152,20 @@
     }
 
     function showCategory(categoryId) {
-      // Hide all categories
       const categories = document.querySelectorAll('.category-section');
-      categories.forEach(cat => {
-        cat.classList.remove('active');
-      });
-      
-      // Remove active from all buttons
+      categories.forEach(cat => cat.classList.remove('active'));
       const buttons = document.querySelectorAll('.category-btn');
-      buttons.forEach(btn => {
-        btn.classList.remove('active');
-      });
+      buttons.forEach(btn => btn.classList.remove('active'));
       
-      // Show selected category
       const targetCategory = document.getElementById(categoryId);
-      if (targetCategory) {
-        targetCategory.classList.add('active');
-      }
+      if (targetCategory) targetCategory.classList.add('active');
       
-      // Activate corresponding button
-      const activeButton = Array.from(buttons).find(btn => 
-        btn.onclick && btn.onclick.toString().includes(categoryId)
-      );
-      if (activeButton) {
-        activeButton.classList.add('active');
-      }
+      const activeButton = Array.from(buttons).find(btn => btn.onclick && btn.onclick.toString().includes(categoryId));
+      if (activeButton) activeButton.classList.add('active');
     }
 
-    // Initialize
     document.addEventListener('DOMContentLoaded', function() {
-      showCategory('pasos');
+      showCategory('integrados');
     });
   </script>
 </body>
