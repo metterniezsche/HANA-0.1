@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paso 3: Núcleo Negociador IDCCE - Las Dos Cuestiones Fundamentales</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --bg: #030712;
+            --panel-bg: #111827;
+            --card-bg: #1F2937;
+            --accent: #6366F1;
+            --green: #10B981;
+            --yellow: #F59E0B;
+            --blue: #3B82F6;
+            --red: #EF4444;
+            --pink: #D946EF;
+            --purple: #8B5CF6;
+            --text-primary: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --border: #374151;
+            --border-glow: rgba(99, 102, 241, 0.3);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .aurora {
+            position: absolute; top: 50%; left: 50%;
+            width: 1400px; height: 1400px; border-radius: 50%;
+            transform: translate(-50%, -50%); z-index: 0;
+            pointer-events: none; filter: blur(150px);
+        }
+        .aurora-1 { background: rgba(217, 70, 239, 0.15); animation: moveAurora1 20s infinite alternate; }
+        .aurora-2 { background: rgba(99, 102, 241, 0.1); animation: moveAurora2 25s infinite alternate; }
+
+        @keyframes moveAurora1 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1.2); }
+            to { transform: translate(-40%, -60%) rotate(180deg) scale(1.4); }
+        }
+        @keyframes moveAurora2 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-60%, -40%) rotate(-180deg) scale(0.9); }
+        }
+
+        h1, h2, h3, p { position: relative; z-index: 1; }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300;
+            letter-spacing: -2px; line-height: 1.1;
+            max-width: 900px; margin-bottom: 1rem;
+        }
+        
+        h1 .highlight {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--pink), var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        
+        h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: 2rem; }
+        
+        .section-subtitle {
+            font-size: 1.2rem; color: var(--text-secondary); font-weight: 400;
+            max-width: 700px; margin-bottom: 4rem;
+        }
+
+        .hypothesis-declaration {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+            border: 1px solid var(--green); border-radius: 32px;
+            padding: 4rem; width: 100%; max-width: 1000px; margin-bottom: 4rem;
+        }
+        .hypothesis-declaration h2 {
+            background: linear-gradient(135deg, #fff, var(--green));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .hypothesis-stat {
+            font-family: 'Roboto Mono', monospace; font-size: 3rem;
+            font-weight: 700; line-height: 1; margin-bottom: 0.5rem; color: var(--green);
+        }
+        .hypothesis-label { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; }
+        .hypothesis-text { color: var(--text-primary); font-size: 1.1rem; max-width: 700px; margin: 0 auto; line-height: 1.8; }
+
+        .cuestiones-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 2rem; text-align: left; width: 100%;
+        }
+
+        .cuestion-card {
+            background: var(--card-bg); border-radius: 24px; padding: 2.5rem;
+            border: 1px solid var(--border);
+        }
+        
+        .cuestion-card h3 {
+            font-size: 1.5rem; margin-bottom: 1.5rem; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+
+        .cuestion-card h3 .precision {
+            font-size: 0.9rem; font-weight: 400; color: var(--text-secondary);
+            background: rgba(255,255,255,0.1); padding: 0.25rem 0.75rem;
+            border-radius: 20px; font-family: 'Roboto Mono', monospace;
+        }
+
+        .definicion-oficial {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .cuestion-card ul { list-style: none; padding: 0; }
+
+        .cuestion-card li {
+            font-size: 1rem; color: var(--text-secondary); padding-left: 1.5rem;
+            position: relative; margin-bottom: 1rem; line-height: 1.6;
+        }
+        .cuestion-card li::before {
+            content: '›'; position: absolute; left: 0; font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .moratoria-card li::before { color: var(--red); }
+        .reglamentacion-card li::before { color: var(--green); }
+        .cuestion-card li strong { color: var(--text-primary); font-weight: 500; font-family: 'Roboto Mono', monospace;}
+
+        .drezner-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; width: 100%;
+        }
+        .drezner-card {
+            background: var(--card-bg); border-radius: 24px; padding: 2rem;
+            border: 1px solid var(--border);
+        }
+        .drezner-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; font-weight: 500; }
+        .drezner-card p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .moratoria-drezner h3 { color: var(--red); }
+        .reglamentacion-drezner h3 { color: var(--green); }
+
+        .correlacion-extrema {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+            border: 1px solid var(--red); border-radius: 32px;
+            padding: 4rem; width: 100%; max-width: 1000px; margin-bottom: 4rem;
+        }
+        .correlacion-extrema h2 {
+            background: linear-gradient(135deg, #fff, var(--red));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .correlacion-quote {
+            font-size: 1.4rem; font-style: italic; color: var(--text-primary);
+            margin-bottom: 2rem; line-height: 1.6;
+        }
+        .correlacion-stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem; margin: 2rem 0;
+        }
+        .correlacion-stat {
+            background: rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem;
+            backdrop-filter: blur(10px); text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;
+            font-family: 'Roboto Mono', monospace; color: var(--red);
+        }
+        .stat-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .tres-tercios-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; width: 100%;
+        }
+        .tercio-card {
+            background: var(--card-bg); border-radius: 24px; padding: 2rem;
+            border: 1px solid var(--border); text-align: center;
+        }
+        .tercio-card h3 { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 500; }
+        .tercio-number {
+            font-size: 3rem; font-weight: 700; display: block; margin-bottom: 0.5rem;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .tercio-percentage { 
+            font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .tercio-descripcion { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .no-pronuncia .tercio-number { color: var(--yellow); }
+        .defensivos .tercio-number { color: var(--red); }
+        .ofensivos .tercio-number { color: var(--green); }
+
+        .synthesis-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; width: 100%; text-align: left;
+        }
+        .synthesis-card {
+            background: var(--card-bg); border-radius: 24px; padding: 2.5rem;
+            border: 1px solid var(--border); border-left: 4px solid var(--accent);
+        }
+        .synthesis-card h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .synthesis-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; }
+
+        .highlight-text {
+            background: linear-gradient(120deg, rgba(217, 70, 239, 0.3) 0%, rgba(99, 102, 241, 0.2) 100%);
+            padding: 3px 8px; border-radius: 6px; font-weight: 600;
+            color: var(--text-primary); box-shadow: 0 0 15px rgba(217, 70, 239, 0.2);
+        }
+
+        .tooltip-trigger { border-bottom: 1px dotted var(--accent); cursor: help; position: relative; }
+        .tooltip-text {
+            visibility: hidden; width: 320px; background-color: var(--panel-bg); color: #fff;
+            text-align: left; border-radius: 8px; padding: 1rem; position: absolute;
+            z-index: 10; bottom: 125%; left: 50%; margin-left: -160px;
+            opacity: 0; transition: opacity 0.3s; border: 1px solid var(--border-glow);
+            font-size: 0.9rem; line-height: 1.5; font-weight: 400; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .tooltip-text::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
+            border-width: 5px; border-style: solid; border-color: var(--panel-bg) transparent transparent transparent;
+        }
+        .tooltip-text b { color: var(--accent); }
+        .tooltip-trigger:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+        .metodologia-note {
+            background: rgba(99, 102, 241, 0.1); border-radius: 16px; padding: 2rem;
+            border-left: 4px solid var(--accent); margin: 2rem 0;
+        }
+        .metodologia-title {
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);
+        }
+        .metodologia-text {
+            font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .cuestiones-grid, .synthesis-grid, .drezner-grid { grid-template-columns: 1fr; }
+            .tres-tercios-grid { grid-template-columns: 1fr; }
+            .hypothesis-declaration, .correlacion-extrema { padding: 2.5rem; }
+            .hypothesis-stat, .tercio-number { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="hero" class="section">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="container">
+            <h1>Paso 3: Las <span class="highlight">Dos Cuestiones</span> del Núcleo Negociador</h1>
+            <p class="section-subtitle">
+                Identificación empírica de las cuestiones que constituyeron las bases del núcleo negociador inicial de la IDCCE-OMC entre 2017 y 2024, mediante análisis de contenido de 130+ documentos oficiales sin IA generativa.
+            </p>
+        </div>
+    </div>
+
+    <div id="hypothesis" class="section">
+        <div class="container">
+            <div class="hypothesis-declaration">
+                <h2>✅ Hipótesis Descriptiva Confirmada</h2>
+                <div class="hypothesis-stat">2 CUESTIONES</div>
+                <div class="hypothesis-label">constituyeron las bases del núcleo negociador inicial</div>
+                <p class="hypothesis-text">
+                    "Fueron <strong>dos cuestiones</strong> las que constituyeron las bases del núcleo negociador de la IDCCE de la OMC entre 2017 y 2024: <span class="highlight-text">el derecho estatal a establecer aranceles a las transmisiones electrónicas</span>, y <span class="highlight-text">el derecho estatal a reglamentar las transferencias trasnacionales de datos</span>."
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cuestiones" class="section">
+        <div class="container">
+            <h2>Las Dos Cuestiones Identificadas</h2>
+            <p class="section-subtitle">
+                Cada cuestión tiene características distintivas en términos de claridad, conflictividad y capacidad de estructurar preferencias estatales.
+            </p>
+            <div class="cuestiones-grid">
+                <div class="cuestion-card moratoria-card">
+                    <h3>⚖️ Moratoria Arancelaria <span class="precision">Central</span></h3>
+                    <div class="definicion-oficial">
+                        <strong>Definición:</strong> La delimitación del derecho estatal a establecer aranceles a las transmisiones electrónicas
+                    </div>
+                    <ul>
+                        <li><strong>Centralidad:</strong> "La cuestión central del núcleo negociador en juego en la IDCCE"</li>
+                        <li><strong>Criticidad:</strong> Sin acuerdo sobre moratoria, era bastante menos probable sumarse a IDCCE</li>
+                        <li><strong>Estrategia:</strong> <span class="tooltip-trigger">"Gradualismo"<span class="tooltip-text"><b>Gradualismo:</b> Estrategia que se traduce en la fórmula de renovaciones periódicas de la moratoria iniciada en 1998, con costos diplomáticos crecientes en cada cumbre ministerial.</span></span> con renovaciones periódicas desde 1998</li>
+                        <li><strong>Marco Drezner:</strong> Evitar pasar de estándares armonizados → estándares revueltos</li>
+                        <li><strong>Participación:</strong> 98.2% ofensivos vs 3% defensivos en IDCCE</li>
+                    </ul>
+                </div>
+                <div class="cuestion-card reglamentacion-card">
+                    <h3>🌐 Reglamentación de Datos <span class="precision">Compleja</span></h3>
+                    <div class="definicion-oficial">
+                        <strong>Definición:</strong> La delimitación del derecho estatal a reglamentar las transferencias trasnacionales de datos
+                    </div>
+                    <ul>
+                        <li><strong>Complejidad:</strong> "Más compleja y difusa, menos pasible de estructurarse"</li>
+                        <li><strong>Conflictividad:</strong> "Asunto de incluso mayor conflictividad"</li>
+                        <li><strong>Estrategia:</strong> <span class="tooltip-trigger">"Encapsulamiento"<span class="tooltip-text"><b>Encapsulamiento:</b> Estrategia adoptada por menor claridad en los términos, menor compromiso de potencias principales y menor capacidad de cálculo de costos/beneficios.</span></span> por alta conflictividad y menor claridad</li>
+                        <li><strong>Marco Drezner:</strong> Partir de estándares revueltos → procurar estándares armonizados</li>
+                        <li><strong>Participación:</strong> 97.8% ofensivos vs 9.8% defensivos en IDCCE</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="drezner" class="section">
+        <div class="container">
+            <h2>Marco de Coordinación Regulatoria (Drezner)</h2>
+            <p class="section-subtitle">
+                Ambas cuestiones plantean escenarios muy diversos, que se comprenden mejor mediante el esquema de regímenes de coordinación regulatoria de Daniel Drezner (2004 y 2007).
+            </p>
+            <div class="drezner-grid">
+                <div class="drezner-card moratoria-drezner">
+                    <h3>🔴 Moratoria: Preservar Armonización</h3>
+                    <p>Se ha buscado <strong>evitar pasar</strong> de un esquema de estándares armonizados (vigente desde 1998) a uno de estándares revueltos.</p>
+                    <p>Se asume como <span class="highlight-text">"mal menor"</span> un escenario de <strong>estándares de club</strong> (solo para miembros IDCCE).</p>
+                </div>
+                <div class="drezner-card reglamentacion-drezner">
+                    <h3>🟢 Reglamentación: Construir Armonización</h3>
+                    <p>Se reconoce que se ha partido de un esquema de <strong>estándares revueltos</strong> para procurar llegar a estándares armonizados.</p>
+                    <p>Con la opción de articular <strong>estándares de club</strong> como <span class="highlight-text">"mejor escenario viable"</span>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="correlacion" class="section">
+        <div class="container">
+            <div class="correlacion-extrema">
+                <h2>🎯 La Moratoria como Predictor Cuasi-Perfecto</h2>
+                <div class="correlacion-quote">
+                    "Las preferencias estatales sobre la moratoria se traducen prácticamente en preferencias acerca de la participación en la IDCCE"
+                </div>
+                <div class="correlacion-stats">
+                    <div class="correlacion-stat">
+                        <div class="stat-number">98.2%</div>
+                        <div class="stat-desc">Estándares ofensivos participan</div>
+                    </div>
+                    <div class="correlacion-stat">
+                        <div class="stat-number">3%</div>
+                        <div class="stat-desc">Estándares defensivos participan</div>
+                    </div>
+                    <div class="correlacion-stat">
+                        <div class="stat-number">95pts</div>
+                        <div class="stat-desc">Diferencia en participación</div>
+                    </div>
+                    <div class="correlacion-stat">
+                        <div class="stat-number">123/164</div>
+                        <div class="stat-desc">Países se pronuncian (75%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="tres-tercios" class="section">
+        <div class="container">
+            <h2>Reglamentación: La Distribución "Tres Tercios"</h2>
+            <p class="section-subtitle">
+                A diferencia de la moratoria, la reglamentación de datos presenta una distribución equilibrada que permite diferentes enfoques negociadores. (n=138 países con documentos disponibles)
+            </p>
+            <div class="tres-tercios-grid">
+                <div class="tercio-card no-pronuncia">
+                    <h3>🤐 No se Pronuncia</h3>
+                    <span class="tercio-number">41</span>
+                    <div class="tercio-percentage">29.7%</div>
+                    <p class="tercio-descripcion">Países que no han fijado una posición oficial sobre reglamentación de datos, manteniendo ambigüedad estratégica.</p>
+                </div>
+                <div class="tercio-card defensivos">
+                    <h3>🛡️ Estándares Defensivos</h3>
+                    <span class="tercio-number">51</span>
+                    <div class="tercio-percentage">37.0%</div>
+                    <p class="tercio-descripcion">Priorizan soberanía de datos y derecho a regular nacionalmente. Incluye "rechaza reglas duras" y "fórmulas flexibles".</p>
+                </div>
+                <div class="tercio-card ofensivos">
+                    <h3>⚔️ Estándares Ofensivos</h3>
+                    <span class="tercio-number">46</span>
+                    <div class="tercio-percentage">33.3%</div>
+                    <p class="tercio-descripcion">Buscan establecer directrices comunes para flujos transfronterizos. Incluye "directrices comunes" y "fórmulas prohibitivas".</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="synthesis" class="section">
+        <div class="container">
+            <h2>Síntesis: Validación H3B y Convergencia Multilateral</h2>
+            <p class="section-subtitle">
+                El análisis confirma la hipótesis integradora y revela la lógica profunda del núcleo negociador como espacio de alta complejidad y conflictividad.
+            </p>
+            <div class="synthesis-grid">
+                <div class="synthesis-card">
+                    <h3>📊 Validación H3B: Alta Complejidad</h3>
+                    <p>Se confirma la hipótesis <span class="highlight-text">integradora</span>: el núcleo negociador consiste en <strong>"renovación periódica y limitada + habilitación general con amplio margen reglamentario"</strong> como asuntos de <span class="highlight-text">alta complejidad y conflictividad</span>, refutando H3A (baja complejidad).</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>🌍 Convergencia Multilateral Residual</h3>
+                    <p>A pesar de las diferencias, la mayoría de países OMC <span class="highlight-text">convergen a nivel multilateral</span> en: renovación periódica de moratoria por consenso + habilitación general de flujos con amplio margen para reglamentación nacional.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>🔗 Pool de Soberanía Diferenciado</h3>
+                    <p>Ambas cuestiones implican <span class="highlight-text">pool de soberanía</span>, pero con modalidades distintas: encapsulamiento de discusiones conflictivas y reserva de derechos unánimes, siguiendo la lógica de <strong>credibilidad de compromisos</strong> (Moravcsik, 1998).</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>📈 Cuestiones Asociadas pero Asimétricas</h3>
+                    <p>En general, un pronunciamiento sobre moratoria viene aparejado de uno sobre reglamentación. Sin embargo, <span class="highlight-text">la moratoria es más determinante</span> para la participación, mientras la reglamentación permite mayor diversidad de enfoques una vez dentro de la IDCCE.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="metodologia-note">
+        <div class="container">
+            <div class="metodologia-title">📋 Nota Metodológica: Análisis sin IA Generativa</div>
+            <div class="metodologia-text">
+                La identificación de estas dos cuestiones resultó del <strong>análisis de contenido manual e iterativo</strong> de más de 130 documentos oficiales de la OMC (2017-2024). Se extrajeron 800+ códigos en Atlas.ti como proxys de preferencias estatales, verificando que los países IDCCE se habían expresado mayoritariamente sobre ambas cuestiones para señalar sus <strong>condiciones de mínima</strong> (posiciones ofensivas) y <strong>condiciones de máxima</strong> (posiciones defensivas). La consideración de documentos co-esponsorizados permitió asignar preferencias a países sin producción diplomática individual, como la comunicación de Samoa representando a casi la mitad de los miembros OMC.
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        sections.forEach(section => observer.observe(section));
+    });
+    </script>
+</body>
+</html>

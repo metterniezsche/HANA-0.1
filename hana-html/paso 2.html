@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool de Soberanía IDCCE: Arquitectura Motivacional</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f29 30%, #242938 70%, #2d3142 100%);
+            color: #e8eaed;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.1) 0%, rgba(138, 43, 226, 0.1) 100%);
+            border-radius: 24px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(66, 133, 244, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4285f4, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #9aa0a6;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tension-central {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+        
+        .tension-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #f8f9fa;
+        }
+        
+        .tension-versus {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .tension-side {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tension-vs {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f39c12;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .moravcsik-quote {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #9aa0a6;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-left: 4px solid #4285f4;
+            background: rgba(66, 133, 244, 0.05);
+        }
+        
+        .dimensiones-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .dimension-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .dimension-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(66, 133, 244, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dimension-card.institucional {
+            border-left: 4px solid #4285f4;
+        }
+        
+        .dimension-card.normativo {
+            border-left: 4px solid #8a2be2;
+        }
+        
+        .dimension-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f8f9fa;
+        }
+        
+        .dimension-description {
+            color: #9aa0a6;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .motivaciones-section {
+            margin: 4rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #4285f4, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .motivaciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .motivacion-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .motivacion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .motivacion-card.credibilidad::before { background: linear-gradient(90deg, #8a2be2, #4285f4); }
+        .motivacion-card.federal::before { background: linear-gradient(90deg, #34a853, #2dd4bf); }
+        .motivacion-card.tecnocratica::before { background: linear-gradient(90deg, #4285f4, #1976d2); }
+        .motivacion-card.nacional::before { background: linear-gradient(90deg, #ea4335, #f39c12); }
+        
+        .motivacion-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .motivacion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .motivacion-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8f9fa;
+        }
+        
+        .motivacion-count {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .motivacion-breakdown {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .breakdown-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .breakdown-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #f8f9fa;
+            display: block;
+        }
+        
+        .motivacion-description {
+            color: #9aa0a6;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .ejemplos-empiricos {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .ejemplos-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #f8f9fa;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .ejemplo-item {
+            font-size: 0.8rem;
+            color: #9aa0a6;
+            margin-bottom: 0.3rem;
+            font-style: italic;
+        }
+        
+        .ganador-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(15deg);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        .hipotesis-validation {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(66, 133, 244, 0.1));
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .validation-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8a2be2;
+        }
+        
+        .validation-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e8eaed;
+        }
+        
+        .frontera-difusa {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .frontera-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f39c12;
+            margin-bottom: 1rem;
+        }
+        
+        .contexto-teorico {
+            margin: 4rem 0;
+        }
+        
+        .teoria-explanation {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .teoria-explanation p {
+            color: #e8eaed;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .innovacion-institucional {
+            margin: 4rem 0;
+        }
+        
+        .innovacion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .innovacion-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .innovacion-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(66, 133, 244, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .innovacion-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8f9fa;
+            margin-bottom: 1rem;
+        }
+        
+        .innovacion-card p {
+            color: #9aa0a6;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        
+        .conversacion-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .conversacion-card:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border-color: rgba(66, 133, 244, 0.3);
+        }
+        
+        .conversacion-actor {
+            font-weight: 600;
+            color: #4285f4;
+            margin-bottom: 0.5rem;
+        }
+        
+        .conversacion-mensaje {
+            color: #9aa0a6;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        
+        .metodologia-note {
+            background: rgba(66, 133, 244, 0.05);
+            border: 1px solid rgba(66, 133, 244, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .metodologia-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4285f4;
+            margin-bottom: 1rem;
+        }
+        
+        .metodologia-text {
+            color: #9aa0a6;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(66, 133, 244, 0.2), rgba(138, 43, 226, 0.2));
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .dimensiones-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tension-versus {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .tension-vs {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Pool de Soberanía IDCCE</h1>
+            <p class="hero-subtitle">
+                Análisis de motivaciones estratégicas para la elección institucional plurilateral 
+                según marco teórico de Moravcsik (1998). Evidencia empírica de 50 códigos Atlas.ti 
+                extraídos de 14 documentos clave (2017-2024).
+            </p>
+        </div>
+
+        <div class="tension-central">
+            <h2 class="tension-title">La Tensión Fundamental</h2>
+            <div class="tension-versus">
+                <div class="tension-side">
+                    <h3 style="color: #ea4335; margin-bottom: 1rem;">🔒 Retención de Soberanía</h3>
+                    <p>Preservar instrumentos soberanos de decisión nacional. Autonomía estatal sobre políticas comerciales digitales.</p>
+                </div>
+                <div class="tension-vs">VS</div>
+                <div class="tension-side">
+                    <h3 style="color: #4285f4; margin-bottom: 1rem;">🤝 Pool de Soberanía</h3>
+                    <p>"Acuerdan decidir asuntos futuros mediante procedimientos de votación distintos de la unanimidad" (Moravcsik, 1998)</p>
+                </div>
+            </div>
+            
+            <div class="moravcsik-quote">
+                "La creencia en la ideología federalista, la necesidad de una coordinación y planificación tecnocráticas centralizadas y el deseo de compromisos más creíbles" — Moravcsik (1998: 67-68)
+            </div>
+        </div>
+
+        <div class="dimensiones-grid">
+            <div class="dimension-card institucional">
+                <h3 class="dimension-title">🏛️ Diseño Institucional</h3>
+                <p class="dimension-description">
+                    <strong>Metodología de trabajo preferida para la IDCCE</strong><br><br>
+                    Estructura organizacional del venue plurilateral: dependencia del Consejo General, 
+                    coordinación por Co-Convocantes, "debates estructurados", mandato transversal. 
+                    <span class="highlight">26 códigos totales</span> distribuidos entre las cuatro motivaciones.
+                </p>
+            </div>
+            
+            <div class="dimension-card normativo">
+                <h3 class="dimension-title">📜 Diseño Normativo</h3>
+                <p class="dimension-description">
+                    <strong>Forma de elaborar instrumentos normativos concretos</strong><br><br>
+                    Modalidades para crear reglas vinculantes: seguridad jurídica, flexibilidades para países en desarrollo, 
+                    mecanismos compensatorios, calendarios graduales. 
+                    <span class="highlight">24 códigos totales</span> con predominio de credibilidad de compromisos.
+                </p>
+            </div>
+        </div>
+
+        <div class="motivaciones-section">
+            <h2 class="section-title">Arquitectura Motivacional</h2>
+            
+            <div class="motivaciones-grid">
+                <div class="motivacion-card credibilidad">
+                    <div class="ganador-badge">DOMINANTE</div>
+                    <div class="motivacion-header">
+                        <h3 class="motivacion-title">👑 Credibilidad de Compromisos</h3>
+                        <div class="motivacion-count">19</div>
+                    </div>
+                    <div class="motivacion-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">9</span>
+                            Institucional
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">10</span>
+                            Normativo
+                        </div>
+                    </div>
+                    <p class="motivacion-description">
+                        <strong>Racionalidad política.</strong> Pool surge ante alta incertidumbre para elaborar legislación futura. 
+                        Articular políticamente múltiples negociaciones inter-temporales. Circunvalar consenso multilateral OMC.
+                        Compatible con países de mayores ventajas institucionales que buscan disminuir complejidad de establecer 
+                        nuevas normas mediante partición de la membresía OMC.
+                    </p>
+                    <div class="ejemplos-empiricos">
+                        <div class="ejemplos-title">Códigos Empíricos Extraídos</div>
+                        <div class="ejemplo-item">"Revitalizar función de negociación de la OMC" (China, 2019)</div>
+                        <div class="ejemplo-item">"Enfoque flexible, pragmático y equilibrado" (China, 2019)</div>
+                        <div class="ejemplo-item">"Participar versus abstenerse para tener voz" (Costa de Marfil, 2019)</div>
+                        <div class="ejemplo-item">"Seguridad jurídica y contratos cumplidos" (UE, 2019)</div>
+                        <div class="ejemplo-item">"Mitigar liberalización con protección nacional limitada" (Costa de Marfil, 2019)</div>
+                    </div>
+                </div>
+
+                <div class="motivacion-card federal">
+                    <div class="motivacion-header">
+                        <h3 class="motivacion-title">🌍 Ideología Federal</h3>
+                        <div class="motivacion-count">12</div>
+                    </div>
+                    <div class="motivacion-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">8</span>
+                            Institucional
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">4</span>
+                            Normativo
+                        </div>
+                    </div>
+                    <p class="motivacion-description">
+                        <strong>Legitimidad democrática.</strong> Instituciones empoderan decisores legítimos. 
+                        Apoyo varía según países (no asuntos). Promover integración y armonización regulatoria global.
+                        Clivajes domésticos oponen federalistas y nacionalistas. Énfasis en ideología multilateral.
+                    </p>
+                    <div class="ejemplos-empiricos">
+                        <div class="ejemplos-title">Códigos Empíricos Extraídos</div>
+                        <div class="ejemplo-item">"Contribuir coordinación políticas regulatorias" (Singapur+, 2017)</div>
+                        <div class="ejemplo-item">"Enfoque estructurado cooperación internacional" (Rusia, 2017)</div>
+                        <div class="ejemplo-item">"Grupo trabajo plurilateral especializado" (Singapur+, 2017)</div>
+                        <div class="ejemplo-item">"Soluciones dificultades países desarrollo" (Japón, 2020)</div>
+                    </div>
+                </div>
+
+                <div class="motivacion-card tecnocratica">
+                    <div class="motivacion-header">
+                        <h3 class="motivacion-title">⚙️ Gestión Tecnocrática</h3>
+                        <div class="motivacion-count">11</div>
+                    </div>
+                    <div class="motivacion-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">8</span>
+                            Institucional
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">3</span>
+                            Normativo
+                        </div>
+                    </div>
+                    <p class="motivacion-description">
+                        <strong>Racionalidad informacional.</strong> Apoyo varía según asuntos (no países). 
+                        Delegación probable para temas técnicamente complejos y bajo conflicto distribucional.
+                        Compatible con países de mayores capacidades materiales. Búsqueda de eficiencia más que legitimidad.
+                    </p>
+                    <div class="ejemplos-empiricos">
+                        <div class="ejemplos-title">Códigos Empíricos Extraídos</div>
+                        <div class="ejemplo-item">"Diseño bottom-up con cuerpos técnicos" (Unión Africana, 2017)</div>
+                        <div class="ejemplo-item">"Consultas GT órganos OMC específicas" (Rusia, 2017)</div>
+                        <div class="ejemplo-item">"Asuntos técnicamente complejos" (Hong Kong-Japón-Taiwán, 2017)</div>
+                        <div class="ejemplo-item">"Equilibrio avances tecnológicos" (documentos varios)</div>
+                    </div>
+                </div>
+
+                <div class="motivacion-card nacional">
+                    <div class="motivacion-header">
+                        <h3 class="motivacion-title">🏛️ Ideología Nacional</h3>
+                        <div class="motivacion-count">8</div>
+                    </div>
+                    <div class="motivacion-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">1</span>
+                            Institucional
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-number">7</span>
+                            Normativo
+                        </div>
+                    </div>
+                    <p class="motivacion-description">
+                        <strong>Preservación soberanía.</strong> Retención instrumentos soberanos estatales. 
+                        Mayor división entre gobiernos federalistas y nacionalistas según asuntos ideológicos.
+                        Asociada a preferencia por retención versus pool/delegación. Enfoque plurilateral debilita multilateralismo.
+                    </p>
+                    <div class="ejemplos-empiricos">
+                        <div class="ejemplos-title">Códigos Empíricos Extraídos</div>
+                        <div class="ejemplo-item">"Preocupación forma en que se crean normas" (Sudáfrica, 2020)</div>
+                        <div class="ejemplo-item">"Equilibrio flexible sin permanencia" (varios documentos)</div>
+                        <div class="ejemplo-item">"Enfoque plurilateral debilita multilateralismo" (Costa de Marfil, 2019)</div>
+                        <div class="ejemplo-item">"Debates exploratorios limitados" (varios países no-IDCCE)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hipotesis-validation">
+            <h2 class="validation-title">✅ Confirmación Hipótesis 2B</h2>
+            <p class="validation-content">
+                La evidencia empírica confirma que la <span class="highlight">racionalidad política supera a la informacional</span> 
+                en la creación del pool de soberanía IDCCE. La motivación dominante es la 
+                <strong>credibilidad de compromisos</strong> (19 códigos) por sobre la gestión tecnocrática centralizada (11 códigos). 
+                La IDCCE es un venue orientado a <span class="highlight">articular políticamente múltiples negociaciones inter-temporales</span> 
+                más que garantizar eficiencia o legitimidad democrática.
+            </p>
+        </div>
+
+        <div class="frontera-difusa">
+            <h3 class="frontera-title">⚠️ Desafío Hermenéutico</h3>
+            <p>
+                Aplicar el modelo de Moravcsik (1998) al caso IDCCE presenta una dificultad particular: 
+                <span class="highlight">la frontera entre credibilidad de compromisos y gestión tecnocrática es difícil de trazar</span>. 
+                Hay evidencia en niveles meso y macro en ambos sentidos. Un mismo documento muestra elementos compatibles 
+                con varias motivaciones, aunque con relevancia diversa.
+            </p>
+        </div>
+
+        <div class="contexto-teorico">
+            <h2 class="section-title">Contexto Teórico: El Paso 3 de Moravcsik (1998)</h2>
+            
+            <div class="teoria-explanation">
+                <p>
+                    Esta tesis "saltea" el paso 2 del modelo original de Moravcsik (1998), hace de su tercer paso nuestro Paso 2 
+                    (centrado en la elección institucional), adaptando el herramental teórico al caso IDCCE-OMC. El abordaje es 
+                    <span class="highlight">más específico al problema de estudio</span> que el Paso 1 porque los medios de verificación 
+                    son eminentemente propios del venue bajo análisis, mientras que el Paso 1 recurría a dimensiones explicativas 
+                    estructurales y exógenas.
+                </p>
+                
+                <p>
+                    Con Riordan (2019), consideramos que una negociación intergubernamental se puede celebrar en el contexto de una 
+                    organización internacional existente o mediante la creación de una nueva organización; pero también en una 
+                    <span class="highlight">mixtura de ambas</span>: en un nuevo venue o canal dentro de una organización internacional 
+                    existente, como medio de establecer un nuevo balance entre retención y delegación de soberanía estatal.
+                </p>
+            </div>
+        </div>
+
+        <div class="innovacion-institucional">
+            <h2 class="section-title">La IDCCE como Innovación Institucional</h2>
+            
+            <div class="innovacion-grid">
+                <div class="innovacion-card">
+                    <h3>🏛️ Venue Plurilateral en Organización Multilateral</h3>
+                    <p>
+                        La IDCCE constituye una <span class="highlight">organización tipo club dentro de una organización multilateral</span>, 
+                        integrada sobre todo por países con mayores capacidades materiales y ventajas institucionales relativas de la OMC. 
+                        Mandato transversal a todo asunto relativo al comercio electrónico, dependiente de la presidencia del Consejo General.
+                    </p>
+                </div>
+                
+                <div class="innovacion-card">
+                    <h3>⚖️ Circunvalar el Consenso Multilateral</h3>
+                    <p>
+                        Coalición que apostó a <span class="highlight">particionar la membresía de la OMC</span> para disminuir la complejidad 
+                        de establecer nuevas normas circunvalando el principio de consenso multilateral. Pool diseñado como medio para 
+                        elaborar legislación futura ante escenario de alta incertidumbre (Moravcsik, 1998).
+                    </p>
+                </div>
+                
+                <div class="innovacion-card">
+                    <h3>📋 Debates Estructurados vs Órganos Subsidiarios</h3>
+                    <p>
+                        Alternativa a los órganos subsidiarios de la OMC y al Programa de Trabajo sobre Comercio Electrónico (PTCE) creado en 1998. 
+                        <span class="highlight">"Debates estructurados"</span> sobre todos los temas propuestos por sus miembros, 
+                        coordinados por grupo de países Co-Convocantes (Australia, Japón y Singapur).
+                    </p>
+                </div>
+            </div>
+        </div>
+            <h2 class="section-title">Conversaciones Intergubernamentales Estilizadas</h2>
+            
+            <div class="conversacion-card">
+                <div class="conversacion-actor">🇨🇳 China (Abril 2019)</div>
+                <div class="conversacion-mensaje">
+                    "Enfoque flexible, pragmático y equilibrado basado en consultas equitativas" para "revitalizar función de negociación de la OMC"
+                </div>
+            </div>
+            
+            <div class="conversacion-card">
+                <div class="conversacion-actor">🇨🇮 Costa de Marfil (Diciembre 2019)</div>
+                <div class="conversacion-mensaje">
+                    "Participar versus abstenerse para tener voz referenciada en los países en desarrollo dentro del venue"
+                </div>
+            </div>
+            
+            <div class="conversacion-card">
+                <div class="conversacion-actor">🌍 Unión Africana (Octubre 2017)</div>
+                <div class="conversacion-mensaje">
+                    "Diseño bottom-up con cuerpos técnicos como primeras instancias de gobernanza"
+                </div>
+            </div>
+            
+            <div class="conversacion-card">
+                <div class="conversacion-actor">🇸🇬 Singapur + Coalición (Noviembre 2017)</div>
+                <div class="conversacion-mensaje">
+                    "Grupo de trabajo plurilateral especializado y transversal" diferente de órganos subsidiarios OMC
+                </div>
+            </div>
+        </div>
+
+        <div class="metodologia-note">
+            <h3 class="metodologia-title">📋 Metodología Atlas.ti Sin IA Generativa</h3>
+            <p class="metodologia-text">
+                <strong>Análisis esencialmente cualitativo</strong> basado en 50 códigos extraídos de 14 documentos clave 
+                (7 relevancia principal + 7 secundaria) seleccionados de 120+ comunicaciones oficiales OMC (2017-2024). 
+                <span class="highlight">Codificación manual iterativa</span> mediante múltiples relecturas para homologar códigos 
+                y encontrar fórmulas identificables en varios documentos.
+            </p>
+            
+            <p class="metodologia-text">
+                El proceso evolutivo partió de códigos descriptivos ("Refiere a brecha digital") hacia códigos analíticos 
+                ("Insta por programa CE para desarrollo") hasta proxys de preferencias ("Ideología Federal"). 
+                <span class="highlight">Reposición sistemática de contextos</span> mediante conversaciones intergubernamentales 
+                estilizadas sobre diseño institucional IDCCE, procesos de negociación y validez de normas multilaterales.
+            </p>
+            
+            <p class="metodologia-text">
+                <strong>Unidad de análisis:</strong> comunicación estatal oficial (no país individual), permitiendo documentos 
+                co-suscriptos por varios países. <strong>Indicadores empíricos:</strong> cantidad de estándares estatales afines 
+                a cada motivación estratégica. <strong>Base documental:</strong> periodo 2017-2024 cubriendo momento fundacional 
+                pre-IDCCE (2017) y consolidación post-IDCCE (2019-2021).
+            </p>
+        </div>
+    </div>
+</body>
+</html>

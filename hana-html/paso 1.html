@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paso 1: Ensamblaje Heterogéneo de Capacidades y Ventajas</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #0D0D1A;
+            --card-bg: #161623;
+            --text-primary: #F0F0F5;
+            --text-secondary: #A8A8B3;
+            --accent-purple: #8B5CF6;
+            --accent-pink: #D946EF;
+            --accent-blue: #3B82F6;
+            --accent-green: #10B981;
+            --accent-yellow: #F59E0B;
+            --accent-red: #EF4444;
+            --border-glow: rgba(139, 92, 246, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 0;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Efecto Aurora de Fondo */
+        .aurora {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1400px;
+            height: 1400px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(150px);
+        }
+        .aurora-1 { background: rgba(139, 92, 246, 0.15); animation: moveAurora1 20s infinite alternate; }
+        .aurora-2 { background: rgba(59, 130, 246, 0.1); animation: moveAurora2 25s infinite alternate; }
+
+        @keyframes moveAurora1 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-40%, -60%) rotate(180deg) scale(1.2); }
+        }
+        @keyframes moveAurora2 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-60%, -40%) rotate(-180deg) scale(0.9); }
+        }
+
+        h1, h2, h3, p { position: relative; z-index: 1; }
+
+        /* Estilos de Texto */
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            font-weight: 300;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            max-width: 900px;
+            margin-bottom: 1rem;
+        }
+        
+        h1 .highlight {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 700px;
+            margin-bottom: 4rem;
+        }
+
+        /* Sección Hero */
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Declaración de Victoria */
+        .victory-declaration {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--border-glow);
+            border-radius: 32px;
+            padding: 4rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 4rem;
+        }
+        .victory-declaration h2 {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .victory-stat {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: var(--accent-green);
+        }
+        .victory-label {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .victory-text {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Sección Modelos */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        .model-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+            opacity: 0.6;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: var(--border-glow);
+        }
+        
+        .model-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        .model-card .techno { color: var(--accent-blue); }
+        .model-card .issues { color: var(--accent-yellow); }
+        .model-card .integrator { color: var(--accent-purple); }
+        
+        .model-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* EGOV Grid Corregido */
+        .egov-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .egov-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .egov-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .egov-card .level {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .egov-card .alto { color: var(--accent-green); }
+        .egov-card .medio-alto { color: var(--accent-yellow); }
+        .egov-card .medio-bajo { color: var(--accent-blue); }
+        .egov-card .bajo { color: var(--accent-red); }
+
+        .egov-card .percentage {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .egov-card .note {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+        
+        /* Sección Cualitativa / Modelos */
+        .qualitative-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .qualitative-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .qualitative-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qualitative-card h3 .precision {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .qualitative-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .qualitative-card li {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .qualitative-card li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Sección Síntesis */
+        .synthesis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .synthesis-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .synthesis-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .synthesis-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Tooltips */
+        .tooltip-trigger {
+            border-bottom: 1px dotted var(--accent-purple);
+            cursor: help;
+            position: relative;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 320px;
+            background-color: #11111b;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border-glow);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-weight: 400;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #11111b transparent transparent transparent;
+        }
+
+        .tooltip-text b { color: var(--accent-purple); }
+
+        .tooltip-trigger:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Highlight */
+        .highlight {
+            background: linear-gradient(120deg, 
+                rgba(139, 92, 246, 0.3) 0%, 
+                rgba(168, 85, 247, 0.2) 100%);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .models-grid, .egov-grid, .qualitative-grid, .synthesis-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .victory-declaration {
+                padding: 2.5rem;
+            }
+            
+            .victory-stat {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .egov-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="hero" class="section">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="container">
+            <p class="hero-subtitle">Tesis Doctoral: A. Bustos Frati</p>
+            <h1>Paso 1: <span class="highlight">Ensamblaje Heterogéneo</span> de Capacidades y Ventajas</h1>
+            <p class="section-subtitle">
+                Análisis de los determinantes estructurales que llevaron a 91 de 164 países de la OMC a unirse a la IDCCE. 
+                No es sinergia interdisciplinaria: es un ensamblaje donde cada componente mantiene su integridad ontológica 
+                operando como totalidad emergente.
+            </p>
+        </div>
+    </div>
+
+    <div id="victory" class="section">
+        <div class="container">
+            <div class="victory-declaration">
+                <h2>🏆 Modelo Integrador: Superioridad Empírica Confirmada</h2>
+                <div class="victory-stat">87.3%</div>
+                <div class="victory-label">Precisión Predictiva del Ensamblaje Heterogéneo</div>
+                <p class="victory-text">
+                    La evidencia es contundente. Un modelo que <span class="tooltip-trigger">ensambla capacidades digitales (EGOV) y experiencia comercial (RTA#)<span class="tooltip-text"><b>Ensamblaje Heterogéneo (DeLanda):</b> Componentes mantienen su integridad ontológica mientras operan como totalidad emergente. EGOV + RTA# = 87.3% precisión que ningún componente individual puede generar por sí solo.</span></span> explica las decisiones estatales con precisión abrumadora, superando por 28 puntos a los modelos unidimensionales. <span class="highlight">La cooperación digital emerge del ensamblaje, no de factores aislados</span>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="models" class="section">
+        <div class="container">
+            <h2>Los Modelos en Competencia Ecológica</h2>
+            <p class="section-subtitle">
+                Tres marcos teóricos compiten por explicar las preferencias estatales. Cada uno postula una lógica causal distinta, 
+                pero solo el modelo integrador captura la complejidad del ensamblaje heterogéneo.
+            </p>
+            <div class="models-grid">
+                <div class="model-card">
+                    <h3 class="techno">🔴 Modelo Tecno-Económico</h3>
+                    <p>Las <span class="tooltip-trigger">capacidades materiales<span class="tooltip-text"><b>Capacidades Materiales:</b> Recursos estructurales del Estado como desarrollo en gobierno digital (EGOV), infraestructura de ciberseguridad (DSS) e ingreso nacional. Componente estructural del ensamblaje.</span></span> (digitalización estatal, infraestructura técnica) determinan la preferencia por negociar en venues plurilaterales.</p>
+                    <div class="metric">
+                        <span class="value techno">59.3%</span>
+                        <div class="label">Pseudo R² (Insuficiente)</div>
+                    </div>
+                </div>
+                <div class="model-card">
+                    <h3 class="issues">🟡 Modelo Estructurado</h3>
+                    <p>Las <span class="tooltip-trigger">ventajas institucionales<span class="tooltip-text"><b>Ventajas Institucionales:</b> Externalidades positivas de interdependencia comercial, medidas por densidad de red de acuerdos comerciales (RTA#) y experiencia negociadora acumulada. Componente relacional del ensamblaje.</span></span> (experiencia diplomática, redes comerciales densas) son el motor principal de la cooperación sustantiva.</p>
+                    <div class="metric">
+                        <span class="value issues">54.1%</span>
+                        <div class="label">Pseudo R² (Peor que tecno)</div>
+                    </div>
+                </div>
+                <div class="model-card">
+                    <h3 class="integrator">🟢 Modelo Integrador</h3>
+                    <p>Las preferencias emergen del <span class="tooltip-trigger">ensamblaje heterogéneo<span class="tooltip-text"><b>Ensamblaje Heterogéneo:</b> Totalidad emergente donde capacidades materiales + ventajas institucionales operan como sistema funcional sin perder su identidad ontológica individual. Genera propiedades que ningún componente puede producir aisladamente.</span></span> entre capacidades materiales y ventajas institucionales. La interacción EGOV×RTA genera efectos multiplicativos.</p>
+                    <div class="metric">
+                        <span class="value integrator">87.3%</span>
+                        <div class="label">Precisión Predictiva (Óptimo)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="egov" class="section">
+        <div class="container">
+            <h2>EGOV: La Condición Suficiente del Ensamblaje</h2>
+            <p class="section-subtitle">
+                El Índice de Desarrollo de Gobierno Digital (EGOV) no es solo una variable: es la condición que estructura 
+                todo el campo de preferencias. Su nivel determina la probabilidad de participación IDCCE con precisión casi absoluta.
+            </p>
+            <div class="egov-grid">
+                <div class="egov-card">
+                    <div class="level bajo">Bajo EGOV</div>
+                    <div class="percentage bajo">9.8%</div>
+                    <div class="note">Solo 4 de 41 países participan. Desincentivo estructural masivo para coordinación regulatoria.</div>
+                </div>
+                <div class="egov-card">
+                    <div class="level medio-bajo">Medio-Bajo EGOV</div>
+                    <div class="percentage medio-bajo">12.2%</div>
+                    <div class="note">5 de 41 países participan. Confirmación del patrón: bajas capacidades digitales → baja cooperación.</div>
+                </div>
+                <div class="egov-card">
+                    <div class="level medio-alto">Medio-Alto EGOV</div>
+                    <div class="percentage medio-alto">68.3%</div>
+                    <div class="note">28 de 41 países participan. Zona de complejidad donde las ventajas institucionales deciden.</div>
+                </div>
+                <div class="egov-card">
+                    <div class="level alto">Alto EGOV</div>
+                    <div class="percentage alto">100%</div>
+                    <div class="note">Los 37 países con alto desarrollo digital participan unánimemente. Condición suficiente confirmada.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="interactions" class="section">
+        <div class="container">
+            <h2>Interacciones del Ensamblaje: Más que la Suma de Partes</h2>
+            <p class="section-subtitle">
+                El ensamblaje heterogéneo revela efectos multiplicativos que superan ampliamente la suma de efectos individuales. 
+                EGOV × RTA# genera 48x más chances de participación que los factores aislados.
+            </p>
+            <div class="qualitative-grid">
+                <div class="qualitative-card">
+                    <h3>Ensamblaje Minimalista <span class="precision">86.3% precisión</span></h3>
+                    <ul>
+                        <li><span class="tooltip-trigger">EGOV × RTA# = 48x chances<span class="tooltip-text">Interacción parsimoniosa que demuestra cómo el desarrollo digital estatal multiplicado por experiencia comercial genera efectos sinérgicos superiores a factores aislados.</span></span>: La combinación supera ampliamente los efectos individuales.</li>
+                        <li>Robustez temporal 83.5% en población diacrónica M1-M2-M3.</li>
+                        <li>Parsimonia máxima: dos variables, máximo poder explicativo.</li>
+                    </ul>
+                </div>
+                <div class="qualitative-card">
+                    <h3>Ensamblaje Maximalista <span class="precision">90.4% precisión</span></h3>
+                    <ul>
+                        <li><span class="tooltip-trigger">Doble interacción compleja<span class="tooltip-text">EGOV×DSS (capacidades materiales) + RTA×ecRTA (ventajas institucionales) operando simultáneamente en el ensamblaje heterogéneo.</span></span>: EGOV×DSS + RTA×ecRTA convergiendo en un solo modelo.</li>
+                        <li>76.9% Pseudo R² - máxima bondad de ajuste posible.</li>
+                        <li>Elite tecnológica: países con EGOV×DSS alto = participación unánime.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="synthesis" class="section">
+        <div class="container">
+            <h2>Síntesis: El Ensamblaje como Explicación</h2>
+            <p class="section-subtitle">
+                El Paso 1 establece que la decisión de cooperar sustantivamente en comercio digital es un ensamblaje 
+                heterogéneo complejo donde cada componente mantiene su identidad pero opera como totalidad emergente.
+            </p>
+            <div class="synthesis-grid">
+                <div class="synthesis-card">
+                    <h3>🧠 Hallazgo Central del Ensamblaje</h3>
+                    <p>La preferencia por iniciar negociaciones vinculantes <span class="highlight">(cooperación sustantiva)</span> no es aleatoria ni unidimensional. Se explica por un <span class="highlight">ensamblaje heterogéneo</span> donde altas capacidades digitales (EGOV) y densa experiencia comercial (RTA#) mantienen su integridad ontológica pero operan como totalidad emergente con 87.3% precisión predictiva.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>🔗 Conexión con Pasos Futuros</h3>
+                    <p>El "quién participa" del Paso 1 es la base para el <span class="highlight">Paso 2 (Pool de Soberanía)</span>, que analiza por qué eligieron venue plurilateral IDCCE versus track multilateral PTCE. Y para el <span class="highlight">Paso 3 (Sistema Dual)</span>, que examina la arquitectura funcional del núcleo negociador.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>⚡ Condición Suficiente vs Necesaria</h3>
+                    <p>Alto EGOV constituye <span class="highlight">condición suficiente</span> para participación (100% países), pero bajo EGOV no la impide completamente (9.8% participan por factores geopolíticos). Esto confirma el ensamblaje: <span class="highlight">estructura importante, pero no determinista absoluto</span>.</p>
+                </div>
+                <div class="synthesis-card">
+                    <h3>🌐 Implicaciones del Ensamblaje</h3>
+                    <p>Los hallazgos sugieren que la cooperación digital requiere <span class="highlight">ensamblaje completo</span>: países con solo altas capacidades O solo experiencia comercial tienen menor probabilidad de participar que aquellos donde ambos componentes convergen en configuración funcional.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.section');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANA | Tesis A. Bustos Frati - El Relato Integrado v2</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-color: #0A0A14;
+            --card-bg: rgba(22, 22, 35, 0.5);
+            --text-primary: #F0F0F5;
+            --text-secondary: #A8A8B3;
+            --accent-purple: #8B5CF6;
+            --accent-pink: #D946EF;
+            --accent-blue: #3B82F6;
+            --accent-green: #10B981;
+            --accent-yellow: #F59E0B;
+            --accent-red: #EF4444;
+            --border-glow: rgba(139, 92, 246, 0.2);
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 1rem;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .aurora {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 1500px;
+            height: 1500px;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(200px);
+        }
+        .aurora-1 { background: rgba(139, 92, 246, 0.1); animation: moveAurora1 25s infinite alternate; }
+        .aurora-2 { background: rgba(217, 70, 239, 0.08); animation: moveAurora2 30s infinite alternate; }
+
+        @keyframes moveAurora1 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-45%, -55%) rotate(120deg) scale(1.3); }
+        }
+        @keyframes moveAurora2 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-55%, -45%) rotate(-120deg) scale(0.8); }
+        }
+        
+        h1, h2, h3, p, dl { position: relative; z-index: 1; }
+
+        h1 {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 300;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            max-width: 950px;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 .highlight-brand {
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 750px;
+            margin-bottom: 4rem;
+            line-height: 1.7;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(15px);
+            width: 100%;
+        }
+
+        .step-indicator {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        
+        /* Grids */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255, 0.03);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255, 0.05);
+        }
+        
+        .stat-card .value {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-card .value.blue { color: var(--accent-blue); }
+        .stat-card .value.yellow { color: var(--accent-yellow); }
+        .stat-card .value.green { color: var(--accent-green); }
+
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+        }
+
+        .verdict-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .verdict-card .value { color: var(--accent-green); }
+        .verdict-card p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            color: #d1fae5;
+        }
+
+        .qualitative-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .qual-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .qual-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            padding-left: 1rem;
+            border-left: 3px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .qual-card.pro-credibility h3 { border-color: var(--accent-purple); }
+        .qual-card.pro-techno h3 { border-color: var(--accent-blue); }
+        .qual-card.pro-offense h3 { border-color: var(--accent-pink); }
+        .qual-card.pro-defense h3 { border-color: var(--accent-yellow); }
+
+        .qual-card h3 .code-count {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            background-color: rgba(255,255,255,0.05);
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
+        }
+        
+        .qual-card ul { list-style: none; }
+        .qual-card li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .final-synthesis-card {
+            background: linear-gradient(160deg, #161623, #11111B);
+            border: 1px solid var(--border-light);
+            padding: 4rem;
+            border-radius: 32px;
+        }
+        
+        .final-synthesis-card p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        
+        .final-synthesis-card .highlight {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-shadow: 0 0 15px var(--border-glow);
+        }
+
+        .tooltip-trigger {
+            border-bottom: 1px dotted var(--accent-purple);
+            cursor: help;
+            position: relative;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 300px;
+            background-color: #11111b;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border-glow);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-weight: 400;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tooltip-text b { color: var(--accent-purple); }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #11111b transparent transparent transparent;
+        }
+        .tooltip-trigger:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .egov-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+        
+        .egov-card .level { font-size: 1rem; font-weight: 500; margin-bottom: 1rem; }
+        .egov-card .alto { color: var(--accent-green); }
+        .egov-card .medio-alto { color: var(--accent-yellow); }
+        .egov-card .medio-bajo { color: var(--accent-blue); }
+        .egov-card .bajo { color: var(--accent-red); }
+
+        .egov-card .percentage { font-size: 3.5rem; font-weight: 800; line-height: 1; }
+        .egov-card .note { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.75rem; }
+
+        @media (max-width: 900px) {
+            .grid-3, .grid-4, .qualitative-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 500px) {
+            .grid-4 { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    
+    <div class="container">
+        <section class="section" id="hero">
+            <h1>Uniendo los <span class="highlight-brand">Puntos Digitales</span></h1>
+            <p class="section-subtitle">
+                Una narrativa inmersiva que deconstruye las preferencias estatales sobre comercio digital en la OMC, revelando un sistema complejo de capacidades, política y poder normativo.
+            </p>
+        </section>
+
+        <section class="section" id="paso1">
+            <div class="step-indicator">Paso 1</div>
+            <h2>La Decisión de Cooperar</h2>
+            <p class="section-subtitle">
+                ¿Por qué 91 países deciden iniciar negociaciones vinculantes? No es una sola causa. Es la <span class="tooltip-trigger">sinergia<span class="tooltip-text"><b>Sinergia:</b> El efecto combinado de múltiples factores es mayor que la suma de sus efectos individuales. En la tesis, la combinación de capacidades digitales (EGOV) y experiencia comercial (DRC) explica la participación mucho mejor que cada factor por separado.</span></span> entre su madurez digital y su experiencia diplomática la que predice esta decisión con una precisión del 87.3%.
+            </p>
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="value blue">59.3%</div>
+                    <div class="label">Poder explicativo del modelo <br><strong>Tecno-Económico</strong></div>
+                </div>
+                <div class="stat-card">
+                    <div class="value yellow">54.1%</div>
+                    <div class="label">Poder explicativo del modelo <br><strong>Estructurado (Ventajas)</strong></div>
+                </div>
+                <div class="stat-card verdict-card">
+                    <div class="value">87.3%</div>
+                    <div class="label">Precisión predictiva del <br><strong>Modelo Integrador</strong></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section" id="egov-pivot">
+            <h2>EGOV: La Condición Suficiente</h2>
+            <p class="section-subtitle">
+                El desarrollo en gobierno digital (EGOV) actúa como un filtro determinante. Una alta capacidad digital estatal no es solo un factor; es la precondición para sentarse en la mesa de negociación. Los datos de la Tabla 17 (n=160) son concluyentes.
+            </p>
+            <div class="grid-4">
+                <div class="egov-card">
+                    <div class="level bajo">Bajo EGOV</div>
+                    <div class="percentage bajo">9.8%</div>
+                    <div class="note">4 de 41 países participan</div>
+                </div>
+                <div class="egov-card">
+                    <div class="level medio-bajo">Medio-Bajo EGOV</div>
+                    <div class="percentage medio-bajo">12.2%</div>
+                    <div class="note">5 de 41 países participan</div>
+                </div>
+                <div class="egov-card">
+                    <div class="level medio-alto">Medio-Alto EGOV</div>
+                    <div class="percentage medio-alto">68.3%</div>
+                    <div class="note">28 de 41 países participan</div>
+                </div>
+                <div class="egov-card">
+                    <div class="level alto">Alto EGOV</div>
+                    <div class="percentage alto">100%</div>
+                    <div class="note">37 de 37 países participan</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section" id="paso2">
+            <div class="step-indicator">Paso 2</div>
+            <h2>La Elección del Venue</h2>
+            <p class="section-subtitle">
+                Una vez decidido cooperar, ¿por qué en un <span class="tooltip-trigger">venue plurilateral<span class="tooltip-text"><b>Venue Plurilateral:</b> Un foro de negociación (como la IDCCE) dentro de una organización multilateral (OMC) pero que no incluye a todos sus miembros, permitiendo avanzar más rápido y con estándares más altos entre los países dispuestos.</span></span> como la IDCCE? La respuesta no es la eficiencia técnica. Es la política: los países buscan <span class="tooltip-trigger">credibilidad para sus compromisos<span class="tooltip-text"><b>Credibilidad de Compromisos:</b> Según Moravcsik, los estados delegan soberanía para 'atar sus propias manos', haciendo sus políticas futuras más predecibles y creíbles para otros actores e inversores. Esta fue la motivación dominante, superando la búsqueda de eficiencia.</span></span> y una plataforma para ejercer liderazgo.
+            </p>
+            <div class="qualitative-grid">
+                <div class="qual-card pro-credibility">
+                    <h3>Credibilidad de Compromisos<span class="code-count">19 Códigos</span></h3>
+                    <ul>
+                        <li>Revitalizar la función negociadora de la OMC.</li>
+                        <li>Articular avances en múltiples temas a la vez (compensaciones).</li>
+                        <li>Instar a un enfoque flexible, pragmático y equilibrado.</li>
+                    </ul>
+                </div>
+                <div class="qual-card pro-techno">
+                    <h3>Gestión Tecnocrática<span class="code-count">11 Códigos</span></h3>
+                    <ul>
+                        <li>Crear un grupo de trabajo para dar continuación "eficaz" a las labores.</li>
+                        <li>Mejorar el método de trabajo con "debates específicos".</li>
+                        <li>Establecer reglas con "altos estándares".</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="paso3">
+            <div class="step-indicator">Paso 3</div>
+            <h2>El Núcleo del Conflicto: Un Sistema Dual</h2>
+            <p class="section-subtitle">
+                El corazón de la negociación no es un solo tema, sino un sistema dual. La posición sobre la moratoria actúa como un filtro de entrada, mientras que la reglamentación de datos es el verdadero espacio de negociación y conflicto.
+            </p>
+             <div class="qualitative-grid">
+                <div class="qual-card pro-offense">
+                    <h3>Moratoria Arancelaria (Filtro)</h3>
+                     <p>La cuestión más crítica. La preferencia por una moratoria de largo plazo tiene un Exp(B) de <span class="highlight-brand">1787x</span> para predecir la participación. Su precisión es del <strong>97.6%</strong>.</p>
+                </div>
+                <div class="qual-card pro-defense">
+                    <h3>Reglamentación de Datos (Negociación)</h3>
+                    <p>Campo de batalla entre estándares ofensivos (libre flujo) y defensivos (soberanía). La preferencia aquí tiene un Exp(B) de <span class="highlight-brand">414x</span>. Su precisión es del <strong>93.8%</strong>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="final-synthesis">
+            <div class="final-synthesis-card">
+                <h2>Conclusión del Relato</h2>
+                <p>
+                    La decisión de un Estado de unirse a la vanguardia de la regulación del comercio digital no es un acto aislado. Es un <span class="tooltip-trigger">ensamblaje<span class="tooltip-text"><b>Ensamblaje (DeLanda):</b> Concepto filosófico que tu tesis aplica para mostrar cómo las preferencias estatales no son monolíticas, sino el resultado de la interacción de componentes heterogéneos (capacidades materiales, ventajas institucionales, cálculos políticos, normas específicas) que mantienen su propia identidad pero funcionan como un todo coherente.</span></span> complejo. Comienza con una <span class="highlight">base de capacidades digitales y comerciales</span> (Paso 1), se canaliza a través de un <span class="highlight">cálculo político de credibilidad y liderazgo</span> (Paso 2), y se cristaliza en una posición sobre el <span class="highlight">núcleo conflictivo de la negociación</span> (Paso 3). Comprender la interacción de estas partes es comprender la nueva geopolítica del siglo digital.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.section');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+    </script>
+</body>
+</html>
