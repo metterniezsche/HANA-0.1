@@ -1,90 +1,92 @@
+# 🧠 HANA — Human Agency Neural Architecture
 
+**Repositorio central del proyecto doctoral y arquitectónico de Alexandra Bustos Frati.**  
+Explora cómo los Estados coordinan su soberanía regulatoria en el comercio digital, y cómo esa inteligencia se transforma en ensamblajes vivos de acceso público.
 
-🗂️ Contenido del Repositorio
+---
 
-PhDThesis/
-├── data/
-│   ├── DB2024_Paso1_164obs.csv          # Base sincrónica principal
-│   ├── DB2024_Paso1_492obs.csv          # Base diacrónica control
-│   ├── DB2024_Paso3_164obs.csv          # Núcleo negociador
-│   └── codebook.md                      # Diccionario de variables
-├── analysis/
-│   ├── ATLAS_project/                   # Proyecto ATLAS.ti completo
-│   ├── SPSS_syntax/                     # Sintaxis estadística
-│   └── replication_guide.md             # Guía de replicación
-├── docs/
-│   ├── thesis_complete.pdf              # Tesis completa
-│   ├── defense_slides.pdf               # Presentación defensa
-│   └── infographic.html                 # Infografía interactiva
-└── spillovers/
-    ├── potential_applications.md        # Casos de aplicación futura
-    └── variable_mapping.csv             # Variables reutilizables
+## 🌐 Artefactos Interactivos (HTML)
 
-    🛠️ ¿Cómo usar este repo?
-Para investigadores de gobernanza digital
+La interfaz visual interpretativa del proyecto está disponible en:
 
-Fork y adapta las variables a tu campo (ciberseguridad, IA, etc.)
-Reutiliza la metodología secuencial de 3 pasos
-Extiende el análisis a nuevos casos o períodos
+🔗 [https://hana.keeler.app](https://hana.keeler.app)
 
-Para cientistas de datos
+Estos artefactos HTML ofrecen una navegación conceptual y empírica sobre los principales hallazgos de la tesis, incluyendo:
 
-Datasets estructurados y listos para análisis
-Variables ordinales ya construidas y validadas
-Códigos SPSS para replicar todos los modelos
+- Modelos explicativos de cooperación sustantiva (SPSS)
+- Motivaciones estratégicas (Atlas.ti)
+- Expansión del IDCCE en la OMC
+- Cronologías y redes de actores
+- Glosario multilingüe
 
-Para policy makers
+📁 Ubicación: `/hana-html/`
 
-Insights sobre cómo se forman coaliciones regulatorias
-Patrones de comportamiento estatal en gobernanza digital
-Casos de uso para anticipar dinámicas futuras
+📌 Estado: **mayoría de artefactos en versión BETA o BETA+**. Indicadores visibles por archivo.
 
-🚀 Uso y Replicación
-Requisitos
+---
 
-SPSS/R: Para análisis cuantitativo
-ATLAS.ti: Para análisis cualitativo (opcional)
-Python/R: Para procesamiento adicional
+## 📚 Tesis Doctoral y Base Empírica
 
-Inicio Rápido
+Contiene:
 
-# Clonar repositorio
-git clone https://github.com/metterniezsche/PhDThesis.git
+- 📄 PDF final de la tesis doctoral  
+- 📊 Bases de datos SPSS + CSV de los tres pasos analíticos (cooperación sustantiva, elección institucional, núcleo negociador)
+- 🧮 Sintaxis SPSS para regresiones logísticas y validación empírica
 
-# Cargar base principal
-# Ver analysis/replication_guide.md para instrucciones detalladas
+📁 Ubicación: `/PhDthesis/`
 
-Citación
+---
 
-@phdthesis{bustos2024preferencias,
-  author    = {Alexandra Bustos Frati},
-  title     = {Preferencias Estatales de Coordinación Regulatoria en Comercio Electrónico: 
-               Un Modelo Integrador Aplicado al Caso de la OMC (2017-2024)},
-  school    = {Universidad de Buenos Aires},
-  year      = {2024},
-  address   = {Buenos Aires, Argentina},
-  note      = {Datos y código disponibles en: https://github.com/metterniezsche/PhDThesis}
-}
+## 🧩 Estructura General del Repositorio
 
-🤝 Contribuciones y Contacto
-Colaboración
-Este repositorio está diseñado para facilitar:
+HANA/
+│
+├── hana-html/ # Artefactos HTML del ecosistema interactivo
+│ ├── index.html # Entrada principal del sistema
+│ ├── paso1_metodologia.html
+│ ├── cuencas_atraccion_ft_moravcsik_spa.html
+│ └── ... (30+ artefactos en ES/EN)
+│
+├── PhDthesis/ # Base empírica y documental de la tesis
+│ ├── Tesis_Bustos_Frati_Alexandra.pdf
+│ ├── DB2024 Paso 1.sav / .csv
+│ ├── Sintaxis 2024.sps
+│ └── ...
+│
+├── LICENSE # Apache 2.0
+└── README.md # Este archivo
 
-Replicaciones en otros campos de coordinación regulatoria
-Extensiones metodológicas del modelo secuencial
-Aplicaciones a nuevos casos empíricos
-Validaciones con datos actualizados
+---
 
-Contacto
+## 📜 Licencia
 
-Email: [tu-email]
-ORCID: [tu-orcid]
-LinkedIn: [tu-linkedin]
-Twitter/X: [tu-handle]
+Este repositorio está publicado bajo la [Licencia Apache 2.0](LICENSE).  
+Los artefactos HTML pueden ser usados, adaptados y citados libremente con mención de autoría.
 
-Agradecimientos
-Especial reconocimiento a Carolina Aguerre (directora), la Universidad de Buenos Aires, y todos los colegas que contribuyeron al desarrollo de esta investigación.
+---
 
-📄 Licencia
-Este trabajo está licenciado bajo Creative Commons Attribution 4.0 International License.
-Compartir y adaptar libremente, con atribución apropiada.
+## ✨ Créditos y Autoría
+
+Diseño, arquitectura simbiótica y desarrollo:
+
+**Alexandra Bustos Frati**  
+PhD en Ciencias Sociales, UBA  
+Fundadora de KeelerApp
+
+🔗 [Web](https://www.keeler.app)  
+🔗 [LinkedIn](https://www.linkedin.com/in/lexbustosfrati/)  
+🔗 [ResearchGate](https://www.researchgate.net/profile/Alexandra-Bustos-Frati)
+
+Contribuciones adicionales (HTML, diseño conceptual, IA estructural): Claude AI, ChatGPT, Qdrant, Airtable
+
+---
+
+## 📬 Contacto
+
+¿Querés colaborar o explorar integración de estos artefactos en otros sistemas?
+
+📧 [info@keeler.app](mailto:info@keeler.app)
+
+---
+
+> _“El ensamblaje digital no representa la tesis: la reactiva como arquitectura pública.”_
