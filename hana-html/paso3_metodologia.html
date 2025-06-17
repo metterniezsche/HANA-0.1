@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANA - Paso 3: Preferencias del Núcleo Negociador</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a2e;
+      --bg-tertiary: #16213e;
+      --text-primary: #e8eaed;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --gradient-start: #be29ec;
+      --gradient-end: #f5317f;
+      --accent-color: #e03a95;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+    }
+    
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .header h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .header .question {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.2);
+      padding: 1rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-color);
+      font-style: italic;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 3rem 0 2rem 0;
+        color: var(--text-primary);
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    
+    .card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--accent-color);
+        padding-left: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+    .card h3 .icon { font-size: 1.5rem; }
+
+    .card p, .card ul { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; }
+    .card ul { list-style: none; padding-left: 0; }
+    .card li { margin-bottom: 0.8rem; padding: 0.5rem; border-radius: 8px; background: rgba(0,0,0,0.2); }
+    .card li strong { color: var(--text-primary); display: block; margin-bottom: 0.2rem; }
+
+    .highlight-card {
+        background: linear-gradient(135deg, rgba(190, 41, 236, 0.1), rgba(245, 49, 127, 0.1));
+        border-color: rgba(224, 58, 149, 0.3);
+        text-align: center;
+        padding: 2.5rem;
+    }
+    
+    .highlight-card .stat-value {
+        font-size: 4rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+    }
+    
+    .highlight-card .stat-label {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .evolution-card {
+        background-color: rgba(255,255,255,0.08);
+        border-left: 4px solid var(--accent-color);
+    }
+    .evolution-card h4 {
+        margin-bottom: 0.8rem;
+        color: #fff;
+    }
+    .evolution-card p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Paso 3: Metodología y Hallazgos</h1>
+      <h2 id="main-title-text">Preferencias del Núcleo Negociador</h2>
+      <p class="question">
+        <strong>Pregunta Central:</strong> ¿Cómo se estructuran las preferencias sobre los temas sustantivos (el QUÉ de la negociación) y cómo determinan la participación en la IDCCE?
+      </p>
+    </header>
+
+    <main>
+      <section id="core-issues">
+        <h2 class="section-title">El Núcleo del Conflicto: Un Sistema Dual</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3><span class="icon">⚖️</span> 1. Moratoria Arancelaria</h3>
+            <p><strong>Función: Filtro Decisivo.</strong> Esta es la cuestión más crítica que funciona como un mecanismo de selección. Una posición ofensiva es casi un prerrequisito para unirse a la IDCCE. La negociación aquí busca evitar un escenario de "estándares revueltos".</p>
+            <ul>
+              <li><strong>Duración:</strong> ¿Debe la moratoria ser <strong>permanente</strong> (estándar ofensivo) o <strong>renovable periódicamente</strong> (estándar defensivo)?</li>
+              <li><strong>Alcance:</strong> ¿Aplica solo a "transmisiones electrónicas" o se extiende a "productos digitales" y "contenido" (estándar ofensivo)?</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3><span class="icon">🌐</span> 2. Regulación de Flujos de Datos</h3>
+            <p><strong>Función: Arena Flexible.</strong> Aquí la negociación es más compleja y matizada. Se parte de "estándares revueltos" y se busca un "estándar de club", permitiendo un amplio margen para la reglamentación estatal.</p>
+            <ul>
+                <li><strong>Estándar Ofensivo:</strong> Busca establecer <strong>directrices comunes</strong> y prohibiciones para garantizar el libre flujo de datos.</li>
+                <li><strong>Estándar Defensivo:</strong> Aboga por <strong>normas flexibles</strong> que preserven el derecho soberano a regular por razones de política pública.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="key-finding">
+          <h2 class="section-title">El Hallazgo más Contundente de la Tesis</h2>
+           <div class="card highlight-card">
+                <div class="stat-value">1787x</div>
+                <div class="stat-label">Más Probabilidades de Integrar la IDCCE</div>
+                <p style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1rem;">
+                  Un país con un estándar ofensivo sobre la <strong>duración de la moratoria</strong> tuvo 1787 veces más chances de unirse a la IDCCE que uno con un estándar defensivo, demostrando que esta variable endógena es un predictor más potente que los factores estructurales del Paso 1.
+                </p>
+          </div>
+      </section>
+
+      <section id="evolution">
+        <h2 class="section-title">La Evolución del Núcleo Negociador (2020-2024)</h2>
+        <div class="card evolution-card">
+            <h3>La Institucionalización de la Disputa sobre la Moratoria</h3>
+            <p>La conversación inicial (permanente vs. temporal) evolucionó hacia una estructura de 4 posiciones institucionalizadas, cada una anclada en un documento referente de fines de 2023:</p>
+            <ul>
+                <li><strong>Lealtad Ofensiva (Australia):</strong> Continuar con la renovación simple de la moratoria.</li>
+                <li><strong>Voz Defensiva (Samoa y ACP):</strong> Renovar la moratoria <strong>a cambio de</strong> un programa de desarrollo de capacidades.</li>
+                <li><strong>Salida Defensiva (Sudáfrica):</strong> Terminar la moratoria por completo.</li>
+                <li><strong>Salida Ambivalente (India):</strong> Negarse a discutir el tema como táctica de negociación.</li>
+            </ul>
+            <p>Este nuevo escenario confirma que la posición mayoritaria (defendida por el bloque ACP) se ha movido hacia la "Voz", forzando a los actores ofensivos a negociar compensaciones, una clara manifestación de la "credibilidad de los compromisos" vista en el Paso 2.</p>
+        </div>
+      </section>
+
+       <section id="implications">
+          <h2 class="section-title">Implicaciones y Conexión entre Pasos</h2>
+           <div class="card">
+                <h3>El Círculo Analítico Completo</h3>
+                <p>El Paso 3 cierra el modelo secuencial de la tesis, demostrando cómo los factores de los pasos anteriores se manifiestan en la práctica negociadora:</p>
+                <ul>
+                    <li><strong>(Paso 1) Capacidades y Ventajas:</strong> Los países con alto <strong>EGOV</strong> y <strong>DRC</strong> tienden a adoptar estándares ofensivos en el núcleo negociador (ej. moratoria permanente).</li>
+                    <li><strong>(Paso 2) Motivaciones Estratégicas:</strong> La necesidad de <strong>credibilidad</strong> lleva a los países ofensivos a aceptar una moratoria renovable (y no permanente) como concesión, y a los defensivos a participar para negociar desde adentro.</li>
+                    <li><strong>(Paso 3) Preferencias del Núcleo:</strong> La preferencia sobre la moratoria se convierte en el <strong>filtro de facto</strong> para la participación, explicando la composición polarizada de la IDCCE de una forma más precisa que cualquier otro factor.</li>
+                </ul>
+          </div>
+      </section>
+
+    </main>
+    <footer class="footer">
+      <p>Artefacto HANA para la Tesis Doctoral de Alexandra Bustos Frati (2024)</p>
+    </footer>
+  </div>
+</body>
+</html>
