@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANA - Paso 2: Preferencias de Elección Institucional</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a2e;
+      --bg-tertiary: #16213e;
+      --text-primary: #e8eaed;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --gradient-start: #764ba2;
+      --gradient-end: #f093fb;
+      --accent-color: #f093fb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+    }
+    
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .header h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .header .question {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.2);
+      padding: 1rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-color);
+      font-style: italic;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 3rem 0 2rem 0;
+        color: var(--text-primary);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--accent-color);
+        padding-left: 1rem;
+    }
+    
+    .card p {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+    
+    .card .keyword {
+        font-weight: 600;
+        color: var(--accent-color);
+    }
+    
+    .highlight-card {
+        background: linear-gradient(135deg, rgba(118, 75, 162, 0.1), rgba(240, 147, 251, 0.1));
+        border-color: rgba(240, 147, 251, 0.3);
+        text-align: center;
+    }
+    
+    .highlight-card .stat-value {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+    }
+    
+    .highlight-card .stat-label {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+    }
+
+    .methodology-box {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(0,0,0,0.2);
+        border-radius: 12px;
+        font-size: 0.95rem;
+    }
+    
+    .diagram-container {
+        padding: 2rem;
+        background: rgba(0,0,0,0.3);
+        border-radius: 16px;
+        margin-top: 2rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Paso 2: Metodología y Hallazgos</h1>
+      <h2 id="main-title-text">Preferencias de Elección Institucional</h2>
+      <p class="question">
+        <strong>Pregunta Central:</strong> ¿Por qué los países eligieron un <strong>pool de soberanía</strong> en un venue plurilateral (IDCCE) en lugar de continuar exclusivamente en el canal multilateral (PTCE)? 
+      </p>
+    </header>
+
+    <main>
+        <section id="concepts">
+            <h2 class="section-title">Marco Conceptual: Las Opciones de Soberanía</h2>
+            <div class="grid-4">
+                 <div class="card">
+                    <h3>Pool (Agrupación)</h3>
+                    <p>Estrategia donde los estados acuerdan decidir asuntos futuros mediante votación <strong>distinta a la unanimidad</strong>. Es la opción elegida para la IDCCE.</p>
+                </div>
+                 <div class="card">
+                    <h3>Delegación</h3>
+                    <p>Se permite a actores supranacionales tomar <strong>decisiones autónomas</strong>, sin un veto unilateral de los estados.</p>
+                </div>
+                <div class="card">
+                    <h3>Retención</h3>
+                    <p>Los estados conservan el control y la prerrogativa de tomar todas las decisiones de forma <strong>unilateral o por consenso</strong>. Es el modelo del PTCE.</p>
+                </div>
+                <div class="card">
+                    <h3>Venue Shopping</h3>
+                    <p>La elección entre estas opciones y en qué foro (OMC, ONU, etc.) es una decisión estratégica fundamental en la diplomacia.</p>
+                </div>
+            </div>
+        </section>
+
+      <section id="motivations">
+        <h2 class="section-title">Las 4 Motivaciones Estratégicas (según Moravcsik, 1998)</h2>
+        <div class="grid-4">
+          <div class="card">
+            <h3>Credibilidad de Compromisos</h3>
+            <p>La racionalidad es <span class="keyword">política</span>. Se busca crear instituciones que aseguren el cumplimiento de acuerdos, gestionen compensaciones inter-temporales y señalen liderazgo.</p>
+          </div>
+          <div class="card">
+            <h3>Gestión Tecnocrática</h3>
+            <p>La racionalidad es <span class="keyword">informacional</span>. Se busca la eficiencia, la planificación centralizada y la creación de "altos estándares" por parte de expertos en foros tipo "club".</p>
+          </div>
+          <div class="card">
+            <h3>Ideología Federal</h3>
+            <p>La racionalidad es <span class="keyword">axiológica</span>. Se busca construir un orden multilateral legítimo y democrático, empoderando a las instituciones internacionales por un principio de gobernanza global.</p>
+          </div>
+          <div class="card">
+            <h3>Ideología Nacional</h3>
+            <p>La racionalidad es <span class="keyword">soberana</span>. Se busca retener el máximo control posible, priorizando el espacio de política pública nacional y desconfiando de la delegación de poder.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="verdict">
+        <h2 class="section-title">El Veredicto: Racionalidad Política sobre la Eficiencia</h2>
+        <div class="methodology-box">
+            <strong>Metodología:</strong> Análisis de contenido cualitativo de +130 documentos oficiales de la OMC (2017-2024) y codificación de 50+ estándares de preferencia institucional con ATLAS.ti.
+        </div>
+        <div class="grid-2" style="margin-top: 1.5rem;">
+            <div class="card highlight-card">
+                <div class="stat-value">19 Códigos</div>
+                <div class="stat-label">Afinidad con "Credibilidad de los Compromisos"</div>
+                <p>La motivación política es la más frecuente, evidenciada en documentos de actores diversos como China, Costa de Marfil y la UE, superando a las demás motivaciones.</p>
+            </div>
+            <div class="card">
+                <h3>Hipótesis 2B Confirmada</h3>
+                <p>La elección de la IDCCE se explica predominantemente por el deseo de los países de <span class="keyword">asegurar compromisos creíbles</span>, revitalizar la agenda de la OMC y señalar su posicionamiento político, más que por una simple búsqueda de eficiencia tecnocrática.</p>
+            </div>
+        </div>
+      </section>
+
+      <section id="diagram-causal">
+        <h2 class="section-title">Mapa Causal de las Preferencias de Elección Institucional</h2>
+        <div class="diagram-container">
+            <svg width="100%" viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+                <style>
+                    .box-motiv { rx: 15; ry: 15; fill: rgba(255, 255, 255, 0.05); stroke-width: 1.5; }
+                    .cred-box { stroke: var(--accent-color); stroke-width: 3; }
+                    .tech-box, .fed-box, .nat-box { stroke: var(--border-color); }
+                    .text-motiv { font-family: 'Inter', sans-serif; text-anchor: middle; fill: var(--text-primary); font-weight: 600; font-size: 20px;}
+                    .text-code { font-family: 'Inter', sans-serif; text-anchor: middle; fill: var(--text-secondary); font-size: 14px; }
+                    .line-motiv { stroke: rgba(255,255,255,0.3); stroke-width: 1; }
+                    .line-cred { stroke: var(--accent-color); stroke-width: 2; }
+                </style>
+                <circle cx="600" cy="375" r="130" fill="url(#grad1)"/>
+                <text x="600" y="365" class="text-motiv" style="fill:white; font-size:24px;">Elección Institucional</text>
+                <text x="600" y="395" class="text-body" style="fill:white;">¿Por qué el Venue IDCCE?</text>
+                
+                <rect x="450" y="20" width="300" height="80" class="box-motiv cred-box"/>
+                <text x="600" y="50" class="text-motiv" style="fill: var(--accent-color);">Credibilidad Compromisos</text>
+                <text x="600" y="80" class="text-code">(19 códigos) </text>
+                <line x1="600" y1="100" x2="600" y2="245" class="line-cred"/>
+                <text x="600" y="140" class="text-code">China: "Revitalizar función de la OMC" </text>
+                <text x="600" y="170" class="text-code">Costa de Marfil: "Confianza en interlocutores" </text>
+                <text x="600" y="200" class="text-code">EEUU: "Evitar que moratoria se suspenda" </text>
+
+                <rect x="850" y="250" width="300" height="80" class="box-motiv tech-box"/>
+                <text x="1000" y="280" class="text-motiv">Gestión Tecnocrática</text>
+                <text x="1000" y="310" class="text-code">(11 códigos) </text>
+                <line x1="850" y1="290" x2="730" y2="350" class="line-motiv"/>
+                <text x="960" y="350" class="text-code">Singapur: "Mejorar método de trabajo" </text>
+                <text x="960" y="375" class="text-code">Japón: "Iniciar negociaciones sin demora" </text>
+
+                <rect x="50" y="250" width="300" height="80" class="box-motiv nat-box"/>
+                <text x="200" y="280" class="text-motiv">Ideología Nacional</text>
+                <text x="200" y="310" class="text-code">(8 códigos - Retención) </text>
+                <line x1="350" y1="290" x2="470" y2="350" class="line-motiv"/>
+                <text x="240" y="350" class="text-code">Unión Africana: "Rechaza reglas duras" </text>
+                <text x="240" y="375" class="text-code">India/Sudáfrica: "Cuestiona la moratoria" </text>
+
+                <rect x="450" y="550" width="300" height="80" class="box-motiv fed-box"/>
+                <text x="600" y="580" class="text-motiv">Ideología Federal</text>
+                <text x="600" y="610" class="text-code">(12 códigos) </text>
+                <line x1="600" y1="550" x2="600" y2="505" class="line-motiv"/>
+                <text x="600" y="490" class="text-code">Rusia: "Crear un foro apropiado" </text>
+                <text x="600" y="515" class="text-code">UE: "Apelar a la seguridad jurídica" </text>
+
+            </svg>
+        </div>
+      </section>
+
+    </main>
+    <footer class="footer">
+      <p>Artefacto HANA para la Tesis Doctoral de Alexandra Bustos Frati (2024)</p>
+    </footer>
+  </div>
+</body>
+</html>

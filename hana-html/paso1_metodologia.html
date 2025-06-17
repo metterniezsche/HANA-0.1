@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANA - Paso 1: Preferencias de Cooperación Sustantiva</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a2e;
+      --bg-tertiary: #16213e;
+      --text-primary: #e8eaed;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --gradient-start: #667eea;
+      --gradient-end: #764ba2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+    }
+    
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .header h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .header .question {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.2);
+      padding: 1rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--gradient-start);
+      font-style: italic;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 3rem 0 2rem 0;
+        color: var(--text-primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--gradient-start);
+        padding-left: 1rem;
+    }
+    
+    .card p, .card ul {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+    }
+    
+    .card ul { list-style: none; padding-left: 0; }
+    .card li { margin-bottom: 0.5rem; display: flex; align-items: flex-start; }
+    .card li::before {
+        content: '↳';
+        margin-right: 0.8rem;
+        color: var(--gradient-start);
+        font-weight: 700;
+    }
+    
+    .highlight-card {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-color: rgba(102, 126, 234, 0.3);
+        text-align: center;
+    }
+    
+    .highlight-card .stat-value {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+    }
+    
+    .highlight-card .stat-label {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+    }
+    
+    .diagram-container {
+        padding: 2rem;
+        background: rgba(0,0,0,0.3);
+        border-radius: 16px;
+        margin-top: 2rem;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Paso 1: Metodología y Hallazgos</h1>
+      <h2 id="main-title-text">Preferencias de Cooperación Sustantiva</h2>
+      <p class="question">
+        <strong>Pregunta Central:</strong> ¿Qué factores estructurales explican mejor la polarización en las preferencias de los países de la OMC sobre si iniciar negociaciones vinculantes sobre comercio digital (participando en la IDCCE) o no? 
+      </p>
+    </header>
+
+    <main>
+      <section id="framework">
+        <h2 class="section-title">Marco Metodológico Competitivo</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Crecimiento Tecno-Económico</h3>
+            <p>Este modelo, de raíz neorrealista, postula que las <strong>capacidades materiales</strong> de un país determinan sus preferencias. </p>
+            <ul>
+              <li><strong>EGOV:</strong> Desarrollo de Gobierno Digital (Proxy principal) </li>
+              <li><strong>DSS:</strong> Densidad de Servidores Seguros </li>
+              <li><strong>IN:</strong> Ingreso Nacional per cápita </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Estructurado según Cuestiones</h3>
+            <p>Basado en la interdependencia compleja, este modelo sostiene que las <strong>ventajas institucionales</strong> acumuladas son el principal motor de las preferencias. </p>
+            <ul>
+              <li><strong>DRC:</strong> Densidad de Red Comercial (Acuerdos Preferenciales de Comercio) </li>
+              <li><strong>DRCD:</strong> Densidad de Red Comercial Digital (Acuerdos con capítulos de e-commerce) </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Modelo Integrador (Híbrido)</h3>
+            <p>La hipótesis de la tesis: la explicación más robusta surge de la <strong>interacción sinérgica</strong> entre capacidades materiales y ventajas institucionales. </p>
+            <ul>
+              <li><strong>Minimalista:</strong> EGOV + DRC + Interacción </li>
+              <li><strong>Maximalista:</strong> (EGOV+DSS) + (DRC+DRCD) + Interacciones </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="findings">
+        <h2 class="section-title">Hallazgos Estadísticos Clave</h2>
+        <div class="grid">
+          <div class="card highlight-card">
+            <div class="stat-value">87.3%</div>
+            <div class="stat-label">Precisión Predictiva (Modelo Integrador) </div>
+            <p>El modelo híbrido predice correctamente la decisión de participar (o no) en la IDCCE en casi 9 de cada 10 casos en el momento M2. </p>
+          </div>
+          <div class="card highlight-card">
+            <div class="stat-value">48.3x</div>
+            <div class="stat-label">Más Probabilidades de Participar (Odds Ratio) </div>
+            <p>Los países con alto desarrollo digital (EGOV) y una densa red comercial (DRC) tuvieron 48 veces más probabilidades de unirse a la IDCCE. </p>
+          </div>
+           <div class="card highlight-card">
+            <div class="stat-value">V=0.725</div>
+            <div class="stat-label">Fuerza de Asociación (EGOV) </div>
+            <p>El Desarrollo de Gobierno Digital (EGOV) demostró ser la variable individual con la asociación más fuerte y robusta con la preferencia por cooperar. </p>
+          </div>
+        </div>
+      </section>
+      
+      <section id="process-diagram">
+          <h2 class="section-title">Diagrama del Proceso Analítico (Paso 1)</h2>
+          <div class="diagram-container">
+            <svg width="100%" viewBox="0 0 1200 600" style="background-color: transparent; color: white;" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:rgb(102,126,234);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:rgb(118,75,162);stop-opacity:1" />
+                    </linearGradient>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="url(#grad1)" />
+                    </marker>
+                </defs>
+
+                <style>
+                    .box { fill: rgba(255, 255, 255, 0.05); stroke: rgba(255, 255, 255, 0.2); stroke-width: 1; rx: 10; }
+                    .main-box { fill: rgba(102, 126, 234, 0.1); stroke: rgba(102, 126, 234, 0.5); }
+                    .text { font-family: 'Inter', sans-serif; fill: #e8eaed; text-anchor: middle; }
+                    .text-title { font-size: 22px; font-weight: 600; }
+                    .text-body { font-size: 16px; fill: rgba(255,255,255,0.8); }
+                    .text-variable { font-size: 14px; font-style: italic; fill: rgba(255,255,255,0.6); }
+                    .line { stroke: rgba(255, 255, 255, 0.3); stroke-width: 1.5; marker-end: url(#arrow); }
+                </style>
+                
+                <rect x="350" y="20" width="500" height="70" class="box main-box" />
+                <text x="600" y="50" class="text text-title">Pregunta Central del Paso 1</text>
+                <text x="600" y="75" class="text text-body">¿Qué factores estructurales explican la participación en IDCCE?</text>
+                
+                <rect x="50" y="150" width="300" height="150" class="box" />
+                <text x="200" y="180" class="text text-title">Modelo Tecno-Económico</text>
+                <text x="200" y="210" class="text text-body">Capacidades Materiales</text>
+                <text x="200" y="240" class="text text-variable">EGOV, DSS, IN</text>
+                
+                <rect x="450" y="150" width="300" height="150" class="box" />
+                <text x="600" y="180" class="text text-title">Modelo Institucional</text>
+                <text x="600" y="210" class="text text-body">Ventajas Institucionales</text>
+                <text x="600" y="240" class="text text-variable">DRC, DRCD</text>
+
+                <rect x="850" y="150" width="300" height="150" class="box" />
+                <text x="1000" y="180" class="text text-title">Modelo Integrador</text>
+                <text x="1000" y="210" class="text text-body">Combinación Híbrida</text>
+                <text x="1000" y="240" class="text text-variable">EGOV + DRC + Interacción</text>
+
+                <path d="M 600 90 L 600 120 L 200 120 L 200 150" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+                <path d="M 600 90 L 600 150" class="line" />
+                <path d="M 600 90 L 600 120 L 1000 120 L 1000 150" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+                
+                <rect x="350" y="340" width="500" height="80" class="box main-box" />
+                <text x="600" y="370" class="text text-title">Análisis de Regresión Logística</text>
+                <text x="600" y="400" class="text text-body">Poblaciones Sincrónica (n=164) y Diacrónica (n=492)</text>
+
+                <path d="M 200 300 L 200 380 L 350 380" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+                <path d="M 600 300 L 600 340" class="line" />
+                <path d="M 1000 300 L 1000 380 L 850 380" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+
+                <rect x="350" y="460" width="500" height="100" class="box" />
+                <text x="600" y="490" class="text text-title">Conclusión del Paso 1</text>
+                <text x="600" y="520" class="text text-body">El Modelo Integrador es el más robusto (87.3% precisión).</text>
+                <text x="600" y="545" class="text text-variable">Las capacidades materiales y las ventajas institucionales son co-determinantes.</text>
+
+                <path d="M 600 420 L 600 460" class="line" />
+            </svg>
+          </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p>Artefacto HANA para la Tesis Doctoral de Alexandra Bustos Frati (2024)</p>
+    </footer>
+  </div>
+</body>
+</html>
