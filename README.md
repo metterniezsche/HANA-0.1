@@ -54,22 +54,23 @@ Este repositorio convierte esa investigación en **infraestructura accesible y v
   
   ## 🧩 Estructura General del Repositorio
   
-  HANA/
-  │
-  ├── hana-html/ # Artefactos HTML del ecosistema interactivo
-  │ ├── index.html # Entrada principal del sistema
-  │ ├── paso1_metodologia.html
-  │ ├── cuencas_atraccion_ft_moravcsik_spa.html
-  │ └── ... (30+ artefactos en ES/EN)
-  │
-  ├── PhDthesis/ # Base empírica y documental de la tesis
-  │ ├── Tesis_Bustos_Frati_Alexandra.pdf
-  │ ├── DB2024 Paso 1.sav / .csv
-  │ ├── Sintaxis 2024.sps
-  │ └── ...
-  │
-  ├── LICENSE # Apache 2.0
-  └── README.md # Este archivo
+HANA/
+│
+├── hana-html/ # Artefactos HTML interactivos del ecosistema HANA
+│ ├── index.html # Página principal
+│ ├── paso1_metodologia.html
+│ ├── cuencas_atraccion_ft_moravcsik_spa.html
+│ ├── m1_m2_transition_eng.html
+│ └── ... # 30+ artefactos en español e inglés
+│
+├── PhDthesis/ # Base empírica y documental de la tesis
+│ ├── Tesis_Bustos_Frati_Alexandra.pdf
+│ ├── DB2024 Paso 1/3 .sav/.csv
+│ ├── Sintaxis 2024 .sps
+│ └── ...
+│
+├── LICENSE # Apache 2.0
+└── README.md # Este archivo
   
   ---
   
