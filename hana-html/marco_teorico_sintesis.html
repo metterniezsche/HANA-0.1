@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANA - Marco Teórico: Modelo Integrador</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --text-primary: #e8eaed;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-start: #2d1b69;
+            --gradient-end: #764ba2;
+            --accent-color: #9b59b6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-color)20, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+        }
+        
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .header .description {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            background: rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 4px solid var(--accent-color);
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 4rem 0 2.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .theoretical-synthesis {
+            background: linear-gradient(135deg, var(--gradient-start)15, var(--gradient-end)15);
+            border: 1px solid var(--accent-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .theoretical-synthesis h3 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .synthesis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .synthesis-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .synthesis-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .synthesis-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .layers-framework {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .layers-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .layer {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .layer:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .layer.epistemologia { border-left-color: #e74c3c; }
+        .layer.gobernanza { border-left-color: #f39c12; }
+        .layer.cambio { border-left-color: #f1c40f; }
+        .layer.diplomacia { border-left-color: #2ecc71; }
+        .layer.preferencias { border-left-color: #3498db; }
+        .layer.digital { border-left-color: #9b59b6; }
+        .layer.comercio { border-left-color: #e91e63; }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .layer-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .layer.epistemologia .layer-number { background: #e74c3c; }
+        .layer.gobernanza .layer-number { background: #f39c12; }
+        .layer.cambio .layer-number { background: #f1c40f; color: #2c3e50; }
+        .layer.diplomacia .layer-number { background: #2ecc71; }
+        .layer.preferencias .layer-number { background: #3498db; }
+        .layer.digital .layer-number { background: #9b59b6; }
+        .layer.comercio .layer-number { background: #e91e63; }
+
+        .layer h4 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .layer p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .key-authors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .author-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .moravcsik-framework {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .moravcsik-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .moravcsik-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .moravcsik-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--accent-color);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .moravcsik-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.2);
+        }
+
+        .moravcsik-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .moravcsik-card .concept {
+            background: rgba(155, 89, 182, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-style: italic;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .delenda-integration {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(45, 27, 105, 0.1));
+            border: 1px solid var(--accent-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .delenda-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .delenda-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .delenda-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-top: 3px solid var(--accent-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .delenda-card h5 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .innovation-highlight {
+            background: linear-gradient(135deg, var(--gradient-start)15, var(--gradient-end)15);
+            border: 1px solid var(--accent-color);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .innovation-highlight h3 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .level-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .level-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .highlight {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            color: var(--text-primary);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .synthesis-grid, .moravcsik-grid, .delenda-concepts, .levels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .layer, .moravcsik-card, .delenda-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Capítulo 1: Marco Teórico</h1>
+            <h2>Modelo Integrador</h2>
+            <p class="description">
+                Enfoque híbrido de los factores determinantes de las <strong>preferencias estatales sobre coordinación regulatoria</strong> en el marco de la <strong>ecología organizacional</strong> del complejo de regímenes de comercio digital con centro en la OMC.
+            </p>
+        </header>
+
+        <main>
+            <section class="theoretical-synthesis">
+                <h3>🔬 Síntesis del Modelo Integrador</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                    Desafío particular: que el abordaje <strong>plural y mixto</strong> no resultara en una pérdida de parsimonia teórica. Integración atenta a diferentes niveles analíticos y aspectos evolutivos.
+                </p>
+                
+                <div class="synthesis-grid">
+                    <div class="synthesis-card">
+                        <h4>🏗️ Nivel Macro</h4>
+                        <p style="color: var(--text-secondary);">Factores sistémico-estructuralistas: <strong>capacidades materiales</strong> y <strong>ventajas institucionales</strong>.</p>
+                    </div>
+                    <div class="synthesis-card">
+                        <h4>🏛️ Nivel Meso</h4>
+                        <p style="color: var(--text-secondary);">Factores institucionales en el marco de la <strong>ecología organizacional</strong> OMC.</p>
+                    </div>
+                    <div class="synthesis-card">
+                        <h4>👥 Nivel Micro</h4>
+                        <p style="color: var(--text-secondary);">Factores actor-céntricos: motivaciones estratégicas y preferencias del núcleo negociador.</p>
+                    </div>
+                    <div class="synthesis-card">
+                        <h4>⏰ Dimensión Evolutiva</h4>
+                        <p style="color: var(--text-secondary);">Dinámicas de adaptación y cambio institucional, cooperación y competencia entre actores estatales.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">📚 Arquitectura Teórica: Siete Capas Conceptuales</h2>
+                <div class="layers-framework">
+                    <div class="layers-title">De lo General hacia lo Específico</div>
+                    <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem;">
+                        Exposición ordenada desde aspectos generales de gobernanza global hacia problemáticas específicas del comercio digital:
+                    </p>
+                    
+                    <div class="layer epistemologia">
+                        <div class="layer-header">
+                            <div class="layer-number">1</div>
+                            <h4>Epistemología y Metodología</h4>
+                        </div>
+                        <p>Reflexiones epistemológicas y coordenadas metodológicas. Enfoque plural de investigación, epistemología problemática de DeLanda basada en Deleuze.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">King, Keohane & Verba (1994)</span>
+                            <span class="author-tag">Della Porta & Keating (2008)</span>
+                            <span class="author-tag">Marradi, Archenti & Piovani (2018)</span>
+                            <span class="author-tag">DeLanda (2006, 2013)</span>
+                        </div>
+                    </div>
+
+                    <div class="layer gobernanza">
+                        <div class="layer-header">
+                            <div class="layer-number">2</div>
+                            <h4>Gobernanza Global</h4>
+                        </div>
+                        <p>Perspectiva institucionalista en relaciones internacionales y ciencia política. Interdependencia compleja, complejos de regímenes, ecología organizacional.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">Keohane & Nye (1977)</span>
+                            <span class="author-tag">Krasner (1982, 1991)</span>
+                            <span class="author-tag">Moravcsik (1998)</span>
+                            <span class="author-tag">Drezner (2007)</span>
+                            <span class="author-tag">Abbott, Green & Keohane (2016)</span>
+                            <span class="author-tag">Riordan (2019)</span>
+                        </div>
+                    </div>
+
+                    <div class="layer cambio">
+                        <div class="layer-header">
+                            <div class="layer-number">3</div>
+                            <h4>Cambio Social e Institucional</h4>
+                        </div>
+                        <p>Cambio de régimen internacional como proceso evolutivo con raigambre sociohistórica. Tiempo, factores políticos, procesos de inflexión.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">Finnemore & Sikkink (1998)</span>
+                            <span class="author-tag">Steinmo (2008)</span>
+                            <span class="author-tag">Axelrod (2006)</span>
+                            <span class="author-tag">DeLanda (2006, 2013)</span>
+                        </div>
+                    </div>
+
+                    <div class="layer diplomacia">
+                        <div class="layer-header">
+                            <div class="layer-number">4</div>
+                            <h4>Diplomacia Normativa</h4>
+                        </div>
+                        <p>Dinámicas de diplomacia normativa, negociación de normas internacionales, legitimación de organizaciones. Diplomacia comercial y ciberdiplomacia.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">Coleman (2011)</span>
+                            <span class="author-tag">Castle (2022)</span>
+                            <span class="author-tag">Riordan (2019)</span>
+                            <span class="author-tag">Hurel (2022)</span>
+                        </div>
+                    </div>
+
+                    <div class="layer preferencias">
+                        <div class="layer-header">
+                            <div class="layer-number">5</div>
+                            <h4>Preferencias Estatales</h4>
+                        </div>
+                        <p>Unidad de análisis principal: preferencias estatales en cooperación internacional. Procesos de formación, factores determinantes, dinámicas de interacción estratégica.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">Moravcsik (1998)</span>
+                            <span class="author-tag">Drezner (2007)</span>
+                            <span class="author-tag">Binmore (2015)</span>
+                            <span class="author-tag">Krapohl, Ocelik & Walentek (2021)</span>
+                        </div>
+                    </div>
+
+                    <div class="layer digital">
+                        <div class="layer-header">
+                            <div class="layer-number">6</div>
+                            <h4>Preferencias sobre Gobernanza Digital</h4>
+                        </div>
+                        <p>Gobernanza digital y preferencias estatales relativas a ella. Estándares de cooperación y regulación de Internet, flujos de datos, economía basada en datos.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">Mueller (2004, 2017)</span>
+                            <span class="author-tag">DeNardis (2009, 2020)</span>
+                            <span class="author-tag">Canabarro (2014)</span>
+                            <span class="author-tag">Aguerre (2015, 2024)</span>
+                        </div>
+                    </div>
+
+                    <div class="layer comercio">
+                        <div class="layer-header">
+                            <div class="layer-number">7</div>
+                            <h4>Preferencias sobre Comercio Digital</h4>
+                        </div>
+                        <p>Foco específico: gobernanza del comercio digital como comercio electrónico transnacional. Coordinación regulatoria, estándares, venues institucionales.</p>
+                        <div class="key-authors">
+                            <span class="author-tag">Farrell (2006)</span>
+                            <span class="author-tag">Aaronson (2018)</span>
+                            <span class="author-tag">Gao (2022)</span>
+                            <span class="author-tag">Ismail & Mwangi (2022)</span>
+                            <span class="author-tag">Maciel (2024)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🎯 Marco Principal: Modelo Secuencial de Moravcsik</h2>
+                <div class="moravcsik-framework">
+                    <div class="moravcsik-title">Adaptación del "Modelo de Tres Pasos" (1993, 1997, 1998)</div>
+                    <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem;">
+                        Principal fuente teórica, conceptual y metodológica basada en estudios clásicos de teoría de regímenes internacionales:
+                    </p>
+                    
+                    <div class="moravcsik-grid">
+                        <div class="moravcsik-card">
+                            <h4>🔗 Pool vs. Delegación de Soberanía</h4>
+                            <p style="color: var(--text-secondary);">La soberanía se <strong>agrupa (pool)</strong> cuando los gobiernos acuerdan decidir asuntos futuros mediante procedimientos de votación distintos de la unanimidad. Se <strong>delega</strong> cuando se permite a actores supranacionales tomar decisiones autónomas.</p>
+                            <div class="concept">
+                                "Estrategias de 'dos niveles' diseñadas para comprometer de antemano a los gobiernos sustrayendo decisiones del control unilateral" - Moravcsik (1998)
+                            </div>
+                        </div>
+                        
+                        <div class="moravcsik-card">
+                            <h4>📜 Contratos Relacionales</h4>
+                            <p style="color: var(--text-secondary);">Acuerdos vinculantes que no especifican planes detallados, pero comprometen a gobiernos a adoptar conjuntos comunes de principios, normas y procedimientos de toma de decisiones.</p>
+                            <div class="concept">
+                                Aplicable al caso IDCCE: "trabajos exploratorios" y "debates estructurados" como pool de soberanía en organización existente
+                            </div>
+                        </div>
+                        
+                        <div class="moravcsik-card">
+                            <h4>⚖️ Tres Alternativas Institucionales</h4>
+                            <p style="color: var(--text-secondary);"><strong>Normas explícitas vinculantes:</strong> paquetes que vinculan diversas cuestiones. <strong>Pool/Delegación:</strong> compensaciones intertemporales. <strong>Reserva de derechos:</strong> veto, salida o no adhesión.</p>
+                            <div class="concept">
+                                IDCCE como pool → Declaración Conjunta 2024 como normas explícitas: nueva tensión institucional
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🌀 Integración DeLanda: Ensamblajes y Temporalidad</h2>
+                <div class="delenda-integration">
+                    <div class="delenda-title">Epistemología Problemática y Ensamblajes Históricos</div>
+                    <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem;">
+                        Aporte de Manuel DeLanda para pensar aspectos evolutivos y dimensión temporal intensiva:
+                    </p>
+                    
+                    <div class="delenda-concepts">
+                        <div class="delenda-card">
+                            <h5>🎯 Problemas Correctamente Planteados</h5>
+                            <p style="color: var(--text-secondary);">Un problema está "bien planteado" cuando "captura una distribución objetiva de lo importante y lo no importante". Reemplaza leyes generales por distribuciones de lo singular y ordinario.</p>
+                        </div>
+                        
+                        <div class="delenda-card">
+                            <h5>⏰ Temporalidad Intensiva vs. Extensiva</h5>
+                            <p style="color: var(--text-secondary);">Discernir distribución de momentos <strong>singulares y ordinarios</strong>. Los estímulos deben aplicarse en momentos críticos para tener efecto. M1→M2→M3 como distribución intensiva.</p>
+                        </div>
+                        
+                        <div class="delenda-card">
+                            <h5>🌊 Umbrales de Densidad Poblacional</h5>
+                            <p style="color: var(--text-secondary);">Umbrales que al ser cruzados llevan a cambio cualitativo. Conexión con Finnemore & Sikkink: inflexión cuando 1/3 del sistema adopta nueva norma.</p>
+                        </div>
+                        
+                        <div class="delenda-card">
+                            <h5>🧲 Atractores y Cuencas de Atracción</h5>
+                            <p style="color: var(--text-secondary);">Singularidades que "doblan" plano ontológico donde se despliegan trayectorias virtuales. En la tesis: factores determinantes como "atractores" de preferencias estatales.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="innovation-highlight">
+                    <h3>🎯 Innovación del Modelo Integrador</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                        Necesidad de considerar diferentes mecanismos causales para comprender comportamiento estatal a nivel macro, meso y micro:
+                    </p>
+                    
+                    <div class="levels-grid">
+                        <div class="level-card">
+                            <h4>🌍 Macro</h4>
+                            <p style="color: var(--text-secondary);">Factores sistémico-estructuralistas: capacidades materiales, ventajas institucionales, distribuciones asimétricas de poder.</p>
+                        </div>
+                        <div class="level-card">
+                            <h4>🏛️ Meso</h4>
+                            <p style="color: var(--text-secondary);">Factores institucionales: ecología organizacional, competencia por jurisdicción, venues, motivaciones estratégicas.</p>
+                        </div>
+                        <div class="level-card">
+                            <h4>👥 Micro</h4>
+                            <p style="color: var(--text-secondary);">Factores actor-céntricos: preferencias del núcleo negociador, estándares específicos, racionalidad instrumental vs. axiológica.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight" style="margin-top: 2rem;">
+                        <strong>Aporte Central:</strong> El modelo integrador combina y adapta diversas líneas teóricas sobre relaciones internacionales y ciencia política con estudios sobre cibernética y gobernanza digital, construyendo una integración teórica atenta tanto a factores estructurales como evolutivos, evitando la pérdida de parsimonia teórica mediante un ensamblaje conceptual que opera en tres niveles analíticos diferenciados pero interconectados.
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🔄 Proceso de Especificación Analítica</h2>
+                <div class="highlight">
+                    <strong>Análisis Secuencial como Especificación Progresiva:</strong> El análisis secuencial no solo analiza tres instancias de preferencias estatales analíticamente distinguibles, sino que elabora especificaciones cada vez más ajustadas del problema, procurando encontrar explicaciones endógenas específicas a la temática del comercio digital y a la ecología organizacional de la población bajo estudio.
+                </div>
+                
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 2rem; margin-top: 2rem;">
+                    <h4 style="color: var(--accent-color); margin-bottom: 1rem;">📊 Estructura Metodológica</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="font-size: 1.5rem; color: var(--accent-color); margin-bottom: 0.5rem;">🔧</div>
+                            <div style="font-weight: 600; color: var(--text-primary);">Paso 1</div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">Factores Estructurales Exógenos</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="font-size: 1.5rem; color: var(--accent-color); margin-bottom: 0.5rem;">🏛️</div>
+                            <div style="font-weight: 600; color: var(--text-primary);">Paso 2</div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">Factores Institucionales del Venue</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="font-size: 1.5rem; color: var(--accent-color); margin-bottom: 0.5rem;">⚖️</div>
+                            <div style="font-weight: 600; color: var(--text-primary);">Paso 3</div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">Factores Endógenos al Problema</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Artefacto HANA para el Marco Teórico - Tesis Doctoral Alexandra Bustos Frati (2024)</p>
+        </footer>
+    </div>
+</body>
+</html>

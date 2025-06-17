@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANA - Paso 3: Modelo Analítico Núcleo Negociador</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --text-primary: #e8eaed;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-start: #be29ec;
+            --gradient-end: #f5317f;
+            --accent-color: #e03a95;
+            --cyan-accent: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--accent-color)20, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: -1;
+        }
+        
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header .question {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            font-style: italic;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 3rem 0 2rem 0;
+            color: var(--text-primary);
+        }
+
+        .theoretical-foundation {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .foundation-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--cyan-accent);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .concept-card.drezner { border-color: #f59e0b; }
+        .concept-card.binmore { border-color: #10b981; }
+        .concept-card.moravcsik { border-color: #8b5cf6; }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .concept-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .concept-card h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .concept-card.drezner h4 { color: #f59e0b; }
+        .concept-card.binmore h4 { color: #10b981; }
+        .concept-card.moravcsik h4 { color: #8b5cf6; }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.8rem;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+        }
+        
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card h3 .icon { 
+            font-size: 1.5rem; 
+        }
+
+        .card p, .card ul { 
+            font-size: 0.95rem; 
+            color: var(--text-secondary); 
+            margin-bottom: 1rem; 
+        }
+
+        .card ul { 
+            list-style: none; 
+            padding-left: 0; 
+        }
+
+        .card li { 
+            margin-bottom: 0.8rem; 
+            padding: 0.5rem; 
+            border-radius: 8px; 
+            background: rgba(0,0,0,0.2); 
+        }
+
+        .card li strong { 
+            color: var(--text-primary); 
+            display: block; 
+            margin-bottom: 0.2rem; 
+        }
+
+        .methodology-card {
+            background: linear-gradient(135deg, var(--gradient-start)15, var(--gradient-end)15);
+            border-color: rgba(224, 58, 149, 0.3);
+        }
+
+        .methodology-card h3 {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+        }
+
+        .emphasis-box {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid #8b5cf6;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .structures-framework {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .structures-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--cyan-accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .structure-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .structure-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-top: 4px solid;
+            backdrop-filter: blur(10px);
+        }
+
+        .structure-box.preferences {
+            border-top-color: #10b981;
+        }
+
+        .structure-box.distributions {
+            border-top-color: #f59e0b;
+        }
+
+        .structure-box h5 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .structure-box.preferences h5 { color: #10b981; }
+        .structure-box.distributions h5 { color: #f59e0b; }
+
+        .methodology-flow {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .flow-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-number {
+            background: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h5 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+        }
+
+        .standards-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .standards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .standard-card {
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .standard-card.defensive {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1));
+            border-color: #3b82f6;
+        }
+
+        .standard-card.offensive {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(16, 185, 129, 0.1));
+            border-color: #f59e0b;
+        }
+
+        .standard-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .standard-card h5 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .standard-card.defensive h5 { color: #3b82f6; }
+        .standard-card.offensive h5 { color: #f59e0b; }
+
+        .innovation-highlight {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid #10b981;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .innovation-highlight h3 {
+            color: #10b981;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .highlight {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            color: var(--text-primary);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .structure-comparison, .standards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card, .theoretical-foundation, .methodology-flow {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Paso 3: Modelo Analítico</h1>
+            <h2>Núcleo Negociador - Marco Mixto</h2>
+            <p class="question">
+                <strong>Pregunta Central:</strong> ¿Cómo se estructuran y distribuyen las preferencias del núcleo negociador, cómo evolucionan temporalmente y se conectan cíclicamente con las preferencias de cooperación sustantiva?
+            </p>
+        </header>
+
+        <main>
+            <section class="theoretical-foundation">
+                <div class="foundation-title">📚 Fundamentos Teóricos del Modelo</div>
+                <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+                    El modelo integra tres marcos conceptuales para operacionalizar el concepto de <strong>núcleo negociador</strong>:
+                </p>
+                
+                <div class="concept-grid">
+                    <div class="concept-card drezner">
+                        <div class="icon">🏛️</div>
+                        <h4>Drezner (2004, 2007)</h4>
+                        <p>No puede haber coordinación regulatoria sin <strong>núcleo negociador</strong>. Supuesto teórico fundamental desde ciencia política/RRII.</p>
+                    </div>
+                    
+                    <div class="concept-card binmore">
+                        <div class="icon">🎯</div>
+                        <h4>Binmore (2015)</h4>
+                        <p>"El conjunto de todos los perfiles de pagos a los que no se puede poner objeciones se denomina <strong>'núcleo'</strong> de un juego cooperativo".</p>
+                    </div>
+                    
+                    <div class="concept-card moravcsik">
+                        <div class="icon">⚖️</div>
+                        <h4>Moravcsik (1998)</h4>
+                        <p>Adaptación del tercer paso: distinción entre pool, delegación, normas explícitas vs. <strong>retención</strong> de soberanía estatal.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🔬 Carácter Metodológico Distintivo</h2>
+                <div class="card methodology-card">
+                    <h3><span class="icon">⚗️</span> Metodología Particularmente Mixta</h3>
+                    <p>Si el Paso 1 fue <strong>eminentemente cuantitativo</strong> y el Paso 2 fue <strong>fundamentalmente cualitativo</strong>, el Paso 3 es <strong>particularmente mixto</strong>.</p>
+                    <div class="emphasis-box">
+                        Ya no importa dónde se discute ni cómo, sino QUÉ se negocia
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🏗️ Arquitectura Conceptual: Estructuras vs. Distribuciones</h2>
+                <div class="structures-framework">
+                    <div class="structures-title">Distinción Metodológica Fundamental</div>
+                    <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+                        El modelo diferencia entre qué opciones están disponibles (estructuras) y cuáles son preferibles (distribuciones)
+                    </p>
+                    
+                    <div class="structure-comparison">
+                        <div class="structure-box preferences">
+                            <h5>📐 Estructuras de Preferencias</h5>
+                            <p style="color: var(--text-secondary);">Presentan de forma <strong>ordenada</strong> un espectro de estándares disponibles, ordenados según costos/riesgos diplomáticos: retención → pool → delegación de soberanía.</p>
+                            <div class="highlight" style="margin-top: 1rem;">
+                                <strong>Función:</strong> Eslabón conceptual entre base ATLAS.ti (800+ códigos) y base SPSS estado-céntrica
+                            </div>
+                        </div>
+                        
+                        <div class="structure-box distributions">
+                            <h5>📊 Distribuciones de Preferencias</h5>
+                            <p style="color: var(--text-secondary);">Abordan cuáles opciones resultan <strong>preferibles</strong> para los países en términos efectivos. Análisis estadístico exclusivamente con SPSS ampliado.</p>
+                            <div class="highlight" style="margin-top: 1rem;">
+                                <strong>Función:</strong> Operacionalización cuantitativa para análisis predictivo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">⚔️ Tipología: Estándares Defensivos vs. Ofensivos</h2>
+                <div class="standards-section">
+                    <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+                        Clasificación según predisposición a la delegación/pool vis-à-vis retención de soberanía estatal:
+                    </p>
+                    
+                    <div class="standards-grid">
+                        <div class="standard-card defensive">
+                            <h5>🛡️ Estándares Defensivos</h5>
+                            <p style="color: var(--text-secondary);">Tienden a preferir fórmulas que <strong>retienen mayores márgenes</strong> de soberanía estatal. Mayor aversión al riesgo de perder atribuciones soberanas.</p>
+                        </div>
+                        <div class="standard-card offensive">
+                            <h5>⚡ Estándares Ofensivos</h5>
+                            <p style="color: var(--text-secondary);">Tienden a preferir fórmulas que suponen cierta <strong>delegación o pool</strong> de soberanía estatal. Menor aversión a ceder atribuciones.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight" style="margin-top: 1.5rem;">
+                        <strong>Proceso Metodológico:</strong> Variables ordinales (4 categorías: defensivo → ofensivo) → Variables dicotómicas (0/1) para regresión logística vs. estadística descriptiva.
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🔄 Proceso Metodológico de Construcción</h2>
+                <div class="methodology-flow">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Etapa Exploratoria</h5>
+                            <p>Identificación de posiciones de <strong>mínima y máxima</strong> como puntos de partida para negociación. Tres subtipos iniciales: estándar máxima IDCCE-OMC, mínima IDCCE, mínima OMC.</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Refinamiento Empírico</h5>
+                            <p>La evidencia documental permitió <strong>ajustar coordenadas</strong> y desarrollar estructuras de preferencias más precisas al análisis de caso específico IDCCE.</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Operacionalización Dicotómica</h5>
+                            <p>A partir de estructuras refinadas se crearon <strong>versiones dicotómicas</strong> con estándares ofensivos/defensivos para análisis de regresión logística.</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Integración Cíclica</h5>
+                            <p>Enriquecimiento base SPSS del Paso 1 con <strong>12 nuevas covariables</strong> derivadas del análisis de contenidos. Conexión cíclica Paso 3 → Paso 1.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🛠️ Herramental Metodológico Mixto</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3><span class="icon">📑</span> Componente Cualitativo</h3>
+                        <ul>
+                            <li><strong>ATLAS.ti:</strong> 800+ códigos extraídos manualmente sin IA generativa</li>
+                            <li><strong>Conversaciones estilizadas:</strong> Reposición sistemática de discusiones temporales</li>
+                            <li><strong>Redes de códigos:</strong> Visualización de estructuras relacionales complejas</li>
+                            <li><strong>Tablas doble entrada:</strong> Clasificación sistemática de estándares</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><span class="icon">📊</span> Componente Cuantitativo</h3>
+                        <ul>
+                            <li><strong>SPSS ampliado:</strong> Base Paso 1 + 12 nuevas variables derivadas</li>
+                            <li><strong>Regresión logística:</strong> Preferencias núcleo como variable independiente</li>
+                            <li><strong>Estadística descriptiva:</strong> Análisis con variables ordinales refinadas</li>
+                            <li><strong>Análisis diacrónico:</strong> Evolución temporal 2017-2024</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">🎯 Cuestiones Centrales del Núcleo</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3><span class="icon">🌐</span> Transferencias Transfronterizas de Datos</h3>
+                        <p><strong>Reglamentaciones estatales</strong> de transferencias. Encuadre dual: derecho a transferencias vs. derecho estatal a reglamentación. Dimensiones de alcance y límites.</p>
+                    </div>
+                    <div class="card">
+                        <h3><span class="icon">💰</span> Moratoria Arancelaria</h3>
+                        <p><strong>Aranceles a transmisiones electrónicas.</strong> Dimensiones clave: alcance (productos cubiertos) y duración (temporal vs. permanente).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="innovation-highlight">
+                    <h3>🔄 Innovación: Conexión Cíclica Sistémica</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        El Paso 3 permite analizar las <strong>preferencias del núcleo negociador como variable independiente</strong> en la formación de preferencias de cooperación sustantiva, conectando cíclicamente con el Paso 1 y asegurando un marco analítico sistémico que integra dinámicas macro, meso y micro.
+                    </p>
+                    
+                    <div class="grid-3">
+                        <div class="card">
+                            <h3>📈 Poder Predictivo</h3>
+                            <p style="color: var(--text-secondary);">Las 12 nuevas covariables derivadas del análisis de contenidos enriquecen la base SPSS original, permitiendo testear el poder predictivo de preferencias normativas específicas.</p>
+                        </div>
+                        <div class="card">
+                            <h3>🔗 Integración Sistémica</h3>
+                            <p style="color: var(--text-secondary);">El modelo conecta niveles analíticos: preferencias individuales (micro) → coaliciones (meso) → régimen internacional (macro).</p>
+                        </div>
+                        <div class="card">
+                            <h3>⚖️ Diferencia con Moravcsik</h3>
+                            <p style="color: var(--text-secondary);">Distingue entre integrar IDCCE (pool) vs. suscribir acuerdo 2024 (norma explícita) vs. retención soberanía. Incluye análisis de intensidad por conflictividad.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight" style="margin-top: 2rem;">
+                        <strong>Contribución Metodológica:</strong> Demuestra que el análisis mixto puede operacionalizar exitosamente el concepto de núcleo negociador (Drezner) mediante la combinación de análisis de contenidos sistemático (ATLAS.ti) y análisis estadístico ampliado (SPSS). La conexión cíclica valida empíricamente la importancia de las preferencias normativas específicas en la formación de preferencias de cooperación sustantiva general.
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Artefacto HANA para el Marco Analítico del Paso 3 - Tesis Doctoral Alexandra Bustos Frati (2024)</p>
+        </footer>
+    </div>
+</body>
+</html>
