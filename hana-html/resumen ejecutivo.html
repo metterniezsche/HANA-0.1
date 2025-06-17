@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANA v3.0 | Consola Analítica Integrada | Tesis A. Bustos Frati</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg: #030712; --panel-bg: #111827; --card-bg: #1F2937;
+            --text-primary: #F9FAFB; --text-secondary: #9CA3AF; --text-tertiary: #6B7280;
+            --border: #374151; --accent: #6366F1; --accent-glow: rgba(99, 102, 241, 0.3);
+            --green: #10B981; --yellow: #F59E0B; --blue: #3B82F6; --red: #EF4444; --pink: #D946EF;
+            --font-body: 'Inter', sans-serif; --font-mono: 'Roboto Mono', monospace;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-body); background-color: var(--bg);
+            color: var(--text-primary); line-height: 1.6; display: flex;
+        }
+        
+        #console-container { display: flex; width: 100%; height: 100vh; }
+        
+        .sidebar {
+            width: 280px; background-color: var(--bg); border-right: 1px solid var(--border);
+            padding: 1.5rem; display: flex; flex-direction: column; flex-shrink: 0;
+        }
+        .sidebar-header { text-align: center; margin-bottom: 2rem; }
+        .sidebar-title { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 500; }
+        .sidebar-version { font-size: 0.75rem; color: var(--text-tertiary); font-family: var(--font-mono); }
+        .sidebar-nav { flex-grow: 1; }
+        .nav-list { list-style: none; }
+        .nav-item button {
+            width: 100%; text-align: left; padding: 0.8rem 1rem; font-size: 0.9rem;
+            font-family: var(--font-body); color: var(--text-secondary);
+            background: none; border: none; border-radius: 6px; cursor: pointer;
+            margin-bottom: 0.5rem; transition: all 0.2s ease; display: flex; align-items: center; gap: 0.75rem;
+        }
+        .nav-item button:hover { background-color: var(--card-bg); color: var(--text-primary); }
+        .nav-item button.active {
+            background-color: var(--accent); color: white; font-weight: 600;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .sidebar-footer { font-size: 0.7rem; color: var(--text-tertiary); text-align: center; margin-top: 1rem; }
+        
+        .main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        .module { display: none; }
+        .module.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .module-header { margin-bottom: 2.5rem; }
+        .module-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .module-subtitle { font-size: 1rem; color: var(--text-secondary); max-width: 80ch; }
+
+        /* --- MÓDULO: RESUMEN EJECUTIVO --- */
+        .summary-section { margin-bottom: 3.5rem; }
+        .summary-section h3 { font-size: 1.2rem; margin-bottom: 1rem; border-left: 3px solid var(--accent); padding-left: 1rem; font-weight: 500;}
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .summary-card { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); }
+        .summary-card-title { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .summary-card-value { font-size: 2.2rem; font-weight: 700; }
+        .summary-card-note { font-size: 0.85rem; color: var(--text-tertiary); margin-top: 0.5rem; }
+        .summary-qual-card ul { list-style: none; padding-left: 0; }
+        .summary-qual-card li { margin-bottom: 0.75rem; font-size: 0.9rem;}
+
+        /* --- MÓDULO: ENSAMBLAJE TEÓRICO --- */
+        #assemblage-vis { height: 600px; position: relative; border: 1px solid var(--border); background: radial-gradient(circle, #1a2035, var(--panel-bg)); border-radius: 12px; }
+        .asm-node {
+            position: absolute; background: #0b0f19; padding: 1rem; border-radius: 8px;
+            border: 1px solid var(--border); text-align: center; width: 240px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3); transition: all 0.3s ease;
+        }
+        .asm-node:hover { transform: scale(1.05) !important; border-color: var(--accent); }
+        .asm-node .title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; }
+        .asm-node .desc { font-size: 0.8rem; color: var(--text-secondary); }
+        .asm-node b { color: var(--text-primary); font-weight: 500; }
+        #asm-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; padding: 1.5rem; border-color: var(--accent); }
+        #asm-moravcsik { top: 20px; left: 50%; transform: translateX(-50%); }
+        #asm-drezner { top: 50%; left: 20px; transform: translateY(-50%); }
+        #asm-delanda { top: 50%; right: 20px; transform: translateY(-50%); }
+        #asm-cyber { bottom: 20px; left: 50%; transform: translateX(-50%); }
+        .asm-line { stroke: var(--text-tertiary); stroke-width: 1; }
+        
+        /* --- MÓDULO: EXPLORADOR DE ARTEFACTOS --- */
+        .artifacts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem; }
+        .artifact-card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; transition: border-color 0.3s ease; }
+        .artifact-card:hover { border-color: var(--accent); }
+        .card-content { padding: 1.5rem; flex-grow: 1; }
+        .artifact-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .artifact-title { font-size: 1.1rem; font-weight: 600; margin-right: 1rem; }
+        .artifact-status { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; flex-shrink: 0; }
+        .status-stable { background-color: rgba(16, 185, 129, 0.1); color: var(--green); }
+        .status-beta-plus { background-color: rgba(245, 158, 11, 0.1); color: var(--yellow); }
+        .artifact-details dl { font-size: 0.9rem; }
+        .artifact-details dt { font-weight: 500; color: var(--text-secondary); margin-top: 0.8rem; }
+        .artifact-details dd { margin-left: 0; color: var(--text-primary); }
+        .card-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .metadata-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .metadata-tag { background: #374151; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; }
+        .primary-link { padding: 0.5rem 1rem; background: var(--accent); color: white; border-radius: 6px; font-size: 0.8rem; cursor: pointer; text-decoration: none; border: none; font-family: inherit; }
+
+        /* --- MÓDULO: EXPLORADOR DE DATOS ANALÍTICOS (EDA) --- */
+        .eda-container { display: flex; gap: 2rem; height: calc(100vh - 200px); }
+        .eda-sidebar {
+            width: 300px; flex-shrink: 0; background-color: var(--panel-bg);
+            padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); overflow-y: auto;
+        }
+        .eda-nav-group { margin-bottom: 2rem; }
+        .eda-nav-title {
+            font-size: 1rem; font-weight: 600; color: var(--text-primary);
+            margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+        }
+        .eda-nav-list { list-style: none; padding-left: 0; }
+        .eda-nav-list li a {
+            display: block; padding: 0.6rem 0.8rem; font-size: 0.85rem;
+            color: var(--text-secondary); text-decoration: none; border-radius: 6px; transition: all 0.2s ease;
+        }
+        .eda-nav-list li a:hover, .eda-nav-list li a.active {
+            background-color: var(--card-bg); color: var(--accent); font-weight: 500;
+        }
+        .eda-content { flex-grow: 1; overflow-y: auto; padding-right: 1rem; }
+        .data-artifact-card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.5rem; margin-bottom: 1.5rem; transition: border-color 0.3s ease;
+        }
+        .data-artifact-card:hover { border-color: var(--accent); }
+        .data-card-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.75rem; }
+        .data-card-id {
+            background-color: var(--accent); color: white; padding: 0.25rem 0.75rem;
+            border-radius: 12px; font-size: 0.75rem; font-weight: 600; font-family: var(--font-mono);
+        }
+        .data-card-title { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); }
+        .data-card-description { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+        .data-card-metadata { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .data-artifact-card .primary-link { display: inline-block; text-align: center; }
+
+        /* --- SISTEMA MODAL --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container { position: relative; width: 95vw; height: 90vh; max-width: 1400px; background: #0d121c; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); transform: scale(0.95); transition: all 0.3s ease; overflow: hidden; }
+        .modal-overlay.active .modal-container { transform: scale(1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); background-color: var(--panel-bg); }
+        .modal-title { font-size: 1.1rem; font-weight: 500; color: var(--text-primary); }
+        .modal-close { background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; transition: color 0.2s ease; }
+        .modal-close:hover { color: white; }
+        .modal-content { height: calc(100% - 61px); }
+        .modal-iframe { width: 100%; height: 100%; border: none; background: white; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1200px) {
+            .sidebar, .eda-sidebar { display: none; }
+            .main-content { padding: 1.5rem; }
+            .eda-container { flex-direction: column; height: auto; }
+        }
+        @media (max-width: 900px) {
+            .summary-grid, .artifacts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="console-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">HANA CONSOLE</div>
+            <div class="sidebar-version">v3.0 | A. Bustos Frati</div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><button class="active" data-module="resumen">📄 Resumen Ejecutivo</button></li>
+                <li class="nav-item"><button data-module="ensamblaje">🧠 Ensamblaje Teórico</button></li>
+                <li class="nav-item"><button data-module="explorador">🗂️ Explorador de Artefactos</button></li>
+                <li class="nav-item"><button data-module="explorador-datos">📊 Explorador de Datos</button></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            Tesis Doctoral, UBA 2024<br>
+            Calificación: Sobresaliente<br>
+            Dir: Dra. Carolina Aguerre
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div id="resumen" class="module active">
+            <div class="module-header">
+                <h2 class="module-title">Resumen Ejecutivo: La Narrativa Integrada</h2>
+                <p class="module-subtitle">Recorrido por los hallazgos centrales de los tres pasos del análisis secuencial, mostrando la potencia del ensamblaje teórico-metodológico.</p>
+            </div>
+            <div class="summary-section">
+                <h3>Paso 1: La Decisión de Cooperar (Cooperación Sustantiva)</h3>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-card-title">Modelo Integrador</div>
+                        <div class="summary-card-value" style="color:var(--green)">87.3%</div>
+                        <div class="summary-card-note">Precisión predictiva (EGOV + DRC).</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card-title">Variable Pivot: EGOV</div>
+                        <div class="summary-card-value" style="color:var(--blue)">100%</div>
+                        <div class="summary-card-note">De países con Alto EGOV participan.</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card-title">Modelo Estructurado</div>
+                        <div class="summary-card-value" style="color:var(--yellow)">54.1%</div>
+                        <div class="summary-card-note">Precisión solo con ventajas (DRC).</div>
+                    </div>
+                </div>
+            </div>
+             <div class="summary-section">
+                <h3>Paso 2: La Elección del Venue (Elección Institucional)</h3>
+                <div class="summary-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="summary-card summary-qual-card">
+                        <div class="summary-card-title">Motivación Dominante</div>
+                        <ul><li><strong>Credibilidad de Compromisos (19 Códigos):</strong> Búsqueda de predictibilidad y revitalización de la OMC.</li></ul>
+                    </div>
+                    <div class="summary-card summary-qual-card">
+                        <div class="summary-card-title">Motivación Secundaria</div>
+                         <ul><li><strong>Gestión Tecnocrática (11 Códigos):</strong> Búsqueda de eficiencia y altos estándares.</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-section">
+                <h3>Paso 3: El Núcleo del Conflicto (Núcleo Negociador)</h3>
+                 <div class="summary-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="summary-card">
+                        <div class="summary-card-title">Filtro de Entrada: Moratoria Arancelaria</div>
+                        <div class="summary-card-value" style="color:var(--pink)">1787x</div>
+                        <div class="summary-card-note">Más chances de unirse con posición ofensiva (Exp(B)). Precisión: 97.6%.</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card-title">Espacio de Negociación: Reglamentación de Datos</div>
+                        <div class="summary-card-value" style="color:var(--yellow)">414x</div>
+                        <div class="summary-card-note">Más chances de unirse con posición ofensiva (Exp(B)). Precisión: 93.8%.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ensamblaje" class="module">
+             <div class="module-header">
+                <h2 class="module-title">El Ensamblaje Teórico-Metodológico</h2>
+                <p class="module-subtitle">Este no es un marco interdisciplinario, sino un ensamblaje donde cada teoría mantiene su integridad para operar como una totalidad emergente.</p>
+            </div>
+            <div id="assemblage-vis">
+                <svg width="100%" height="100%" style="position:absolute; overflow: visible;"><line class="asm-line" id="line1"/><line class="asm-line" id="line2"/><line class="asm-line" id="line3"/><line class="asm-line" id="line4"/></svg>
+                <div id="asm-center" class="asm-node"><div class="title">🎯 PROBLEMA CENTRAL</div><div class="desc">Formación de Preferencias Estatales sobre Coordinación Regulatoria del Comercio Digital.</div></div>
+                <div id="asm-moravcsik" class="asm-node"><div class="title" style="color:var(--blue)">🏛️ Institucionalismo Liberal</div><div class="desc"><b>Aportación:</b> Proporciona el <b>andamiaje secuencial</b> (Pasos 1-2-3).</div></div>
+                <div id="asm-drezner" class="asm-node"><div class="title" style="color:var(--green)">⚖️ Teoría de Regímenes</div><div class="desc"><b>Aportación:</b> Ofrece la <b>tipología de estándares</b> (de club, armonizados, etc.).</div></div>
+                <div id="asm-delanda" class="asm-node"><div class="title" style="color:var(--yellow)">🌀 Filosofía de Procesos</div><div class="desc"><b>Aportación:</b> Suministra la <b>ontología del ensamblaje</b> y la temporalidad intensiva (M2).</div></div>
+                <div id="asm-cyber" class="asm-node"><div class="title" style="color:var(--pink)">📡 Gobernanza Digital</div><div class="desc"><b>Aportación:</b> Provee el <b>vocabulario empírico</b> y contexto específico (venues, ecología OMC).</div></div>
+            </div>
+        </div>
+
+        <div id="explorador" class="module">
+             <div class="module-header">
+                <h2 class="module-title">Explorador de Artefactos</h2>
+                <p class="module-subtitle">Navegación y acceso a las visualizaciones de datos y análisis específicos de la tesis. Estos son los artefactos interpretativos principales.</p>
+            </div>
+            <div class="artifacts-grid">
+                <div class="artifact-card">
+                    <div class="card-content"><div class="artifact-header"><h3 class="artifact-title">Ecología Organizacional IDCCE/PTCE</h3><span class="artifact-status status-beta-plus">Beta+</span></div><dl class="artifact-details"><dt>Pregunta Clave</dt><dd>¿Cómo compiten los venues institucionales por la jurisdicción regulatoria del comercio digital?</dd><dt>Hallazgo Principal</dt><dd>La IDCCE (91 miembros) emerge como un venue plurilateral que compite con el incumbente multilateral PTCE (164 miembros) por el mismo nicho en la OMC.</dd></dl></div>
+                    <div class="card-footer"><div class="metadata-tags"><span class="metadata-tag">Teórico</span><span class="metadata-tag">Abbott 2016</span></div><a class="primary-link" onclick="openModal('ecologia_organizacional_idcce_ptce.html', 'Ecología Organizacional IDCCE/PTCE')">Explorar</a></div>
+                </div>
+                 <div class="artifact-card">
+                    <div class="card-content"><div class="artifact-header"><h3 class="artifact-title">Cuencas de Atracción Motivacional</h3><span class="artifact-status status-beta-plus">Beta+</span></div><dl class="artifact-details"><dt>Pregunta Clave</dt><dd>¿Cómo se agrupan las motivaciones estratégicas de los actores para elegir un pool de soberanía?</dd><dt>Hallazgo Principal</dt><dd>La 'Credibilidad de Compromisos' (19 códigos) es la cuenca dominante, superando la 'Gestión Tecnocrática' (11 códigos), confirmando una racionalidad más política que técnica.</dd></dl></div>
+                     <div class="card-footer"><div class="metadata-tags"><span class="metadata-tag">Paso 2</span><span class="metadata-tag">Moravcsik</span></div><a class="primary-link" onclick="openModal('cuencas_atraccion_ft_moravcsik_eng.html', 'Cuencas de Atracción (Inglés)')">Explorar</a></div>
+                </div>
+                 <div class="artifact-card">
+                    <div class="card-content"><div class="artifact-header"><h3 class="artifact-title">Doblez Conceptual M1→M2</h3><span class="artifact-status status-beta-plus">Beta+</span></div><dl class="artifact-details"><dt>Pregunta Clave</dt><dd>¿Qué transformó a la IDCCE de una iniciativa marginal a un venue global legítimo?</dd><dt>Hallazgo Principal</dt><dd>La incorporación de China en M2 (2019) actuó como una 'singularidad institucional', un doblez en el plano de coordinación que superó el umbral crítico del 47% de la membresía OMC, iniciando una cascada de legitimidad.</dd></dl></div>
+                    <div class="card-footer"><div class="metadata-tags"><span class="metadata-tag">Temporalidad</span><span class="metadata-tag">DeLanda</span></div><a class="primary-link" onclick="openModal('m1_m2_transition_eng.html', 'Doblez Conceptual M1→M2 (Inglés)')">Explorar</a></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="explorador-datos" class="module">
+            <div class="module-header">
+                <h2 class="module-title">Explorador de Datos Analíticos</h2>
+                <p class="module-subtitle">Navegación contextual por las 109 tablas y 9 figuras que constituyen la evidencia empírica de la tesis. Seleccione una categoría para visualizar los datos correspondientes.</p>
+            </div>
+            <div class="eda-container">
+                <aside class="eda-sidebar">
+                    <nav class="eda-nav">
+                        <div class="eda-nav-group">
+                            <h3 class="eda-nav-title">Análisis General</h3>
+                            <ul class="eda-nav-list">
+                                <li><a href="#" onclick="showDataCategory('intro')">Introductorias (Tablas 1-14)</a></li>
+                            </ul>
+                        </div>
+                        <div class="eda-nav-group">
+                            <h3 class="eda-nav-title">Paso 1: Cooperación Sustantiva</h3>
+                            <ul class="eda-nav-list">
+                                <li><a href="#" onclick="showDataCategory('cap-materiales')">Capacidades Materiales (Tablas 15-24)</a></li>
+                                <li><a href="#" onclick="showDataCategory('vent-institucionales')">Ventajas Institucionales (Tablas 25-36)</a></li>
+                                <li><a href="#" onclick="showDataCategory('mod-tecnoeco')">Modelo Tecno-Económico (Tablas 37-45)</a></li>
+                                <li><a href="#" onclick="showDataCategory('mod-estructurado')">Modelo Estructurado (Tablas 46-54)</a></li>
+                                <li><a href="#" onclick="showDataCategory('mod-integrador')">Modelo Integrador (Tablas 55-62)</a></li>
+                            </ul>
+                        </div>
+                        <div class="eda-nav-group">
+                            <h3 class="eda-nav-title">Paso 2: Elección Institucional</h3>
+                            <ul class="eda-nav-list">
+                                <li><a href="#" onclick="showDataCategory('motivaciones')">Motivaciones Estratégicas (Tablas 63-76)</a></li>
+                            </ul>
+                        </div>
+                        <div class="eda-nav-group">
+                            <h3 class="eda-nav-title">Paso 3: Núcleo Negociador</h3>
+                            <ul class="eda-nav-list">
+                                <li><a href="#" onclick="showDataCategory('nucleo-general')">Análisis General del Núcleo (Tablas 77-87)</a></li>
+                                <li><a href="#" onclick="showDataCategory('nucleo-modelos')">Modelos Predictivos del Núcleo (Tablas 88-102)</a></li>
+                                <li><a href="#" onclick="showDataCategory('nucleo-nuevas')">Evolución de Preferencias (Tablas 103-109)</a></li>
+                            </ul>
+                        </div>
+                         <div class="eda-nav-group">
+                            <h3 class="eda-nav-title">Figuras Clave</h3>
+                            <ul class="eda-nav-list">
+                                <li><a href="#" onclick="showDataCategory('figuras')">Visualizaciones y Redes (Figuras 1-9)</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </aside>
+                <main id="eda-content-area" class="eda-content">
+                    <div class="data-artifact-card" data-category="mod-integrador">
+                        <div class="data-card-header"><span class="data-card-id">Tabla 61</span><h4 class="data-card-title">Comparativo de bondad de ajuste (Función C)</h4></div>
+                        <p class="data-card-description">Demuestra la superioridad predictiva del Modelo Integrador (87.3%) sobre sus componentes individuales para la población de interés (n=164), validando el enfoque del ensamblaje.</p>
+                        <div class="data-card-metadata"><span class="metadata-tag" style="background-color: var(--green);">Resultado Clave</span><span class="metadata-tag">Paso 1</span><span class="metadata-tag">n=164</span></div>
+                        <button class="primary-link" onclick="openModal('tablas/tabla_61.html', 'Tabla 61: Comparativo de Bondad de Ajuste')">Explorar Datos</button>
+                    </div>
+                     <div class="data-artifact-card" data-category="cap-materiales">
+                        <div class="data-card-header"><span class="data-card-id">Tabla 17</span><h4 class="data-card-title">Tablas de consistencia para EGOV en M2</h4></div>
+                        <p class="data-card-description">Cuantifica cómo un nivel 'Alto' de EGOV se correlaciona con un 100% de participación en la IDCCE, actuando como condición suficiente.</p>
+                        <div class="data-card-metadata"><span class="metadata-tag" style="background-color: var(--blue);">Paso 1</span><span class="metadata-tag">Capacidades</span><span class="metadata-tag">n=160</span></div>
+                        <button class="primary-link" onclick="openModal('tablas/tabla_17.html', 'Tabla 17: Consistencia para EGOV en M2')">Explorar Datos</button>
+                    </div>
+                    <div class="data-artifact-card" data-category="motivaciones">
+                        <div class="data-card-header"><span class="data-card-id">Tabla 74</span><h4 class="data-card-title">Códigos de Diseño Institucional por Motivación</h4></div>
+                        <p class="data-card-description">Mapeo de los códigos de Atlas.ti que vinculan las preferencias sobre el diseño del venue (ej. 'pool de soberanía') con las motivaciones estratégicas subyacentes (ej. 'credibilidad').</p>
+                        <div class="data-card-metadata"><span class="metadata-tag" style="background-color: var(--pink);">Paso 2</span><span class="metadata-tag">Cualitativo</span><span class="metadata-tag">Atlas.ti</span></div>
+                        <button class="primary-link" onclick="openModal('tablas/tabla_74.html', 'Tabla 74: Códigos de Diseño Institucional')">Explorar Datos</button>
+                    </div>
+                     <div class="data-artifact-card" data-category="nucleo-modelos">
+                        <div class="data-card-header"><span class="data-card-id">Tabla 96</span><h4 class="data-card-title">Resumen del modelo basado en Moratoria</h4></div>
+                        <p class="data-card-description">Presenta los coeficientes del modelo de regresión logística que predicen la membresía en la IDCCE basándose únicamente en las preferencias sobre la moratoria arancelaria.</p>
+                        <div class="data-card-metadata"><span class="metadata-tag" style="background-color: var(--yellow);">Paso 3</span><span class="metadata-tag">Cuantitativo</span><span class="metadata-tag">n=123/125</span></div>
+                        <button class="primary-link" onclick="openModal('tablas/tabla_96.html', 'Tabla 96: Modelo de Moratoria')">Explorar Datos</button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="modal-overlay" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header"><h2 class="modal-title" id="modal-title"></h2><button class="modal-close" onclick="closeModal()">×</button></div>
+        <div class="modal-content"><iframe id="modal-iframe" allowfullscreen></iframe></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navButtons = document.querySelectorAll('.sidebar .nav-item button');
+    const modules = document.querySelectorAll('.module');
+    const edaNavLinks = document.querySelectorAll('.eda-nav-list a');
+    const dataCards = document.querySelectorAll('.data-artifact-card');
+
+    function switchModule(targetId) {
+        navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.module === targetId));
+        modules.forEach(module => module.classList.toggle('active', module.id === targetId));
+        if (targetId === 'ensamblaje') {
+            setTimeout(drawLines, 50);
+        }
+    }
+
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => switchModule(btn.dataset.module));
+    });
+
+    // --- EDA Logic ---
+    window.showDataCategory = function(category) {
+        // Highlight active link
+        edaNavLinks.forEach(link => link.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Filter cards
+        dataCards.forEach(card => {
+            if (card.dataset.category === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // --- Modal Logic ---
+    window.openModal = function(url, title) {
+        const modal = document.getElementById('modal-overlay');
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-iframe').src = url;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    window.closeModal = function() {
+        const modal = document.getElementById('modal-overlay');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        document.getElementById('modal-iframe').src = '';
+    }
+
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeModal();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // --- Assemblage Lines Logic ---
+    function drawLines() {
+        if (window.innerWidth <= 1200 || !document.getElementById('ensamblaje').classList.contains('active')) return;
+        const center = document.getElementById('asm-center');
+        if (!center) return;
+        
+        const container = document.getElementById('assemblage-vis');
+        const centerRect = center.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const centerPoint = {
+            x: centerRect.left + centerRect.width / 2 - containerRect.left,
+            y: centerRect.top + centerRect.height / 2 - containerRect.top
+        };
+        ['moravcsik', 'drezner', 'delanda', 'cyber'].forEach((id, i) => {
+            const node = document.getElementById(`asm-${id}`);
+            const line = document.getElementById(`line${i+1}`);
+            if (!node || !line) return;
+            const nodeRect = node.getBoundingClientRect();
+            const nodePoint = {
+                x: nodeRect.left + nodeRect.width / 2 - containerRect.left,
+                y: nodeRect.top + nodeRect.height / 2 - containerRect.top
+            };
+            line.setAttribute('x1', nodePoint.x);
+            line.setAttribute('y1', nodePoint.y);
+            line.setAttribute('x2', centerPoint.x);
+            line.setAttribute('y2', centerPoint.y);
+        });
+    }
+    
+    // Initial setup
+    new ResizeObserver(drawLines).observe(document.getElementById('assemblage-vis'));
+    
+    // Set initial state for EDA (show first category by default)
+    if(edaNavLinks.length > 0) {
+      edaNavLinks[0].click();
+    }
+});
+</script>
+
+</body>
+</html>
