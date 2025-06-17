@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tablas 6 a 8 – Tesis</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2em; }
+        h2 { margin-top: 2em; color: #2a2a2a; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+        th, td { border: 1px solid #999; padding: 8px; vertical-align: top; }
+        th { background-color: #f0f0f0; }
+        caption { text-align: left; font-weight: bold; margin-bottom: 0.5em; }
+    </style>
+</head>
+<body>
+
+<h2>Tabla 6 – Dimensiones explicativas para base cuantitativa para el Paso 1</h2>
+<table>
+    <tr><th>Dimensión</th><th>Covariable / código</th><th>Proxy</th><th>Función</th><th>Categorías<br>(Ordinal)</th><th>Categorías<br>(Dicotómica)</th></tr>
+    <tr><td rowspan="3">Capacidades materiales</td>
+        <td>Desarrollo en gobierno digital</td>
+        <td>Índice de desarrollo en gobierno electrónico (UNDESA 2020)</td>
+        <td>Variable principal</td>
+        <td>0 = Bajo, 1 = Medio, 2 = Alto, 3 = Muy alto</td>
+        <td>0 = Menor<br>1 = Mayor</td></tr>
+    <tr><td>Ingreso nacional</td>
+        <td>Nivel de ingreso (Banco Mundial 2022)</td>
+        <td>Covariable 2</td>
+        <td>0 = Bajo, 1 = Medio bajo, 2 = Medio alto, 3 = Alto</td>
+        <td>0 = Menor<br>1 = Mayor</td></tr>
+    <tr><td>Densidad de servidores seguros</td>
+        <td>Ranking B2C UNCTAD (2019)</td>
+        <td>Covariable 3</td>
+        <td>0 = Bajo, 1 = Medio, 2 = Alto, 3 = Muy alto</td>
+        <td>0 = Menor<br>1 = Mayor</td></tr>
+    <tr><td rowspan="2">Ventajas institucionales</td>
+        <td>Red comercial</td>
+        <td># de APC suscriptos (2021)</td>
+        <td>Covariable 4</td>
+        <td>0 = Bajo (0–2)<br>1 = Medio (3–6)<br>2 = Alto (7–17)<br>3 = Muy alto (18+)</td>
+        <td>0 = Menor<br>1 = Mayor</td></tr>
+    <tr><td>Red comercial digital</td>
+        <td># de ecAPC suscriptos (2021)</td>
+        <td>Covariable 5</td>
+        <td>0 = Bajo (0)<br>1 = Medio (1–2)<br>2 = Alto (3–6)<br>3 = Muy alto (7+)</td>
+        <td>0 = Menor<br>1 = Mayor</td></tr>
+</table>
+
+<h2>Tabla 7 – Correlación entre covariables del Paso 1 en población de interés</h2>
+<table>
+<tr><th rowspan="2">Covariables</th><th colspan="5">Coeficiente de correlación de Pearson</th></tr>
+<tr><th>Densidad de servidores seguros</th><th>Gobierno digital</th><th>Ingreso nacional</th><th>Red comercial</th><th>Red comercial digital</th></tr>
+<tr><td>Densidad de servidores seguros</td><td>1</td><td>0.730**</td><td>0.664**</td><td>0.703**</td><td>0.705**</td></tr>
+<tr><td>Gobierno digital</td><td>0.730**</td><td>1</td><td>0.714**</td><td>0.685**</td><td>0.691**</td></tr>
+<tr><td>Ingreso nacional</td><td>0.664**</td><td>0.714**</td><td>1</td><td>0.474**</td><td>0.609**</td></tr>
+<tr><td>Red comercial</td><td>0.703**</td><td>0.685**</td><td>0.474**</td><td>1</td><td>0.787**</td></tr>
+<tr><td>Red comercial digital</td><td>0.705**</td><td>0.691**</td><td>0.609**</td><td>0.787**</td><td>1</td></tr>
+</table>
+<p><strong>Fuente:</strong> elaboración propia</p>
+
+<h2>Tabla 8 – Funciones para los modelos en juego en el Paso 1</h2>
+<table>
+<tr><th>Modelo</th><th>Regresores</th><th>Planteo</th></tr>
+<tr><td><strong>FUNCIÓN A</strong><br>Crecimiento tecno-económico</td>
+    <td>Desarrollo de gobierno digital mayor</td>
+    <td>Los países con mayor desarrollo digital tienen más incentivos para acelerar el inicio de trabajos exploratorios.</td></tr>
+<tr><td><strong>FUNCIÓN A</strong><br>Estructurado por cuestiones</td>
+    <td>Densidad de red comercial APC mayor</td>
+    <td>Los países con mayor densidad comercial tienen más incentivos para acelerar los trabajos exploratorios.</td></tr>
+<tr><td><strong>FUNCIÓN B</strong><br>Crecimiento tecno-económico</td>
+    <td>Gobierno digital + servidores seguros + ingreso nacional mayores</td>
+    <td>Esos países tienen más incentivos para acelerar el inicio de trabajos exploratorios.</td></tr>
+<tr><td><strong>FUNCIÓN B</strong><br>Estructurado por cuestiones</td>
+    <td>Red comercial APC + ecAPC mayor</td>
+    <td>Redes más densas implican más incentivos para explorar cooperación.</td></tr>
+<tr><td><strong>FUNCIÓN C</strong><br>Crecimiento tecno-económico</td>
+    <td>Gobierno digital * servidores seguros</td>
+    <td>Mayor desarrollo combinado lleva a preferencia por participación en IDCCE-M2.</td></tr>
+<tr><td><strong>FUNCIÓN C</strong><br>Estructurado por cuestiones</td>
+    <td>Red comercial APC * ecAPC</td>
+    <td>Mayor densidad combinada implica mayor interés en participar en IDCCE-M2.</td></tr>
+</table>
+
+</body>
+</html>

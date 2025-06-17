@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tablas 55 a 62 - Modelos Integradores</title>
+</head>
+<body>
+    <h2>Tabla 55 – Resumen del modelo integrador minimalista (Función C, ambas poblaciones)</h2>
+    <p><strong>Población / Coeficiente</strong> Log -2 | R cuadrado de Cox y Snell | R cuadrado de Nagelkerke</p>
+    <p>n═160 en M2: 126,332 | 0,446 | 0,596<br>n═480 en cualquier M: 379,483 | 0,445 | 0,595</p>
+    <p><em>Fuente: elaboración propia</em></p>
+
+    <h2>Tabla 56 – Tabla de clasificación del modelo integrador minimalista (Función C, ambas poblaciones)</h2>
+    <pre>
+Población / Coeficiente       Observado / Pronosticado       No integrante   integrante   Porcentaje correcto
+n ═ 135 en M2                 No integrante                  80              6            93,0%
+                             Integrante                      16              58           78,4%
+                             Porcentaje global                                        86,3%
+n ═ 480 en cualquier M        No integrante                  215             6            97,3%
+                             Integrante                      73              186          71,8%
+                             Porcentaje global                                        83,5%
+    </pre>
+
+    <h2>Tabla 57 – Variables en el modelo integrador minimalista (Función C, ambas poblaciones)</h2>
+    <pre>
+Población / Coeficiente       Regresor        B       Error estándar   Wald   gl   Sig.  Exp(B)   95% C.I.
+n ═ 135 en M2                 EGOV x DRC      3,878   0,509            58,089 1    0,00  48,333   17,829 – 131,028
+                             Constante       -1,609  0,274            34,537 1    0,00  0,200
+n ═ 480 en cualquier M        EGOV x DRC      4,514   0,436            107,030 1   0,00  91,301   38,821 – 214,729
+                             Constante       -1,080  0,135            63,586 1    0,00  0,340
+    </pre>
+
+    <h2>Tabla 58 – Resumen del modelo integrador maximalista (Función C, ambas poblaciones)</h2>
+    <p>n═135 en M2: 70,831 | 0,576 | 0,769<br>n═405 en cualquier M: 296,261 | 0,448 | 0,610</p>
+
+    <h2>Tabla 59 – Tabla de clasificación del modelo integrador maximalista (Función C, ambas poblaciones)</h2>
+    <pre>
+Población / Coeficiente       Observado / Pronosticado       No integrante   integrante   Porcentaje correcto
+n ═ 135 en M2                 No integrante                  59              4            93,7%
+                             Integrante                      9               63           87,5%
+                             Porcentaje global                                        90,4%
+n ═ 405 en cualquier M        No integrante                  129             9            94,1%
+                             Integrante                      60              192          76,2%
+                             Porcentaje global                                        83,0%
+    </pre>
+
+    <h2>Tabla 60 – Variables en el modelo integrador maximalista (Función C, ambas poblaciones)</h2>
+    <pre>
+n ═ 135 en M2       DRC x DRCD: 2,599 | DSS x EGOV: 4,405 | Constante: -1,920
+                    Exp(B): 13,452 y 81,890
+n ═ 405 en M        DRC x DRCD: 2,272 | DSS x EGOV: 3,505 | Constante: -0,902
+                    Exp(B): 9,703 y 33,269
+    </pre>
+
+    <h2>Tabla 61 - Comparativo de bondad de ajuste en Función C con población de interés (sincrónica, n═164)</h2>
+    <p>Modelos comparados: crecimiento tecno-económico, estructurado según cuestiones, integrador minimalista y maximalista</p>
+
+    <h2>Tabla 62 - Comparativo de bondad de ajuste en Función C con población de control (diacrónica, n═492)</h2>
+    <p>Modelos comparados con énfasis en log -2, Pseudo R, aciertos y coeficiente Wald</p>
+
+    <p><em>Fuente: elaboración propia</em></p>
+</body>
+</html>

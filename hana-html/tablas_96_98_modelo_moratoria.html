@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tablas 96-98 – Modelos de Preferencias sobre Moratoria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #d0e4f5;
+        }
+        caption {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Tabla 96 – Resumen del modelo basado en preferencias sobre la moratoria</h2>
+<table>
+    <tr><th>Dimensión / Coeficiente</th><th>Log -2</th><th>R cuadrado de Cox y Snell</th><th>R cuadrado de Nagelkerke</th></tr>
+    <tr><td>Duración</td><td>28,019</td><td>0,684</td><td>0,914</td></tr>
+    <tr><td>Alcance</td><td>34,765</td><td>0,667</td><td>0,892</td></tr>
+</table>
+
+<h2>Tabla 97 – Tabla de clasificación del modelo basado en preferencias sobre la moratoria</h2>
+<table>
+    <caption>Duración</caption>
+    <tr><th>Observado / Pronosticado</th><th>No integrante</th><th>Integrante</th><th>Porcentaje correcto</th></tr>
+    <tr><td>No integrante</td><td>65</td><td>1</td><td>98,5</td></tr>
+    <tr><td>Integrante</td><td>2</td><td>55</td><td>96,5</td></tr>
+    <tr><td><strong>Porcentaje global</strong></td><td colspan="2"></td><td><strong>97,6</strong></td></tr>
+</table>
+
+<table>
+    <caption>Alcance</caption>
+    <tr><th>Observado / Pronosticado</th><th>No integrante</th><th>Integrante</th><th>Porcentaje correcto</th></tr>
+    <tr><td>No integrante</td><td>96,8</td><td>1</td><td>98,5</td></tr>
+    <tr><td>Integrante</td><td>3</td><td>54</td><td>94,7</td></tr>
+    <tr><td><strong>Porcentaje global</strong></td><td colspan="2"></td><td><strong>96,8</strong></td></tr>
+</table>
+
+<h2>Tabla 98 – Variables del modelo basado en preferencias sobre la moratoria</h2>
+<table>
+    <caption>Duración</caption>
+    <tr><th>Regresor</th><th>B</th><th>Error estándar</th><th>Wald</th><th>gl</th><th>Sig.</th><th>Exp(B)</th></tr>
+    <tr><td>Aranceles_duración_Inicial_DICO</td><td>7,489</td><td>1,238</td><td>36,568</td><td>1</td><td>,000</td><td>1787,500</td></tr>
+    <tr><td>Constante</td><td>-3,481</td><td>,718</td><td>23,515</td><td>1</td><td>,000</td><td>,031</td></tr>
+</table>
+
+<table>
+    <caption>Alcance</caption>
+    <tr><th>Regresor</th><th>B</th><th>Error estándar</th><th>Wald</th><th>gl</th><th>Sig.</th><th>Exp(B)</th></tr>
+    <tr><td>Aranceles_Alcance_Inicial_DICO</td><td>7,095</td><td>1,169</td><td>36,831</td><td>1</td><td>,000</td><td>1206,000</td></tr>
+    <tr><td>Constante</td><td>-3,106</td><td>,590</td><td>27,703</td><td>1</td><td>,000</td><td>,045</td></tr>
+</table>
+
+</body>
+</html>
