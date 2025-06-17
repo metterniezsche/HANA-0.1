@@ -3,75 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expansión de la IDCCE</title>
+  <title>Miembros de la IDCCE por momento</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 2rem;
-      background: #f4f4f4;
+      background: #f9f9f9;
     }
-    .timeline {
+    .tabs {
       display: flex;
-      justify-content: space-around;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .block {
+    .tabs button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #aaa;
       background: white;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      width: 280px;
-      transition: transform 0.2s;
-    }
-    .block:hover {
-      transform: scale(1.03);
-    }
-    .block h2 {
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-    .block p {
-      margin: 0.5rem 0;
-    }
-    .block span {
-      display: inline-block;
-      margin-top: 0.5rem;
-      padding: 0.3rem 0.75rem;
-      background: #ddd;
-      border-radius: 4px;
+      cursor: pointer;
+      border-radius: 6px;
       font-weight: bold;
+    }
+    .tabs button.active {
+      background: #333;
+      color: white;
+    }
+    .content {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    ul {
+      columns: 3;
+      -webkit-columns: 3;
+      -moz-columns: 3;
+      margin-top: 1rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <h1>Expansión de la IDCCE (2017–2024)</h1>
-  <div class="timeline">
-    <div class="block">
-      <h2>2017 – M1</h2>
-      <p><strong>Inicio exploratorio:</strong> Declaración conjunta en la MC11 (Buenos Aires).</p>
-      <p>Fuerte presencia de potencias ofensivas (EE. UU., UE, Japón).</p>
-      <span>71 países</span>
-    </div>
-    <div class="block">
-      <h2>2019 – M2</h2>
-      <p><strong>Lanzamiento formal:</strong> Comienzan las negociaciones vinculantes.</p>
-      <p>Ingreso de China como punto de inflexión institucional.</p>
-      <span>77 países</span>
-    </div>
-    <div class="block">
-      <h2>~2022 – M3</h2>
-      <p><strong>Expansión desde el Sur:</strong> Entrada de países con menores capacidades.</p>
-      <p>Motivaciones mixtas y legitimidad institucional acumulada.</p>
-      <span>91 países</span>
-    </div>
-    <div class="block">
-      <h2>2024</h2>
-      <p><strong>Estado Final:</strong> Polarización institucional consolidada.</p>
-      <p>91 dentro – 73 fuera. Diada IDCCE / PTCE plenamente instalada.</p>
-      <span>164 miembros OMC</span>
-    </div>
+  <h1>Distribución de países según momento de incorporación a la IDCCE</h1>
+  <div class="tabs">
+    <button onclick="showTab(0)" class="active">M1 (2017)</button>
+    <button onclick="showTab(1)">M2 (2019)</button>
+    <button onclick="showTab(2)">M3 (~2022)</button>
+    <button onclick="showTab(3)">No miembros</button>
   </div>
+
+  <div class="content" id="tab-content"></div>
+
+  <script>
+    const data = [
+      {
+        title: "Momento M1 – 2017 (71 países se incorporan)",
+        list: ["Albania", "Argentina", "Australia", "Bahréin", "Brasil", "Brunéi Darussalam", "Camboya", "Canadá", "Chile", "Colombia", "Costa Rica", "Unión Europea", "Guatemala", "Hong Kong, Porcelana", "Islandia", "Israel", "Japón", "Kazajstán", "Corea del Sur", "Kuwait", "Lao", "Liechtenstein", "la ex República Yugoslava de Macedonia", "Malasia", "México", "Moldavia", "Montenegro", "Birmania", "Nueva Zelanda", "Nigeria", "Noruega", "Panamá", "Paraguay", "Perú", "Catar", "Federación Rusa", "Singapur", "Suiza", "Tailandia", "Territorio Aduanero Distinto de Taiwán, Penghu, Kinmen y Matsu", "Turquía", "Ucrania", "Estados Unidos", "Uruguay"]
+      },
+      {
+        title: "Momento M2 – 2019 (Otros 7 se incorporan)",
+        list: ["China", "El Salvador", "Georgia", "Honduras", "Mongolia", "Nicaragua", "Emiratos Árabes Unidos"]
+      },
+      {
+        title: "Momento M3 – ~2022 (Otros 14 se incorporan)",
+        list: ["Indonesia", "Costa de Marfil", "Gambia", "Omán", "Kirguistán", "Ecuador", "Filipinas", "Burkina Faso", "Camerún", "Kenia", "Benín", "Cabo Verde", "Guatemala"]
+      },
+      {
+        title: "Países que nunca se sumaron (hasta 2024) (87 países)",
+        list: [
+          "Afganistán", "Angola", "Antigua y Barbuda", "Armenia", "Bangladesh", "Barbados", "Belice", "Bolivia", "Botsuana", "Burundi", "África Central", "Chad", "Congo", "República Democrática del Congo", "Cuba", "Dijibouti", "Dominica", "República Dominicana", "Egipto", "Eswatini", "Fiji", "Gabón", "Ghana", "Granada", "Guinea", "Guinea-Bissau", "Guyana", "Haití", "India", "Jamaica", "Jordania", "Lesoto", "Liberia", "Macao", "Madagascar", "Malawi", "Maldivas", "Mali", "Islas Marshall", "Mauritania", "Marruecos", "Mozambique", "Namibia", "Nepal", "Niger", "Pakistán", "Papús Nueva Guinea", "Ruanda", "Samoa", "Arabia Saudita", "Senegal", "Seychelles", "Sierra Leone", "Islas Salomón", "Sudáfrica", "Sri Lanka", "St. Kitts y Nevis", "Santa Lucía", "San Vicente y las Granadinas", "Surinam", "Tayikistán", "Tanzania", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Uganda", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbawe"
+        ]
+      }
+    ];
+
+    const tabContent = document.getElementById("tab-content");
+    const buttons = document.querySelectorAll(".tabs button");
+
+    function showTab(index) {
+      buttons.forEach((btn, i) => btn.classList.toggle("active", i === index));
+      const tab = data[index];
+      tabContent.innerHTML = `<h2>${tab.title}</h2><ul>${tab.list.map(p => `<li>${p}</li>`).join('')}</ul>`;
+    }
+
+    // Load first tab
+    showTab(0);
+  </script>
 </body>
 </html>
