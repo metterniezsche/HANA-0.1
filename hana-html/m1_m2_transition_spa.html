@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doblez Conceptual M1→M2: Singularidad Institucional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* HANA Design System - Colores Exactos */
+            --bg-primary: #030712;
+            --bg-secondary: #111827;
+            --bg-cards: #1F2937;
+            --accent-violet: #6366F1;
+            --accent-emerald: #10B981;
+            --accent-amber: #F59E0B;
+            --accent-blue: #3B82F6;
+            --accent-rose: #EF4444;
+            --accent-pink: #D946EF;
+            --accent-purple: #8B5CF6;
+            
+            /* Métricas Empíricas Exactas */
+            --modelo-integrador: 87.3%;
+            --modelo-tecno-economico: 59.3%;
+            --modelo-ventajas: 54.1%;
+            --credibilidad-compromisos: 36; /* Atlas.ti códigos exactos */
+            --gestion-tecnocratica: 11;
+            --ideologia-federal: 8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Enhanced Typography */
+        .main-title {
+            text-align: center;
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-pink), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: brightness(1) drop-shadow(0 0 20px rgba(99, 102, 241, 0.3)); }
+            100% { filter: brightness(1.1) drop-shadow(0 0 30px rgba(217, 70, 239, 0.4)); }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Enhanced 3D Visualization */
+        .visualization-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            perspective: 2000px;
+            margin: 40px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .temporal-plane {
+            position: relative;
+            width: 95%;
+            max-width: 1100px;
+            height: 90%;
+            background: linear-gradient(90deg,
+                rgba(99, 102, 241, 0.12) 0%,
+                rgba(217, 70, 239, 0.25) 46%,
+                rgba(217, 70, 239, 0.35) 54%,
+                rgba(59, 130, 246, 0.12) 100%);
+            border: 2px solid rgba(99, 102, 241, 0.4);
+            border-radius: 16px;
+            transform-style: preserve-3d;
+            animation: planeFold 20s ease-in-out infinite alternate;
+            box-shadow: 
+                0 0 60px rgba(99, 102, 241, 0.2),
+                inset 0 0 40px rgba(217, 70, 239, 0.1);
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes planeFold {
+            0%, 15% { 
+                transform: rotateY(0deg) rotateX(0deg) scale(1);
+                border-color: rgba(99, 102, 241, 0.4);
+            }
+            45%, 55% { 
+                transform: rotateY(-18deg) rotateX(12deg) scale(1.03);
+                border-color: rgba(217, 70, 239, 0.6);
+            }
+            85%, 100% { 
+                transform: rotateY(0deg) rotateX(0deg) scale(1);
+                border-color: rgba(99, 102, 241, 0.4);
+            }
+        }
+
+        /* Enhanced Zone Cards */
+        .zone-card {
+            position: absolute;
+            width: 28%;
+            height: 75%;
+            background: linear-gradient(135deg, var(--bg-cards), rgba(31, 41, 55, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .zone-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .m1-zone {
+            left: 6%;
+            top: 12.5%;
+            border-left: 4px solid var(--accent-violet);
+        }
+
+        .m3-zone {
+            right: 6%;
+            top: 12.5%;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .zone-title {
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent-violet);
+        }
+        .m3-zone .zone-title { color: var(--accent-blue); }
+
+        .zone-subtitle {
+            font-size: clamp(12px, 1.8vw, 16px);
+            font-weight: 600;
+            opacity: 0.8;
+            margin-bottom: 18px;
+            color: var(--accent-amber);
+        }
+
+        .zone-content {
+            font-size: clamp(11px, 1.4vw, 14px);
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        .zone-content strong {
+            color: var(--accent-emerald);
+            font-weight: 600;
+        }
+
+        /* Enhanced M2 Threshold */
+        .m2-threshold {
+            position: absolute;
+            left: 49%;
+            top: 0;
+            width: 2%;
+            height: 100%;
+            background: linear-gradient(180deg,
+                var(--accent-pink) 0%,
+                var(--accent-amber) 25%,
+                var(--accent-rose) 50%,
+                var(--accent-pink) 75%,
+                var(--accent-amber) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            animation: thresholdPulse 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 80px rgba(217, 70, 239, 0.6);
+        }
+
+        @keyframes thresholdPulse {
+            0% {
+                transform: scaleX(1);
+                box-shadow: 0 0 80px rgba(217, 70, 239, 0.6);
+            }
+            100% {
+                transform: scaleX(1.2);
+                box-shadow: 0 0 120px rgba(217, 70, 239, 0.9), 0 0 160px rgba(251, 191, 36, 0.5);
+            }
+        }
+
+        .threshold-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            color: white;
+            font-weight: 700;
+            font-size: clamp(10px, 1.2vw, 14px);
+            text-align: center;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Enhanced Member Counters */
+        .member-counter {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            z-index: 5; /* Reduced z-index to stay behind text */
+            text-shadow: 0 0 30px currentColor;
+            pointer-events: none;
+            opacity: 0.7; /* Reduced opacity to not interfere with content */
+        }
+
+        .counter-71 {
+            display: none;
+        }
+
+        .counter-77 {
+            left: 50%;
+            top: 5%; /* Moved up significantly */
+            transform: translateX(-50%);
+            color: var(--accent-amber);
+            font-size: clamp(40px, 6vw, 60px);
+            animation: counterCritical 2.5s infinite alternate;
+        }
+
+        .counter-91 {
+            display: none;
+        }
+
+        @keyframes counterPulse {
+            0%, 80% { transform: scale(1); }
+            90% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes counterCritical {
+            0% { 
+                transform: translateX(-50%) scale(1);
+                text-shadow: 0 0 30px var(--accent-amber);
+            }
+            100% { 
+                transform: translateX(-50%) scale(1.08);
+                text-shadow: 0 0 50px var(--accent-amber), 0 0 80px var(--accent-pink);
+            }
+        }
+
+        /* China Factor Marker - Removed */
+        .china-factor {
+            display: none;
+        }
+
+        /* Enhanced Floating Concepts - Removed */
+        .floating-concepts {
+            display: none;
+        }
+
+        .floating-concept {
+            display: none;
+        }
+
+        /* Enhanced Insights Grid */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, var(--bg-cards), rgba(31, 41, 55, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-violet), var(--accent-pink), var(--accent-blue));
+            opacity: 0.7;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .insight-title {
+            font-size: clamp(16px, 2.2vw, 22px);
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: var(--accent-pink);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .insight-content {
+            font-size: clamp(13px, 1.6vw, 16px);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+        }
+        .insight-content strong {
+            color: var(--accent-emerald);
+            font-weight: 600;
+        }
+
+        /* Enhanced Metrics */
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .metric:last-child { border-bottom: none; }
+
+        .metric-label {
+            font-size: clamp(12px, 1.3vw, 15px);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(12px, 1.3vw, 15px);
+            font-weight: 600;
+            color: var(--accent-amber);
+        }
+
+        /* Enhanced Theoretical Foundation */
+        .theoretical-foundation {
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.15), 
+                rgba(139, 92, 246, 0.1), 
+                rgba(217, 70, 239, 0.08));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theoretical-foundation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-violet), var(--accent-purple), var(--accent-pink));
+        }
+
+        .foundation-title {
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--accent-purple);
+            text-align: center;
+        }
+
+        .foundation-content {
+            font-size: clamp(14px, 1.7vw, 18px);
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            text-align: justify;
+        }
+        .foundation-content strong {
+            color: var(--accent-violet);
+            font-weight: 600;
+        }
+        .foundation-content em {
+            color: var(--accent-amber);
+            font-style: italic;
+        }
+
+        .citation {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 25px;
+            text-align: right;
+            font-size: clamp(12px, 1.4vw, 16px);
+            font-family: 'JetBrains Mono', monospace;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-amber);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .visualization-container {
+                height: 600px;
+                flex-direction: column;
+            }
+
+            .temporal-plane {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .zone-card {
+                position: relative;
+                width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+                left: auto;
+                right: auto;
+                top: auto;
+            }
+
+            .m2-threshold {
+                width: 100%;
+                height: 3%;
+                left: 0;
+                top: auto;
+                order: 2;
+            }
+
+            .threshold-label {
+                writing-mode: horizontal-tb;
+                text-orientation: upright;
+            }
+
+            .china-factor {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60%;
+                height: 2%;
+                top: auto;
+            }
+
+            .member-counter {
+                position: relative;
+                margin: 10px 0;
+                font-size: 28px;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">DOBLEZ CONCEPTUAL M1→M2</h1>
+        <p class="subtitle">
+            Singularidad institucional como doblez del plano de coordinación regulatoria<br>
+            <strong>Ensamblaje IDCCE-OMC</strong> • Temporalidad intensiva DeLanda • Punto de inflexión Finnemore & Sikkink
+        </p>
+
+        <div class="visualization-container">
+            <div class="temporal-plane">
+                <div class="zone-card m1-zone">
+                    <div class="zone-title">M1: Extensivo</div>
+                    <div class="zone-subtitle">Diciembre 2017 • 71 miembros</div>
+                    <div class="zone-content">
+                        <strong>Temporalidad Extensiva</strong><br>
+                        • Países pioneros con altas capacidades EGOV<br>
+                        • Racionalidad instrumental dominante<br>
+                        • Foco en "gestión tecnocrática centralizada"<br>
+                        • Estados Unidos lidera la coalición inicial<br>
+                        • Representa 43.3% membresía OMC
+                    </div>
+                </div>
+
+                <div class="m2-threshold">
+                    <div class="threshold-label">
+                        PUNTO DE<br>INFLEXIÓN
+                    </div>
+                </div>
+
+                <div class="zone-card m3-zone">
+                    <div class="zone-title">M3: Cascada</div>
+                    <div class="zone-subtitle">2019-2024 • 91 miembros</div>
+                    <div class="zone-content">
+                        <strong>Cascada de Legitimidad</strong><br>
+                        • Incorporación países menores capacidades<br>
+                        • Racionalidad política y axiológica<br>
+                        • Ejemplos: Indonesia, Cabo Verde, Kenia<br>
+                        • Representa 55.5% membresía OMC<br>
+                        • Modelo integrador: <strong>87.3% precisión</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-counter counter-77">77</div>
+
+
+        </div>
+
+        <div class="insights-grid">
+            <div class="insight-card">
+                <div class="insight-title">🎯 Hallazgo Central: M2 como Singularidad</div>
+                <div class="insight-content">
+                    <strong>El punto de inflexión es abrupto, no gradual:</strong> China transforma la IDCCE de proyecto occidental a venue global legitimado en una sola incorporación.
+
+                    <div class="metric">
+                        <span class="metric-label">Precisión pre-M2 (solo capacidades):</span>
+                        <span class="metric-value">59.3%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Precisión post-M2 (integrador):</span>
+                        <span class="metric-value">87.3%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Umbral Finnemore-Sikkink:</span>
+                        <span class="metric-value">77/164 = 47% OMC</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">🔄 Dinámicas de Cuencas de Atracción</div>
+                <div class="insight-content">
+                    <strong>Cambio cualitativo en determinantes:</strong> M1 atrae por capacidades estructurales, M3 por legitimidad política consolidada.
+
+                    <div class="metric">
+                        <span class="metric-label">M1 - EGOV como condición suficiente:</span>
+                        <span class="metric-value">Alto EGOV → 100% participación</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">M3 - Cascada post-umbral:</span>
+                        <span class="metric-value">14 incorporaciones</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Co-Convocantes coordinan:</span>
+                        <span class="metric-value">AU-JP-SG triad</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">🇨🇳 Factor China: Doblez Geopolítico</div>
+                <div class="insight-content">
+                    <strong>Doble legitimidad:</strong> tecnológica (capacidades) + política (consenso superpotencias).
+
+                    <div class="metric">
+                        <span class="metric-label">Credibilidad compromisos:</span>
+                        <span class="metric-value">36 códigos Atlas.ti</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Gestión tecnocrática:</span>
+                        <span class="metric-value">11 códigos</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Ideología federal:</span>
+                        <span class="metric-value">8 códigos pro-IDCCE</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-title">⚡ Temporalidad Intensiva (DeLanda)</div>
+                <div class="insight-content">
+                    <strong>M2 como momento singular:</strong> condensación de potencialidades en actualización irreversible.
+
+                    <div class="metric">
+                        <span class="metric-label">Enero 2019:</span>
+                        <span class="metric-value">6 nuevos miembros</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Efecto consolidación:</span>
+                        <span class="metric-value">Venue → standard</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Competencia ecológica:</span>
+                        <span class="metric-value">IDCCE vs PTCE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="theoretical-foundation">
+            <div class="foundation-title">📚 Fundamento Teórico del Ensamblaje Heterogéneo</div>
+            <div class="foundation-content">
+                <strong>Hibridación conceptual sin eclecticismo:</strong> El doblez M1→M2 opera simultáneamente como <em>punto de inflexión</em> (Finnemore & Sikkink), <em>temporalidad intensiva</em> (DeLanda) y <em>consolidación institucional</em> (Moravcsik). La singularidad reside en que 77 miembros no es solo el 47% de la OMC, sino el umbral donde convergen: (1) legitimidad tecnológica de capacidades pioneras, (2) legitimidad política del consenso bipolar, y (3) legitimidad institucional del <em>pool</em> de soberanía dentro de organismo multilateral.
+                <p class="citation">
+                    "La incorporación de China al IDCCE supuso alcanzar cierto consenso mínimo entre las dos principales potencias del sistema internacional y un tercio de la comunidad internacional" — Análisis empírico, χ²=0.000
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add ripple effect to cards
+            const cards = document.querySelectorAll('.insight-card, .zone-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function(e) {
+                    this.style.transform = 'translateY(-12px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function(e) {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Enhanced threshold glow on hover
+            const threshold = document.querySelector('.m2-threshold');
+            threshold.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 0 150px rgba(217, 70, 239, 1), 0 0 200px rgba(251, 191, 36, 0.7)';
+            });
+            threshold.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 0 80px rgba(217, 70, 239, 0.6)';
+            });
+
+            // Counter animation on scroll
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'counterCritical 2s ease-out';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.member-counter').forEach(counter => {
+                observer.observe(counter);
+            });
+        });
+    </script>
+</body>
+</html>
