@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Década Investigando la Cooperación Digital | HANA</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        :root {
+            --bg-color: #0A0A14;
+            --card-bg: rgba(22, 22, 35, 0.5);
+            --text-primary: #F0F0F5;
+            --text-secondary: #A8A8B3;
+            --accent-purple: #8B5CF6;
+            --accent-pink: #D946EF;
+            --accent-blue: #3B82F6;
+            --accent-green: #10B981;
+            --accent-yellow: #F59E0B;
+            --accent-red: #EF4444;
+            --border-glow: rgba(139, 92, 246, 0.2);
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Crimson Text', serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 1rem;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .aurora {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 1500px;
+            height: 1500px;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(200px);
+        }
+        .aurora-1 { background: rgba(139, 92, 246, 0.1); animation: moveAurora1 25s infinite alternate; }
+        .aurora-2 { background: rgba(217, 70, 239, 0.08); animation: moveAurora2 30s infinite alternate; }
+
+        @keyframes moveAurora1 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-45%, -55%) rotate(120deg) scale(1.3); }
+        }
+        @keyframes moveAurora2 {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-55%, -45%) rotate(-120deg) scale(0.8); }
+        }
+        
+        h1, h2, h3, p, dl { position: relative; z-index: 1; }
+
+        h1 {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 300;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            max-width: 950px;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 .decade-highlight {
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 750px;
+            margin-bottom: 4rem;
+            line-height: 1.7;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(15px);
+            width: 100%;
+        }
+
+        .decade-indicator {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .question-highlight {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.08));
+            border: 1px solid var(--border-glow);
+            border-radius: 32px;
+            padding: 3rem;
+            margin: 3rem 0;
+            font-style: italic;
+            font-size: 1.3rem;
+            line-height: 1.6;
+        }
+        
+        /* Journey */
+        .journey-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .journey-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journey-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-purple), var(--accent-pink));
+        }
+
+        .journey-period {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .journey-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .journey-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Dimensions */
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .dimension-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .dimension-card::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -10px;
+            left: 2rem;
+            background: var(--bg-color);
+            color: var(--accent-purple);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dimension-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .dimension-theoretical {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .dimension-theoretical-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dimension-empirical {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .dimension-empirical-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Findings */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .finding-card {
+            background: rgba(255,255,255, 0.03);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255, 0.05);
+            text-align: center;
+        }
+        
+        .finding-value {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .finding-value.precision { color: var(--accent-green); }
+        .finding-value.countries { color: var(--accent-blue); }
+        .finding-value.codes { color: var(--accent-purple); }
+        .finding-value.questions { color: var(--accent-pink); }
+
+        .finding-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            line-height: 1.4;
+        }
+
+        /* Personal */
+        .personal-section {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 32px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .personal-section h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 1.5rem;
+        }
+
+        /* HANA */
+        .hana-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid var(--border-glow);
+            border-radius: 32px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .hana-section h3 {
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+        }
+
+        .beta-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+            line-height: 1.6;
+        }
+
+        .tooltip-trigger {
+            border-bottom: 1px dotted var(--accent-purple);
+            cursor: help;
+            position: relative;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 300px;
+            background-color: #11111b;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border-glow);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-weight: 400;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tooltip-text b { color: var(--accent-purple); }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #11111b transparent transparent transparent;
+        }
+        .tooltip-trigger:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Citation */
+        .citation-footer {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(15px);
+        }
+
+        .citation-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .institution {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        @media (max-width: 900px) {
+            .findings-grid { grid-template-columns: 1fr; }
+            body { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    
+    <div class="container">
+        <section class="section" id="hero">
+            <h1>Regímenes <span class="decade-highlight">Digitales</span> y Cooperación Estatal</h1>
+            <p class="section-subtitle">
+                Esta tesis de doctorado analiza las preferencias estatales sobre coordinación regulatoria en comercio digital dentro de la OMC. HANA emerge como plataforma beta que extiende estos hallazgos hacia simulación estratégica y análisis predictivo de cambios de régimen.
+            </p>
+        </section>
+
+        <section class="section" id="question">
+            <div class="decade-indicator">Pregunta Central</div>
+            <h2>¿Por Qué Los Estados Siguen Cooperando?</h2>
+            <div class="question-highlight">
+                "¿Por qué los Estados insisten en cooperar bajo condiciones asimétricas, volátiles y cada vez más tecnopolíticas?"
+            </div>
+            <p class="section-subtitle">
+                En el seno de la OMC, 91 países eligieron sumarse a la IDCCE, una vía plurilateral, mientras otros 73 permanecieron en el marco multilateral del PTCE. Esta <span class="tooltip-trigger">bifurcación<span class="tooltip-text"><b>Bifurcación IDCCE/PTCE:</b> La división entre países que optaron por negociaciones vinculantes en un venue plurilateral versus aquellos que permanecieron en trabajos exploratorios multilaterales revela un cambio de régimen dentro del régimen multilateral.</span></span> revela un cambio de régimen dentro del régimen multilateral.
+            </p>
+        </section>
+
+        <section class="section" id="dimensions">
+            <div class="decade-indicator">Marco Analítico</div>
+            <h2>Las Tres Dimensiones de la Coordinación Regulatoria</h2>
+            <p class="section-subtitle">
+                La tesis adapta el modelo de "tres pasos" de Moravcsik (1998) para distinguir dimensiones analíticas específicas de las preferencias sobre <span class="tooltip-trigger">coordinación regulatoria<span class="tooltip-text"><b>Coordinación Regulatoria:</b> Los estándares elegidos por actores estatales en procesos de ajuste codificado de normas nacionales para reconocer o acomodar marcos regulatorios de otros países del sistema internacional (Drezner, 2007).</span></span>: cada una analiza aspectos específicos de cómo los Estados estructuran sus preferencias sobre soberanía.
+            </p>
+            <div class="dimensions-grid">
+                <div class="dimension-card" data-step="Paso 1">
+                    <div class="dimension-title">Preferencias de Cooperación Sustantiva</div>
+                    <div class="dimension-theoretical">
+                        <div class="dimension-theoretical-label">Marco Teórico</div>
+                        Dada la existencia de un núcleo negociador, ¿prefieren pasar de trabajos exploratorios a negociaciones sobre reglas vinculantes de coordinación regulatoria?
+                    </div>
+                    <div class="dimension-empirical">
+                        <div class="dimension-empirical-label">Análisis Empírico</div>
+                        Participar o no en IDCCE vs permanecer en el PTCE exploratorio. El <strong>modelo integrador</strong> (capacidades materiales + ventajas institucionales) alcanza <strong>87.3%</strong> de precisión predictiva, superando modelos puros (59.3% y 54.1%).
+                    </div>
+                </div>
+
+                <div class="dimension-card" data-step="Paso 2">
+                    <div class="dimension-title">Preferencias de Elección Institucional</div>
+                    <div class="dimension-theoretical">
+                        <div class="dimension-theoretical-label">Marco Teórico</div>
+                        Dado el acuerdo sustantivo, ¿cómo resolver el balance entre retención, pool o delegación de soberanía en el diseño del venue institucional?
+                    </div>
+                    <div class="dimension-empirical">
+                        <div class="dimension-empirical-label">Análisis Empírico</div>
+                        Venue plurilateral vs track multilateral dentro de OMC. Mediante <strong>800+ códigos Atlas.ti</strong>, se identifican motivaciones estratégicas: <strong>credibilidad de compromisos</strong> (19 códigos) supera gestión tecnocrática (11) e ideología federal (8).
+                    </div>
+                </div>
+
+                <div class="dimension-card" data-step="Paso 3">
+                    <div class="dimension-title">Preferencias del Núcleo Negociador</div>
+                    <div class="dimension-theoretical">
+                        <div class="dimension-theoretical-label">Marco Teórico</div>
+                        ¿Cuáles cuestiones constituyen puntos de partida para la negociación y en qué términos de mínima y máxima disposición al pool/delegación vs retención de soberanía?
+                    </div>
+                    <div class="dimension-empirical">
+                        <div class="dimension-empirical-label">Análisis Empírico</div>
+                        <strong>Dos cuestiones</strong> estructuran el núcleo: moratoria arancelaria (predictor cuasi-perfecto: <strong>98.2% ofensivos</strong> vs 3% defensivos participan) y reglamentación de datos (distribución "tres tercios": 33.3% ofensivos, 37% defensivos, 29.7% no se pronuncian).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="findings">
+            <div class="decade-indicator">Contribución Empírica</div>
+            <h2>Hallazgos de la Tesis</h2>
+            <p class="section-subtitle">
+                El análisis secuencial revela patrones específicos en cada dimensión, validando el enfoque de <span class="tooltip-trigger">ensamblajes institucionales<span class="tooltip-text"><b>Ensamblajes Institucionales:</b> Configuraciones heterogéneas donde capacidades materiales, ventajas institucionales y motivaciones estratégicas interactúan de modo no-lineal, manteniendo su identidad específica pero funcionando como un todo coherente.</span></span> complejos donde múltiples factores interactúan de modo no-lineal.
+            </p>
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <div class="finding-value precision">87.3%</div>
+                    <div class="finding-label">Precisión modelo integrador<br>vs modelos puros</div>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-value countries">100%</div>
+                    <div class="finding-label">Países alto EGOV<br>participan en IDCCE</div>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-value codes">800+</div>
+                    <div class="finding-label">Códigos Atlas.ti<br>análisis pre-IA</div>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-value questions">2</div>
+                    <div class="finding-label">Cuestiones estructuran<br>núcleo negociador</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="personal">
+            <div class="personal-section">
+                <h3>HANA: Del Pre-IA al Post-IA</h3>
+                <p>
+                    HANA (<em>Human Agency & Neural Architecture</em>) extiende los hallazgos de la tesis hacia territorios post-doctorales. Mientras la tesis estableció cómo las preferencias estatales se estructuran en torno a ensamblajes institucionales complejos, HANA explora: ¿cómo simular estas dinámicas? ¿Cómo predecir futuros cambios de régimen?
+                </p>
+                <p style="margin-top: 1rem;">
+                    La plataforma integra <strong>fuzzy sets, teoría evolutiva de juegos y simulación estratégica</strong> para analizar cambios de régimen en la era post-IA. Es un laboratorio experimental que honra el rigor metodológico pre-IA mientras explora las posibilidades de la investigación potenciada por IA.
+                </p>
+                <div class="beta-note">
+                    <strong>Estado actual:</strong> <a href="https://hana.keeler.app" style="color: var(--accent-yellow); text-decoration: none;">hana.keeler.app</a> es una estructura beta en HTML, funcional y pensado para expandirse. Es un primer movimiento táctico hacia una ecología conceptual sobre ensamblajes institucionales y arquitectura cibernética en transición.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="hana">
+            <div class="hana-section">
+                <h3>Líneas Abiertas Post-Doctorales</h3>
+                <p>
+                    Los hallazgos sobre las tres dimensiones de la coordinación regulatoria abren nuevas preguntas que trascienden el caso específico de la IDCCE-OMC:
+                </p>
+                <ul style="margin: 1.5rem 0; padding-left: 2rem; color: var(--text-secondary); text-align: left;">
+                    <li>¿Son replicables estos <strong>patrones estructurales</strong> (EGOV + RTA# + capacidades) en otros regímenes digitales emergentes?</li>
+                    <li>¿Cómo evolucionan las <strong>motivaciones estratégicas</strong> cuando cambian las distribuciones de poder global?</li>
+                    <li>¿Es generalizable la <strong>lógica dual</strong> (moratoria como filtro + reglamentación como espacio) a otros núcleos negociadores?</li>
+                </ul>
+                <p>
+                    HANA emerge como respuesta natural a estas preguntas: un laboratorio experimental para simulaciones agenticas de coaliciones y cambio de régimen.
+                </p>
+            </div>
+        </section>
+
+        <section class="section" id="footer">
+            <div class="citation-footer">
+                <div class="citation-text">
+                    <strong>Bustos Frati, A.</strong> (2025). <em>Regímenes internacionales sobre comercio digital: preferencias estatales sobre coordinación regulatoria en la OMC y sus factores determinantes (2017–2024)</em> (Tesis de doctorado, Universidad de Buenos Aires).
+                </div>
+                <div class="institution">
+                    Tesis de Doctorado en Ciencias Sociales • Universidad de Buenos Aires • Directora: Dra. Carolina Aguerre
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.section');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Añadir efectos de conteo para las métricas
+        const findingValues = document.querySelectorAll('.finding-value');
+        const countUpObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    const finalValue = element.textContent;
+                    
+                    if (finalValue.includes('%')) {
+                        const numValue = parseFloat(finalValue);
+                        animateValue(element, 0, numValue, 1500, '%');
+                    } else if (finalValue.includes('+')) {
+                        const numValue = parseInt(finalValue);
+                        animateValue(element, 0, numValue, 1500, '+');
+                    } else if (!isNaN(finalValue)) {
+                        const numValue = parseInt(finalValue);
+                        animateValue(element, 0, numValue, 1500, '');
+                    }
+                    countUpObserver.unobserve(element);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        findingValues.forEach(value => countUpObserver.observe(value));
+
+        function animateValue(element, start, end, duration, suffix) {
+            const startTime = performance.now();
+            
+            function updateValue(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Usar easing para suavizar la animación
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const currentValue = Math.floor(start + (end - start) * easeOutQuart);
+                
+                element.textContent = currentValue + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue);
+                } else {
+                    element.textContent = end + suffix;
+                }
+            }
+            
+            requestAnimationFrame(updateValue);
+        }
+    });
+    </script>
+</body>
+</html>
