@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivational Basins of Attraction - JSI-EC-WTO Assemblage</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at center, #0a0a1f 0%, #1a1a2e 40%, #16213e 80%, #0f0f23 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .background-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+            padding: 20px;
+        }
+        
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+            z-index: 10;
+        }
+        
+        .title-text {
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 12px;
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.7);
+            letter-spacing: 0.8px;
+            background: linear-gradient(135deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle-text {
+            font-size: clamp(12px, 2.5vw, 14px);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 800px;
+            line-height: 1.5;
+            margin: 0 auto 15px;
+        }
+        
+        .methodology-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(59, 130, 246, 0.2));
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: clamp(11px, 2vw, 12px);
+            font-weight: 600;
+            color: rgba(99, 102, 241, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        
+        .navigation-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(11px, 2.2vw, 13px);
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .nav-tab:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(168, 85, 247, 0.3));
+            border-color: rgba(139, 92, 246, 0.6);
+            color: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+        
+        .basin-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+            position: relative;
+        }
+        
+        .basin {
+            width: min(500px, 90vw);
+            max-width: 500px;
+            border-radius: 32px;
+            padding: clamp(24px, 5vw, 40px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                inset 0 2px 0 rgba(255, 255, 255, 0.08),
+                inset 0 12px 40px rgba(0, 0, 0, 0.4),
+                0 12px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        
+        .basin.active {
+            display: flex;
+            animation: basinAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes basinAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .basin::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center, 
+                rgba(255, 255, 255, 0.03) 40%, 
+                transparent 80%
+            );
+            pointer-events: none;
+        }
+        
+        .credibility {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.25), 
+                rgba(168, 85, 247, 0.35), 
+                rgba(196, 132, 252, 0.25));
+            border-color: rgba(139, 92, 246, 0.6);
+        }
+        
+        .technocracy {
+            background: linear-gradient(135deg, 
+                rgba(71, 85, 105, 0.25), 
+                rgba(100, 116, 139, 0.35), 
+                rgba(148, 163, 184, 0.25));
+            border-color: rgba(100, 116, 139, 0.6);
+        }
+        
+        .federal {
+            background: linear-gradient(135deg, 
+                rgba(5, 150, 105, 0.25), 
+                rgba(16, 185, 129, 0.35), 
+                rgba(52, 211, 153, 0.25));
+            border-color: rgba(16, 185, 129, 0.6);
+        }
+        
+        .national {
+            background: linear-gradient(135deg, 
+                rgba(185, 28, 28, 0.25), 
+                rgba(220, 38, 38, 0.35), 
+                rgba(239, 68, 68, 0.25));
+            border-color: rgba(220, 38, 38, 0.6);
+        }
+        
+        .basin-title {
+            font-size: clamp(16px, 4vw, 24px);
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            margin-bottom: clamp(20px, 4vw, 30px);
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        
+        .basin-core {
+            position: relative;
+            width: clamp(80px, 15vw, 120px);
+            height: clamp(80px, 15vw, 120px);
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: clamp(25px, 5vw, 35px);
+            box-shadow: 
+                inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                0 12px 30px rgba(0, 0, 0, 0.4);
+            animation: gravitate 12s ease-in-out infinite;
+            backdrop-filter: blur(15px);
+        }
+        
+        @keyframes gravitate {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                box-shadow: 
+                    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+                    0 12px 30px rgba(0, 0, 0, 0.4);
+            }
+            25% { 
+                transform: scale(1.05) rotate(2deg);
+            }
+            50% { 
+                transform: scale(1.08) rotate(0deg);
+                box-shadow: 
+                    inset 0 2px 0 rgba(255, 255, 255, 0.25),
+                    0 16px 40px rgba(0, 0, 0, 0.5);
+            }
+            75% { 
+                transform: scale(1.05) rotate(-2deg);
+            }
+        }
+        
+        .code-count {
+            font-size: clamp(24px, 6vw, 36px);
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            line-height: 1;
+        }
+        
+        .code-breakdown {
+            font-size: clamp(10px, 2.5vw, 12px);
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .design-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .design-indicator {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: clamp(10px, 2.2vw, 12px);
+            font-weight: 600;
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            letter-spacing: 0.3px;
+            text-align: center;
+        }
+        
+        .institutional { 
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.15)); 
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        .normative { 
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.15)); 
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        
+        .moravcsik-framework {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: clamp(11px, 2.5vw, 13px);
+            font-weight: 600;
+            color: rgba(59, 130, 246, 0.9);
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.3px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .basin-phrases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-height: 40vh;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .basin-phrases::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .basin-phrases::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .basin-phrases::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .basin-phrases::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        .phrase {
+            font-size: clamp(11px, 2.8vw, 13px);
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+            padding: clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 18px);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            font-weight: 500;
+            line-height: 1.4;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+        }
+        
+        .phrase:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dominance-marker {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.9), rgba(245, 158, 11, 0.9));
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            animation: dominance-pulse 4s ease-in-out infinite;
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(0, 0, 0, 0.8);
+        }
+        
+        @keyframes dominance-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .footer-synthesis {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+        }
+        
+        .synthesis-text {
+            font-size: clamp(10px, 2.5vw, 12px);
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .atlas-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: clamp(9px, 2.2vw, 11px);
+            font-weight: 600;
+            color: rgba(139, 92, 246, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        
+        .overview-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(168, 85, 247, 0.8));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.6);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .overview-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+        }
+        
+        /* Compact overview modal styles */
+        .overview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .overview-content {
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.95), rgba(26, 26, 46, 0.95));
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .overview-basin {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .overview-basin:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .overview-basin h3 {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .overview-basin .code-count {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .overview-basin .description {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .navigation-tabs {
+                gap: 6px;
+                margin: 20px 0;
+            }
+            
+            .nav-tab {
+                padding: 10px 16px;
+                min-width: 100px;
+                font-size: 11px;
+            }
+            
+            .basin {
+                padding: 20px;
+                border-radius: 24px;
+            }
+            
+            .basin-phrases {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .design-indicators {
+                gap: 8px;
+            }
+            
+            .overview-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .overview-content {
+                padding: 20px;
+                border-radius: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-grid"></div>
+    
+    <div class="container">
+        <div class="main-title">
+            <div class="title-text">MOTIVATIONAL BASINS OF ATTRACTION</div>
+            <div class="subtitle-text">
+                Topology of state preferences according to Moravcsik (1998) strategic motivations in the JSI-EC-WTO assemblage. 
+                Empirical operationalization through Atlas.ti analysis of 130+ official WTO documents (2017-2024).
+            </div>
+            <div class="methodology-badge">800+ codes • Pre-AI methodology • Digital sovereignty pooling</div>
+        </div>
+        
+        <div class="navigation-tabs">
+            <div class="nav-tab active" data-basin="credibility">
+                <div>Commitment Credibility</div>
+                <div style="font-size: 10px; opacity: 0.7;">19 codes</div>
+            </div>
+            <div class="nav-tab" data-basin="technocracy">
+                <div>Technocratic Management</div>
+                <div style="font-size: 10px; opacity: 0.7;">11 codes</div>
+            </div>
+            <div class="nav-tab" data-basin="federal">
+                <div>Federal Ideology</div>
+                <div style="font-size: 10px; opacity: 0.7;">12 codes</div>
+            </div>
+            <div class="nav-tab" data-basin="national">
+                <div>National Ideology</div>
+                <div style="font-size: 10px; opacity: 0.7;">8 codes</div>
+            </div>
+        </div>
+        
+        <div class="basin-container">
+            <!-- Commitment Credibility - Dominant -->
+            <div class="basin credibility active" id="credibility">
+                <div class="dominance-marker">#1</div>
+                
+                <div class="basin-title">COMMITMENT CREDIBILITY</div>
+                <div class="basin-core">
+                    <div class="code-count">19</div>
+                    <div class="code-breakdown">9 institutional + 10 normative</div>
+                </div>
+                
+                <div class="design-indicators">
+                    <div class="design-indicator institutional">INSTITUTIONAL: 9</div>
+                    <div class="design-indicator normative">NORMATIVE: 10</div>
+                </div>
+                
+                <div class="moravcsik-framework">Political Rationality - Dominant Motivation</div>
+                
+                <div class="basin-phrases">
+                    <div class="phrase">Inter-temporal sovereignty pooling</div>
+                    <div class="phrase">Political commitment lock-in</div>
+                    <div class="phrase">Circumvent multilateral consensus</div>
+                    <div class="phrase">Revitalize WTO negotiation function</div>
+                    <div class="phrase">Flexible pragmatic approach</div>
+                    <div class="phrase">Equitable consultations similar countries</div>
+                    <div class="phrase">Complement subsidiary bodies</div>
+                    <div class="phrase">Preserve relevance of WTO rules</div>
+                    <div class="phrase">Sustainable deferred commitments</div>
+                    <div class="phrase">Complex gradual compensations</div>
+                    <div class="phrase">Post-M2 legitimacy cascade effect</div>
+                    <div class="phrase">Appeals to legal security contracts</div>
+                    <div class="phrase">Balance advances flexibilities</div>
+                </div>
+            </div>
+            
+            <!-- Technocratic Management - Instrumental -->
+            <div class="basin technocracy" id="technocracy">
+                <div class="basin-title">CENTRALIZED TECHNOCRATIC MANAGEMENT</div>
+                <div class="basin-core">
+                    <div class="code-count">11</div>
+                    <div class="code-breakdown">8 institutional + 3 normative</div>
+                </div>
+                
+                <div class="design-indicators">
+                    <div class="design-indicator institutional">INSTITUTIONAL: 8</div>
+                    <div class="design-indicator normative">NORMATIVE: 3</div>
+                </div>
+                
+                <div class="moravcsik-framework">Informational Rationality - Efficiency Focus</div>
+                
+                <div class="basin-phrases">
+                    <div class="phrase">Optimized informational efficiency</div>
+                    <div class="phrase">Effective continuation of WTO work</div>
+                    <div class="phrase">Issue-differentiated coordination</div>
+                    <div class="phrase">Technically complex matters</div>
+                    <div class="phrase">Low distributional conflict</div>
+                    <div class="phrase">Specialized actors delegation</div>
+                    <div class="phrase">Technical nature facilitates agreements</div>
+                    <div class="phrase">Centralized management cost reduction</div>
+                    <div class="phrase">Sustainable business development</div>
+                    <div class="phrase">Legitimate public policy objectives</div>
+                    <div class="phrase">Multiple interests balance</div>
+                </div>
+            </div>
+            
+            <!-- Federal Ideology - Pro-JSI-EC -->
+            <div class="basin federal" id="federal">
+                <div class="basin-title">FEDERAL IDEOLOGY</div>
+                <div class="basin-core">
+                    <div class="code-count">12</div>
+                    <div class="code-breakdown">8 institutional + 4 normative</div>
+                </div>
+                
+                <div class="design-indicators">
+                    <div class="design-indicator institutional">INSTITUTIONAL: 8</div>
+                    <div class="design-indicator normative">NORMATIVE: 4</div>
+                </div>
+                
+                <div class="moravcsik-framework">Axiological Rationality - Pro-JSI-EC Values</div>
+                
+                <div class="basin-phrases">
+                    <div class="phrase">Appropriate forum for all members</div>
+                    <div class="phrase">Intrinsic values of multilateralism</div>
+                    <div class="phrase">Legitimate regulatory sovereignty cession</div>
+                    <div class="phrase">Post-sovereign digital integration</div>
+                    <div class="phrase">Global democratic legitimacy</div>
+                    <div class="phrase">Institutions empower decision-makers</div>
+                    <div class="phrase">Progressive regulatory harmonization</div>
+                    <div class="phrase">Moderate coordination pooling</div>
+                    <div class="phrase">Genuine inclusive multilateralism</div>
+                    <div class="phrase">Common substantive cooperation</div>
+                    <div class="phrase">E-commerce development program</div>
+                    <div class="phrase">Urges participation to have referenced voice</div>
+                </div>
+            </div>
+            
+            <!-- National Ideology - Anti-JSI-EC -->
+            <div class="basin national" id="national">
+                <div class="basin-title">NATIONAL IDEOLOGY</div>
+                <div class="basin-core">
+                    <div class="code-count">8</div>
+                    <div class="code-breakdown">1 institutional + 7 normative</div>
+                </div>
+                
+                <div class="design-indicators">
+                    <div class="design-indicator institutional">INSTITUTIONAL: 1</div>
+                    <div class="design-indicator normative">NORMATIVE: 7</div>
+                </div>
+                
+                <div class="basin-phrases">
+                    <div class="phrase">Vindication of WPEC as sole track</div>
+                    <div class="phrase">Rejection of regulatory sovereignty pooling</div>
+                    <div class="phrase">Defense of national decisional autonomy</div>
+                    <div class="phrase">National sovereignty over Internet</div>
+                    <div class="phrase">Legitimate right to regulatory measures</div>
+                    <div class="phrase">Limited exploratory discussions</div>
+                    <div class="phrase">Concern about norm-creation forms</div>
+                    <div class="phrase">Flexible balance without permanence</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-synthesis">
+            <div class="synthesis-text">
+                "Table 76 Synthesis: Commitment credibility dominates motivational topology with 19 codes (9 institutional design + 10 normative design) 
+                versus technocratic management with 11 codes (8+3). Confirms Hypothesis 2B: political rationality outweighs informational in JSI-EC sovereignty pooling decisions."
+            </div>
+            <div class="atlas-badge">Atlas.ti • 14 key documents • Moravcsik (1998) • Institutional/normative distinction</div>
+        </div>
+    </div>
+    
+    <!-- Overview Button -->
+    <button class="overview-button" onclick="showOverview()">View All Basins</button>
+    
+    <!-- Overview Modal -->
+    <div class="overview-modal" id="overviewModal">
+        <div class="overview-content">
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 style="color: rgba(255, 255, 255, 0.95); font-size: 20px; font-weight: 700; margin-bottom: 10px;">
+                    Complete Motivational Topology
+                </h2>
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 12px;">
+                    Comparative analysis of all four strategic motivations according to Moravcsik (1998)
+                </p>
+            </div>
+            
+            <div class="overview-grid">
+                <div class="overview-basin credibility" onclick="selectBasin('credibility'); hideOverview();">
+                    <div class="dominance-marker" style="position: relative; top: auto; right: auto; margin: 0 auto 10px; width: 20px; height: 20px; font-size: 8px;">#1</div>
+                    <h3>COMMITMENT CREDIBILITY</h3>
+                    <div class="code-count" style="color: rgba(139, 92, 246, 0.9);">19</div>
+                    <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6); margin-bottom: 10px;">9 institutional + 10 normative</div>
+                    <div class="description">
+                        Political rationality dominates. Sovereignty pooling for inter-temporal commitment lock-in and multilateral consensus circumvention.
+                    </div>
+                </div>
+                
+                <div class="overview-basin federal" onclick="selectBasin('federal'); hideOverview();">
+                    <h3>FEDERAL IDEOLOGY</h3>
+                    <div class="code-count" style="color: rgba(16, 185, 129, 0.9);">12</div>
+                    <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6); margin-bottom: 10px;">8 institutional + 4 normative</div>
+                    <div class="description">
+                        Axiological rationality. Intrinsic values of multilateralism and legitimate sovereignty cession for global integration.
+                    </div>
+                </div>
+                
+                <div class="overview-basin technocracy" onclick="selectBasin('technocracy'); hideOverview();">
+                    <h3>TECHNOCRATIC MANAGEMENT</h3>
+                    <div class="code-count" style="color: rgba(100, 116, 139, 0.9);">11</div>
+                    <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6); margin-bottom: 10px;">8 institutional + 3 normative</div>
+                    <div class="description">
+                        Informational rationality. Efficiency-focused specialized delegation for technically complex matters with low conflict.
+                    </div>
+                </div>
+                
+                <div class="overview-basin national" onclick="selectBasin('national'); hideOverview();">
+                    <h3>NATIONAL IDEOLOGY</h3>
+                    <div class="code-count" style="color: rgba(220, 38, 38, 0.9);">8</div>
+                    <div style="font-size: 10px; color: rgba(255, 255, 255, 0.6); margin-bottom: 10px;">1 institutional + 7 normative</div>
+                    <div class="description">
+                        Sovereignty defense. WPEC vindication as sole legitimate track, rejection of regulatory pooling mechanisms.
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 25px;">
+                <button onclick="hideOverview()" style="background: linear-gradient(135deg, rgba(220, 38, 38, 0.8), rgba(185, 28, 28, 0.8)); color: white; border: none; padding: 12px 24px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                    Close Overview
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Navigation system for mobile-optimized view
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const basins = document.querySelectorAll('.basin');
+            
+            // Initialize with first basin
+            selectBasin('credibility');
+            
+            // Tab navigation
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const basinId = this.getAttribute('data-basin');
+                    selectBasin(basinId);
+                });
+            });
+            
+            // Swipe navigation for mobile
+            let startX = 0;
+            let currentBasin = 0;
+            const basinOrder = ['credibility', 'technocracy', 'federal', 'national'];
+            
+            document.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                const endX = e.changedTouches[0].clientX;
+                const diff = startX - endX;
+                
+                if (Math.abs(diff) > 50) { // Minimum swipe distance
+                    if (diff > 0 && currentBasin < basinOrder.length - 1) {
+                        // Swipe left - next basin
+                        currentBasin++;
+                        selectBasin(basinOrder[currentBasin]);
+                    } else if (diff < 0 && currentBasin > 0) {
+                        // Swipe right - previous basin
+                        currentBasin--;
+                        selectBasin(basinOrder[currentBasin]);
+                    }
+                }
+            });
+        });
+        
+        function selectBasin(basinId) {
+            // Update tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-basin') === basinId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update basins
+            document.querySelectorAll('.basin').forEach(basin => {
+                basin.classList.remove('active');
+                if (basin.id === basinId) {
+                    basin.classList.add('active');
+                }
+            });
+            
+            // Update current basin index for swipe navigation
+            const basinOrder = ['credibility', 'technocracy', 'federal', 'national'];
+            window.currentBasin = basinOrder.indexOf(basinId);
+        }
+        
+        function showOverview() {
+            document.getElementById('overviewModal').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('overviewModal').style.opacity = '1';
+            }, 10);
+        }
+        
+        function hideOverview() {
+            const modal = document.getElementById('overviewModal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const basinOrder = ['credibility', 'technocracy', 'federal', 'national'];
+            let currentIndex = window.currentBasin || 0;
+            
+            if (e.key === 'ArrowRight' && currentIndex < basinOrder.length - 1) {
+                selectBasin(basinOrder[currentIndex + 1]);
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                selectBasin(basinOrder[currentIndex - 1]);
+            } else if (e.key === 'Escape') {
+                hideOverview();
+            } else if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                showOverview();
+            }
+        });
+        
+        // Enhance phrase interactions for better mobile UX
+        document.querySelectorAll('.phrase').forEach(phrase => {
+            phrase.addEventListener('click', function() {
+                // Add visual feedback for mobile taps
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+        
+        // Progressive loading animation
+        setTimeout(() => {
+            document.querySelectorAll('.phrase').forEach((phrase, index) => {
+                phrase.style.opacity = '0';
+                phrase.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    phrase.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    phrase.style.opacity = '1';
+                    phrase.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }, 500);
+    </script>
+</body>
+</html>
