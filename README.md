@@ -1,108 +1,43 @@
-  # 🧠 HANA — Human Agency Neural Architecture
-  
-  **Repositorio central del proyecto doctoral y arquitectónico de Alexandra Bustos Frati.**  
-  Explora cómo los Estados coordinan su soberanía regulatoria en el comercio digital, y cómo esa inteligencia se transforma en ensamblajes vivos de acceso público.
-  
-  ---
+# 📘 Digital Trade Governance – PhD Thesis Repository (2017–2024)
 
-## 🧠 Sobre la tesis y su propósito
+This repository hosts the full dataset, models, and interpretive artifacts developed during the doctoral research of **Dr. Lex Bustos Frati** (UBA, 2025), titled:
 
-Este proyecto se basa en la tesis doctoral **“Regímenes internacionales sobre comercio digital: Preferencias estatales sobre coordinación regulatoria en la OMC y sus factores determinantes (2017–2024)”**, defendida en la Universidad de Buenos Aires (UBA) por **Alexandra Bustos Frati**.
+> **"International Regimes on Digital Trade: State Preferences over Regulatory Coordination in the WTO and Their Determinants (2017–2024)"**
 
-🔍 **¿Qué estudia la tesis?**  
-Cómo los países negocian la soberanía digital a través de acuerdos en la Organización Mundial del Comercio (OMC), y qué factores estructurales, institucionales y estratégicos explican su decisión de adherir (o no) al régimen IDCCE.
+It includes the complete empirical strategy, analytical models, visual interfaces, and semantic infrastructures derived from the thesis, with a special focus on the WTO’s **Joint Statement Initiative on E-Commerce (JSI / IDCCE)**.
 
-🧩 **¿Qué aporta esta tesis?**  
-Un marco teórico híbrido (teoría liberal, ecología organizacional, ensamblajes de DeLanda), análisis empírico mixto (SPSS + Atlas.ti) y un modelo integrador con 87.3% de precisión que predice preferencias estatales.
+---
 
-🌐 **¿Para qué sirve este repositorio?**  
-Este repositorio convierte esa investigación en **infraestructura accesible y visual**, lista para ser reutilizada, consultada, integrada en políticas públicas, o ampliada por otras instituciones académicas o diplomáticas.
+## 🎓 About the Thesis
 
-  ---
+**Core question:**  
+Why do some states opt into exclusive digital trade negotiations (IDCCE), while others remain within the traditional multilateral channel (PTCE)?
 
-    ## 🌐 Artefactos Interactivos (HTML)
-  
-  La interfaz visual interpretativa del proyecto está disponible en:
-  
-  🔗 [https://hana.keeler.app](https://hana.keeler.app)
-  
-  Estos artefactos HTML ofrecen una navegación conceptual y empírica sobre los principales hallazgos de la tesis, incluyendo:
-  
-  - Modelos explicativos de cooperación sustantiva (SPSS)
-  - Motivaciones estratégicas (Atlas.ti)
-  - Expansión del IDCCE en la OMC
-  - Cronologías y redes de actores
-  - Glosario multilingüe
-  
-  📁 Ubicación: `/hana-html/`
-  
-  📌 Estado: **mayoría de artefactos en versión BETA o BETA+**. Indicadores visibles por archivo.
-  
-  ---
-  
-  ## 📚 Tesis Doctoral y Base Empírica
-  
-  Contiene:
-  
-  - 📄 PDF final de la tesis doctoral  
-  - 📊 Bases de datos SPSS + CSV de los tres pasos analíticos (cooperación sustantiva, elección institucional, núcleo negociador)
-  - 🧮 Sintaxis SPSS para regresiones logísticas y validación empírica
-  
-  📁 Ubicación: `/PhDthesis/`
-  
-  ---
-  
-  ## 🧩 Estructura General del Repositorio
-  
-HANA/
-│
-├── hana-html/ # Artefactos HTML interactivos del ecosistema HANA
-│ ├── index.html # Página principal
-│ ├── paso1_metodologia.html
-│ ├── cuencas_atraccion_ft_moravcsik_spa.html
-│ ├── m1_m2_transition_eng.html
-│ └── ... # 30+ artefactos en español e inglés
-│
-├── PhDthesis/ # Base empírica y documental de la tesis
-│ ├── Tesis_Bustos_Frati_Alexandra.pdf
-│ ├── DB2024 Paso 1/3 .sav/.csv
-│ ├── Sintaxis 2024 .sps
-│ └── ...
-│
-├── LICENSE # Apache 2.0
-└── README.md # Este archivo
-  
-  ---
-  
-  ## 📜 Licencia
-  
-  Este repositorio está publicado bajo la [Licencia Apache 2.0](LICENSE).  
-  Los artefactos HTML pueden ser usados, adaptados y citados libremente con mención de autoría.
-  
-  ---
-  
-  ## ✨ Créditos y Autoría
-  
-  Diseño, arquitectura simbiótica y desarrollo:
-  
-  **Alexandra Bustos Frati**  
-  PhD en Ciencias Sociales, UBA  
-  Fundadora de KeelerApp
-  
-  🔗 [Web](https://www.keeler.app)  
-  🔗 [LinkedIn](https://www.linkedin.com/in/lexbustosfrati/)  
-  🔗 [ResearchGate](https://www.researchgate.net/profile/Alexandra-Bustos-Frati)
-  
-  Contribuciones adicionales (HTML, diseño conceptual, IA estructural): Claude AI, ChatGPT, Qdrant, Airtable
-  
-  ---
-  
-  ## 📬 Contacto
-  
-  ¿Querés colaborar o explorar integración de estos artefactos en otros sistemas?
-  
-  📧 [info@keeler.app](mailto:info@keeler.app)
-  
-  ---
-  
-  > _“El ensamblaje digital no representa la tesis: la reactiva como arquitectura pública.”_
+**Scope:**  
+- 164 WTO Member States
+- 3 analytical time points (2017, 2019, 2024)
+- Mixed methods (logistic regression + content coding of 130+ documents)
+- Adaptation of Moravcsik’s three-step model of state preferences
+
+---
+
+## 🧠 Analytical Model: Three-Step Framework
+
+| Step | Dimension | Focus |
+|------|-----------|-------|
+| **Step 1** | Substantive Cooperation | Structural capacities & institutional advantages |
+| **Step 2** | Institutional Choice | Strategic motivations (credibility, technocracy, ideology) |
+| **Step 3** | Negotiation Core | Dual architecture: tariff moratorium & regulatory space |
+
+This logic is implemented both in statistical models and in interactive visualizations.
+
+---
+
+## 🗂 Repository Structure
+
+```bash
+├── /data/              # CSV datasets (Paso 1, 2, 3)
+├── /docs/              # HTML artifacts (hana.keeler.app)
+├── /pdf/               # Thesis manuscript and chapters
+├── /glossary/          # Visual glossary and acronyms
+└── README.md           # This file
